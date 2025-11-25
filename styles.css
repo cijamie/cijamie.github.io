@@ -257,10 +257,35 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
+/* About Section */
+.about-section {
+    padding: 100px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.about-content {
+    max-width: 800px;
+}
+
+.about-content p {
+    color: var(--text-main);
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.about-content p:first-child {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     h1 { font-size: 3rem; }
     .nav-links { display: none; }
     .hero, .work-section { padding: 40px 20px; }
     .grid { grid-template-columns: 1fr; }
+    .about-section { padding: 40px 20px; }
 }
