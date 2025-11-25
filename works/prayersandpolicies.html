@@ -6,13 +6,14 @@
     <title>Prayers & Policies | Jamie Sessions</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0f1115;
-            --bg-card: rgba(30, 34, 45, 0.7);
-            --accent: #d4af37; /* Academic Gold */
-            --accent-glow: rgba(212, 175, 55, 0.2);
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-strong: rgba(30, 34, 45, 0.95);
+            --accent: #d4af37;
+            --accent-dim: rgba(212, 175, 55, 0.3);
             --text-main: #e0e6ed;
             --text-muted: #94a3b8;
             --font-serif: 'Playfair Display', serif;
@@ -20,6 +21,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-dark);
@@ -29,15 +31,29 @@
             overflow-x: hidden;
         }
 
-        /* Scroll Progress Bar */
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); }
+
+        /* Progress Bar */
         #progress-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: transparent;
+            top: 0; left: 0; width: 100%; height: 3px;
             z-index: 1000;
+            background: transparent;
         }
         #progress-bar {
             height: 100%;
@@ -46,96 +62,104 @@
             box-shadow: 0 0 10px var(--accent);
         }
 
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 20px;
-            right: 40px;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            padding: 10px 20px;
-            border-radius: 30px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        nav a {
-            color: var(--text-main);
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 0.9rem;
-            opacity: 0.7;
-            transition: 0.3s;
-        }
-        nav a:hover { opacity: 1; color: var(--accent); }
-
-        /* Typography */
-        h1, h2, h3 { font-family: var(--font-serif); font-weight: 700; }
-        h2 { font-size: 2.5rem; margin-bottom: 2rem; color: var(--accent); }
-        p { margin-bottom: 1.5rem; font-size: 1.1rem; color: #cbd5e1; }
-
-        /* Layout */
-        .container {
-            max-width: 900px;
+        /* Layout Grid */
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            gap: 60px;
+            padding: 80px 20px;
         }
 
-        /* Hero Section */
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
+        /* Sidebar Navigation */
+        aside {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
         }
-        
-        header h1 {
-            font-size: 4.5rem;
+        .nav-menu {
+            list-style: none;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+        .nav-menu li { margin-bottom: 15px; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main { max-width: 800px; }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
             line-height: 1.1;
+            margin-bottom: 20px;
             background: linear-gradient(to right, #fff, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 20px;
         }
-        
-        .author {
-            font-size: 1.2rem;
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
             color: var(--accent);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
+            margin: 60px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         }
 
-        .scroll-down {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            animation: bounce 2s infinite;
-            opacity: 0.5;
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 30px 0 15px 0;
         }
 
-        /* Content Sections */
-        section {
-            padding: 100px 0;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s ease-out;
-        }
-        section.visible { opacity: 1; transform: translateY(0); }
+        p { margin-bottom: 1.5rem; color: #cbd5e1; text-align: justify; }
 
-        /* Cards for Lit Review */
+        /* Quotes & Highlights (Adapted from Theme 2) */
+        blockquote {
+            background: var(--bg-glass);
+            border-left: 3px solid var(--accent);
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* Specific Elements from Prayers & Policies content */
+        
+        /* Grid Cards for Literature */
         .grid-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            gap: 25px;
+            margin-top: 30px;
         }
         .card {
-            background: var(--bg-card);
-            padding: 30px;
-            border-radius: 16px;
+            background: var(--bg-glass);
+            padding: 25px;
+            border-radius: 12px;
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.3s;
         }
@@ -144,32 +168,25 @@
             border-color: var(--accent);
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
         }
-        .card h3 { font-size: 1.4rem; margin-bottom: 15px; color: #fff; }
-        .card .cite { font-size: 0.9rem; color: var(--accent); margin-bottom: 10px; display: block; font-style: italic; }
-
-        /* Blockquote */
-        .highlight-box {
-            border-left: 4px solid var(--accent);
-            padding-left: 30px;
-            margin: 40px 0;
-            font-style: italic;
-            font-family: var(--font-serif);
-            font-size: 1.3rem;
-            color: #fff;
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0.1), transparent);
-            padding: 40px;
-            border-radius: 0 10px 10px 0;
+        .card h3 { font-size: 1.2rem; margin: 10px 0; color: #fff; }
+        .card .cite { 
+            font-size: 0.85rem; 
+            color: var(--accent); 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+            display: block; 
         }
 
         /* Methodology List */
         .method-list {
             list-style: none;
             counter-reset: my-counter;
+            margin-top: 20px;
         }
         .method-list li {
             position: relative;
             padding-left: 60px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         .method-list li::before {
             counter-increment: my-counter;
@@ -183,139 +200,153 @@
             font-weight: bold;
             opacity: 0.5;
         }
+        .method-list strong { color: #fff; font-size: 1.1rem; display: block; margin-bottom: 5px; }
 
         /* References */
         .references p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-bottom: 15px;
             padding-left: 40px;
             text-indent: -40px;
             color: var(--text-muted);
+            border-left: 2px solid rgba(255,255,255,0.05);
+            padding-top: 5px; 
+            padding-bottom: 5px;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
-            40% {transform: translateY(-10px) translateX(-50%);}
-            60% {transform: translateY(-5px) translateX(-50%);}
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* Mobile */
-        @media (max-width: 768px) {
-            header h1 { font-size: 3rem; }
-            nav { display: none; } /* Hide nav on mobile for simplicity */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; padding: 40px 20px; }
+            aside { display: none; }
+            h1 { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
 
     <div id="progress-container"><div id="progress-bar"></div></div>
+    
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
 
-    <nav>
-                    <a href="../index.html">Home</a>
-        <a href="#intro">Introduction</a>
-        <a href="#literature">Literature</a>
-        <a href="#analysis">Analysis</a>
-        <a href="#methodology">Methodology</a>
-        <a href="#references">Refs</a>
-    </nav>
-
-    <div class="container">
-        <header>
-            <div class="author">Jamie Sessions</div>
-            <h1>Prayers & Policies</h1>
-            <p style="font-size: 1.5rem; max-width: 600px; color: var(--text-muted);">
-                Religious Values in Political Decision-Making: Born vs. Converted.
-            </p>
-            <div class="scroll-down">↓</div>
-        </header>
-
-        <section id="intro">
-            <h2>The Inquiry</h2>
-            <p>There has been a long-standing relationship between religion and politics, which has long intrigued policymakers and political scientists. As individuals begin to form and understand their spiritual beliefs and engage in civic life, they often become involved in political discussions, raising many questions:</p>
-            <div style="margin: 30px 0; border-left: 2px solid var(--text-muted); padding-left: 20px;">
-                <p><strong>1.</strong> How does religious affiliation influence an individual's political party preference?</p>
-                <p><strong>2.</strong> To what extent do religious values shape policy preferences?</p>
-                <p><strong>3.</strong> Is there a correlation between religious participation and voting behavior?</p>
-            </div>
-            <p>While acknowledging the close ties between religion and politics, another idea stands out even more: <strong>Does having religious beliefs significantly influence an individual's political views more than if they do not hold any religious ideals?</strong></p>
-        </section>
-
-        <section id="literature">
-            <h2>The Literature</h2>
-            <p>Previous studies have attempted to explore the intricate relationship between religion and politics. Scholars have investigated how religious beliefs shape political attitudes, but limited studies have examined whether being born into a religion versus adopting one changes people's perspectives.</p>
-            
-            <div class="grid-cards">
-                <article class="card">
-                    <span class="cite">H. Zeynep Bulutgil</span>
-                    <h3>The Origins of Secular Institutions</h3>
-                    <p>Investigates why some countries adopt secular institutions while others do not. Focuses on the dissemination of Enlightenment ideas and the value of associations. Notes that unlike religious actors, secularizing groups face challenges in recruiting support due to a lack of pre-existing structures.</p>
-                </article>
-
-                <article class="card">
-                    <span class="cite">Vineeta Yadav (2021)</span>
-                    <h3>Religious Parties & Civil Liberties</h3>
-                    <p>Focuses on Muslim-majority countries. Investigates how religious parties influence civil liberties. Yadav asks: "Will the success of religious parties lead to declines in civil liberties?" She utilizes data spanning 40 years to track religious lobbies and government actions.</p>
-                </article>
-
-                <article class="card">
-                    <span class="cite">Grzymała-Busse (2023)</span>
-                    <h3>Sacred Foundations</h3>
-                    <p>Challenges narratives regarding religion and politics in Europe. Emphasizes the role of the medieval Catholic Church in state formation. Argues that conflicts with the papacy actually led to the emergence of secular state institutions and strengthened state capacity.</p>
-                </article>
-            </div>
-        </section>
-
-        <section id="analysis">
-            <h2>Born vs. Converted</h2>
-            <p>Research has extensively explored the relationship between a state's politics and religious influence, while less attention has been given to the effects of religious conversion on an individual's political bias. The critical question is:</p>
-            
-            <div class="highlight-box">
-                "To what extent does adopting a religion through conversion influence an individual's political affiliation compared to those born into a religion?"
-            </div>
-
-            <p><strong>Hypothesis:</strong> Religious conversion has a significant impact on an individual's political biases. While a religious upbringing establishes foundational values, conversion introduces new perspectives and may alter previous political preferences.</p>
-            <p>Individuals born into a religion often inherit their religious beliefs and associated political ideologies from their families. However, converts undergo a transformative experience. These new perspectives may challenge their existing political biases, leading converts to exhibit more fluid political affiliations compared to those with deep-rooted religious backgrounds.</p>
-        </section>
-
-        <section id="methodology">
-            <h2>Methodology</h2>
-            <p>An efficient methodology is needed to understand the dynamics of religious conversion on an individual level. This study proposes three distinct approaches:</p>
-            
-            <ul class="method-list">
-                <li>
-                    <strong>Comparative Surveys</strong>
-                    <br>Conducting surveys among individuals who have converted to a religion and those born into religious families. By assessing their political engagement and issue priorities, we can compare the perspectives of converts versus those who grew up in a religious context.
-                </li>
-                <li>
-                    <strong>Historical Case Studies</strong>
-                    <br>Examining notable historical figures who shifted their religious affiliations to analyze corresponding changes in their political behavior. This allows for an exploration of long-term effects and patterns.
-                </li>
-                <li>
-                    <strong>Qualitative Interviews</strong>
-                    <br>In-depth interviews with converts to explore personal experiences, motivations for conversion, and transformations in political views. This provides a nuanced understanding of the interplay between identity and affiliation.
-                </li>
+    <div class="layout">
+        <aside>
+            <a href="../index.html" class="back-link">← Return to Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="active">The Inquiry</a></li>
+                <li><a href="#literature">The Literature</a></li>
+                <li><a href="#analysis">Analysis</a></li>
+                <li><a href="#methodology">Methodology</a></li>
+                <li><a href="#references">References</a></li>
             </ul>
-        </section>
+        </aside>
 
-        <section id="references" class="references">
-            <h2>References</h2>
-            <div style="opacity: 0.6; font-size: 0.8rem;">
-                <p>Cooperman, A. (2023, May 10). Most U.S. parents pass along their religion and politics to their children. Pew Research Center.</p>
-                <p>Froese, P. (2014). Religion and American Politics from a Global Perspective. Religions, 5(3), 648–662.</p>
-                <p>Glazier, R. A. (2019). The Differential Impact of Religion on Political Activity and Community Engagement. Review of Religious Research, 62(1), 1–26.</p>
-                <p>Grzymała-Busse, A. M. (2023). Sacred Foundations. Princeton University Press.</p>
-                <p>H. Zeynep Bulutgil. (2022). The Origins of Secular Institutions. Oxford University Press.</p>
-                <p>Moon, M. (2023). Toward an integrated analysis of social movements and new religious movements research. Sociology Compass.</p>
-                <p>PEW RESEARCH CENTER. (2019). Americans Have Positive Views About Religion's Role in Society, but Want It Out of Politics.</p>
-                <p>Science On Religion. (2014, April 10). Five ways religion can influence political beliefs.</p>
-                <p>Stenmark, M. (2022). Religion and Its Public Critics. Religions, 13(7), 572.</p>
-                <p>Yadav, V. (2021). Religious Parties and the Politics of Civil Liberties. Oxford University Press.</p>
-            </div>
-        </section>
+        <main>
+            <section id="intro" class="fade-in">
+                <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px;">Research Paper</p>
+                <h1>Prayers & Policies</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px;">
+                    Religious Values in Political Decision-Making: Born vs. Converted.
+                </p>
 
-        <footer style="text-align: center; padding: 40px; color: var(--text-muted); font-size: 0.8rem;">
-            &copy; 2025 Jamie Sessions | Political Science & International Studies
-        </footer>
+                <p>There has been a long-standing relationship between religion and politics, which has long intrigued policymakers and political scientists. As individuals begin to form and understand their spiritual beliefs and engage in civic life, they often become involved in political discussions, raising many questions:</p>
+                
+                <div style="margin: 30px 0; background: rgba(255,255,255,0.03); padding: 25px; border-radius: 8px;">
+                    <p style="margin-bottom: 10px;"><strong>1.</strong> How does religious affiliation influence an individual's political party preference?</p>
+                    <p style="margin-bottom: 10px;"><strong>2.</strong> To what extent do religious values shape policy preferences?</p>
+                    <p style="margin-bottom: 0;"><strong>3.</strong> Is there a correlation between religious participation and voting behavior?</p>
+                </div>
+
+                <p>While acknowledging the close ties between religion and politics, another idea stands out even more: <strong>Does having religious beliefs significantly influence an individual's political views more than if they do not hold any religious ideals?</strong></p>
+            </section>
+
+            <section id="literature" class="fade-in">
+                <h2>The Literature</h2>
+                <p>Previous studies have attempted to explore the intricate relationship between religion and politics. Scholars have investigated how religious beliefs shape political attitudes, but limited studies have examined whether being born into a religion versus adopting one changes people's perspectives.</p>
+                
+                <div class="grid-cards">
+                    <article class="card">
+                        <span class="cite">H. Zeynep Bulutgil</span>
+                        <h3>The Origins of Secular Institutions</h3>
+                        <p style="font-size: 0.95rem;">Investigates why some countries adopt secular institutions while others do not. Focuses on the dissemination of Enlightenment ideas and the value of associations. Notes that unlike religious actors, secularizing groups face challenges in recruiting support due to a lack of pre-existing structures.</p>
+                    </article>
+
+                    <article class="card">
+                        <span class="cite">Vineeta Yadav (2021)</span>
+                        <h3>Religious Parties & Civil Liberties</h3>
+                        <p style="font-size: 0.95rem;">Focuses on Muslim-majority countries. Investigates how religious parties influence civil liberties. Yadav asks: "Will the success of religious parties lead to declines in civil liberties?" She utilizes data spanning 40 years to track religious lobbies and government actions.</p>
+                    </article>
+
+                    <article class="card">
+                        <span class="cite">Grzymała-Busse (2023)</span>
+                        <h3>Sacred Foundations</h3>
+                        <p style="font-size: 0.95rem;">Challenges narratives regarding religion and politics in Europe. Emphasizes the role of the medieval Catholic Church in state formation. Argues that conflicts with the papacy actually led to the emergence of secular state institutions and strengthened state capacity.</p>
+                    </article>
+                </div>
+            </section>
+
+            <section id="analysis" class="fade-in">
+                <h2>Born vs. Converted</h2>
+                <p>Research has extensively explored the relationship between a state's politics and religious influence, while less attention has been given to the effects of religious conversion on an individual's political bias. The critical question is:</p>
+                
+                <blockquote>
+                    "To what extent does adopting a religion through conversion influence an individual's political affiliation compared to those born into a religion?"
+                </blockquote>
+
+                <p><strong style="color: var(--accent);">Hypothesis:</strong> Religious conversion has a significant impact on an individual's political biases. While a religious upbringing establishes foundational values, conversion introduces new perspectives and may alter previous political preferences.</p>
+                <p>Individuals born into a religion often inherit their religious beliefs and associated political ideologies from their families. However, converts undergo a transformative experience. These new perspectives may challenge their existing political biases, leading converts to exhibit more fluid political affiliations compared to those with deep-rooted religious backgrounds.</p>
+            </section>
+
+            <section id="methodology" class="fade-in">
+                <h2>Methodology</h2>
+                <p>An efficient methodology is needed to understand the dynamics of religious conversion on an individual level. This study proposes three distinct approaches:</p>
+                
+                <ul class="method-list">
+                    <li>
+                        <strong>Comparative Surveys</strong>
+                        Conducting surveys among individuals who have converted to a religion and those born into religious families. By assessing their political engagement and issue priorities, we can compare the perspectives of converts versus those who grew up in a religious context.
+                    </li>
+                    <li>
+                        <strong>Historical Case Studies</strong>
+                        Examining notable historical figures who shifted their religious affiliations to analyze corresponding changes in their political behavior. This allows for an exploration of long-term effects and patterns.
+                    </li>
+                    <li>
+                        <strong>Qualitative Interviews</strong>
+                        In-depth interviews with converts to explore personal experiences, motivations for conversion, and transformations in political views. This provides a nuanced understanding of the interplay between identity and affiliation.
+                    </li>
+                </ul>
+            </section>
+
+            <section id="references" class="fade-in references">
+                <h2>References</h2>
+                <div>
+                    <p>Cooperman, A. (2023, May 10). Most U.S. parents pass along their religion and politics to their children. Pew Research Center.</p>
+                    <p>Froese, P. (2014). Religion and American Politics from a Global Perspective. Religions, 5(3), 648–662.</p>
+                    <p>Glazier, R. A. (2019). The Differential Impact of Religion on Political Activity and Community Engagement. Review of Religious Research, 62(1), 1–26.</p>
+                    <p>Grzymała-Busse, A. M. (2023). Sacred Foundations. Princeton University Press.</p>
+                    <p>H. Zeynep Bulutgil. (2022). The Origins of Secular Institutions. Oxford University Press.</p>
+                    <p>Moon, M. (2023). Toward an integrated analysis of social movements and new religious movements research. Sociology Compass.</p>
+                    <p>PEW RESEARCH CENTER. (2019). Americans Have Positive Views About Religion's Role in Society, but Want It Out of Politics.</p>
+                    <p>Science On Religion. (2014, April 10). Five ways religion can influence political beliefs.</p>
+                    <p>Stenmark, M. (2022). Religion and Its Public Critics. Religions, 13(7), 572.</p>
+                    <p>Yadav, V. (2021). Religious Parties and the Politics of Civil Liberties. Oxford University Press.</p>
+                </div>
+            </section>
+
+            <footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">
+                <p>&copy; 2025 Jamie Sessions | Political Science & International Studies</p>
+            </footer>
+        </main>
     </div>
 
     <script>
@@ -325,26 +356,45 @@
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
             let scrolled = (winScroll / height) * 100;
             document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Update Active Link
+            updateActiveLink();
         };
 
         // Section Reveal Animation
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('section').forEach(section => {
+        document.querySelectorAll('.fade-in').forEach(section => {
             observer.observe(section);
         });
+
+        // Update Active Nav Link based on scroll position
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        }
     </script>
 </body>
 </html>
