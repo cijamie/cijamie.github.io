@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickKana | Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-hover: rgba(40, 45, 60, 0.8);
+            --accent: #d4af37;
+            --accent-dim: rgba(212, 175, 55, 0.2);
+            --accent-glow: rgba(212, 175, 55, 0.5);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --error: #ef4444;
+            --success: #10b981;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-jp: 'Noto Sans JP', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); animation-delay: -10s; }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 40px); }
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Typography */
+        h1, h2, .serif-font { font-family: var(--font-serif); }
+        .jp-font { font-family: var(--font-jp); }
+
+        /* Buttons */
+        .btn-gold {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-family: var(--font-sans);
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-gold:hover:not(:disabled) {
+            background: var(--accent);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .btn-gold:active:not(:disabled) { transform: scale(0.98); }
+        .btn-gold:disabled {
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .btn-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            transition: all 0.2s ease;
+        }
+        .btn-option:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .btn-option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--success);
+            color: var(--success);
+        }
+        .btn-option.wrong {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--error);
+            color: var(--error);
+        }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: rgba(255,255,255,0.05);
+            z-index: 50;
+        }
+        #progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+            transition: width 0.4s ease;
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="justify-center items-center p-4">
+
+    <!-- Ambient Background -->
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Progress Bar (Visible only during Quiz) -->
+    <div id="progress-container" class="hidden"><div id="progress-bar"></div></div>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-2xl relative z-10">
+        
+        <!-- Start Screen -->
+        <section id="start-screen" class="glass-card p-8 md:p-12 text-center fade-in">
+            <p class="text-xs tracking-[0.2em] text-[#d4af37] uppercase mb-4">Japanese Literacy Tool</p>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
+                QuickKana
+            </h1>
+            <p class="text-[#94a3b8] mb-10 text-lg leading-relaxed max-w-md mx-auto">
+                Master Hiragana and Katakana through focused, high-speed recognition sessions. Select a mode to begin.
+            </p>
+
+            <div class="grid grid-cols-2 gap-4 mb-8">
+                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="Hiragana">
+                    <span class="block text-sm opacity-70 mb-1">Standard</span>
+                    Hiragana
+                </button>
+                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="Katakana">
+                    <span class="block text-sm opacity-70 mb-1">Standard</span>
+                    Katakana
+                </button>
+                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="HiraganaPlus">
+                    <span class="block text-sm opacity-70 mb-1">Advanced</span>
+                    Hiragana +
+                </button>
+                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="KatakanaPlus">
+                    <span class="block text-sm opacity-70 mb-1">Advanced</span>
+                    Katakana +
+                </button>
+            </div>
+
+            <div class="text-[#94a3b8] text-sm border-t border-white/10 pt-6 mt-6 flex justify-between items-center">
+                <span>Press 1-4 to answer on keyboard</span>
+                <span id="global-best-score">Best Streak: 0</span>
+            </div>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="quiz-screen" class="hidden w-full">
+            <div class="glass-card p-8 md:p-12 text-center relative">
+                <!-- Header Stats -->
+                <div class="flex justify-between items-center mb-8 text-sm text-[#94a3b8] font-mono">
+                    <button id="quit-button" class="hover:text-white transition-colors">← QUIT</button>
+                    <div class="flex gap-6">
+                        <span>STREAK: <span id="streak-counter" class="text-[#d4af37]">0</span></span>
+                        <span>SCORE: <span id="score-counter" class="text-white">0</span>/10</span>
+                    </div>
+                </div>
+
+                <!-- Question -->
+                <div class="mb-12 relative h-48 flex items-center justify-center">
+                    <div id="question-display" class="jp-font text-8xl md:text-9xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300">
+                        あ
+                    </div>
+                    <!-- Feedback Overlay -->
+                    <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+                        <span id="feedback-text" class="serif-font text-4xl font-bold tracking-widest">CORRECT</span>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div id="options-grid" class="grid grid-cols-2 gap-4 md:gap-6">
+                    <!-- Buttons generated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="hidden glass-card p-8 md:p-12 text-center fade-in">
+            <h2 class="text-3xl font-bold text-[#d4af37] mb-2">Session Complete</h2>
+            <p class="text-[#94a3b8] mb-8">Performance Summary</p>
+
+            <div class="grid grid-cols-3 gap-4 mb-10">
+                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+                    <div class="text-sm text-[#94a3b8] mb-1">Score</div>
+                    <div id="final-score" class="text-3xl font-bold text-white">0/10</div>
+                </div>
+                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+                    <div class="text-sm text-[#94a3b8] mb-1">Accuracy</div>
+                    <div id="final-accuracy" class="text-3xl font-bold text-white">0%</div>
+                </div>
+                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
+                    <div class="text-sm text-[#94a3b8] mb-1">Best Streak</div>
+                    <div id="final-streak" class="text-3xl font-bold text-[#d4af37]">0</div>
+                </div>
+            </div>
+
+            <p id="high-score-msg" class="text-[#94a3b8] mb-8 italic hidden">
+                ✨ New Personal Best for this mode!
+            </p>
+
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button id="retry-button" class="btn-gold py-3 px-8 rounded-lg text-lg font-bold">Play Again</button>
+                <button id="menu-button" class="btn-option py-3 px-8 rounded-lg text-lg">Main Menu</button>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="fixed bottom-4 text-center w-full pointer-events-none">
+        <p class="text-[10px] text-[#94a3b8] opacity-50 uppercase tracking-widest">&copy; <span id="year"></span> QuickKana Premium</p>
+    </footer>
+
+    <script>
+        // --- Data ---
+        const DICTIONARIES = {
+            'Hiragana': {
+                'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
+                'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
+                'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
+                'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
+                'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
+                'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
+                'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
+                'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
+                'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
+                'わ': 'wa', 'を': 'wo', 'ん': 'n'
+            },
+            'Katakana': {
+                'ア': 'a', 'イ': 'i', 'ウ': 'u', 'エ': 'e', 'オ': 'o',
+                'カ': 'ka', 'キ': 'ki', 'ク': 'ku', 'ケ': 'ke', 'コ': 'ko',
+                'サ': 'sa', 'シ': 'shi', 'ス': 'su', 'セ': 'se', 'ソ': 'so',
+                'タ': 'ta', 'チ': 'chi', 'ツ': 'tsu', 'テ': 'te', 'ト': 'to',
+                'ナ': 'na', 'ニ': 'ni', 'ヌ': 'nu', 'ネ': 'ne', 'ノ': 'no',
+                'ハ': 'ha', 'ヒ': 'hi', 'フ': 'fu', 'ヘ': 'he', 'ホ': 'ho',
+                'マ': 'ma', 'ミ': 'mi', 'ム': 'mu', 'メ': 'me', 'モ': 'mo',
+                'ヤ': 'ya', 'ユ': 'yu', 'ヨ': 'yo', 'ラ': 'ra', 'リ': 'ri',
+                'ル': 'ru', 'レ': 're', 'ロ': 'ro', 'ワ': 'wa', 'ヲ': 'wo', 'ン': 'n'
+            }
+        };
+
+        // Add "Plus" (Dakuten/Combo) versions
+        const plusAdditions = (base) => {
+            const additions = {};
+            // Simplified generation for demonstration logic, manually adding common combos
+            // In a real app, this might be more algorithmic.
+            const combos = {
+                 'Hiragana': {
+                    'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
+                    'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
+                    'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
+                    'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
+                    'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
+                    'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo', 'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho'
+                 },
+                 'Katakana': {
+                    'ガ': 'ga', 'ギ': 'gi', 'グ': 'gu', 'ゲ': 'ge', 'ゴ': 'go',
+                    'ザ': 'za', 'ジ': 'ji', 'ズ': 'zu', 'ゼ': 'ze', 'ゾ': 'zo',
+                    'ダ': 'da', 'ヂ': 'ji', 'ヅ': 'zu', 'デ': 'de', 'ド': 'do',
+                    'バ': 'ba', 'ビ': 'bi', 'ブ': 'bu', 'ベ': 'be', 'ボ': 'bo',
+                    'パ': 'pa', 'ピ': 'pi', 'プ': 'pu', 'ペ': 'pe', 'ポ': 'po',
+                    'キャ': 'kya', 'キュ': 'kyu', 'キョ': 'kyo', 'シャ': 'sha', 'シュ': 'shu', 'ショ': 'sho'
+                 }
+            };
+            return { ...base, ...combos[base === DICTIONARIES.Hiragana ? 'Hiragana' : 'Katakana'] };
+        };
+
+        DICTIONARIES.HiraganaPlus = { ...DICTIONARIES.Hiragana, ...plusAdditions(DICTIONARIES.Hiragana).additions }; 
+        // Note: The helper above wasn't perfectly clean for merging, let's just hardcode the merging logic here for safety
+        const hAdd = {
+            'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
+            'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
+            'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
+            'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
+            'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
+            'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo'
+        };
+        const kAdd = {
+            'ガ': 'ga', 'ギ': 'gi', 'グ': 'gu', 'ゲ': 'ge', 'ゴ': 'go',
+            'ザ': 'za', 'ジ': 'ji', 'ズ': 'zu', 'ゼ': 'ze', 'ゾ': 'zo',
+            'ダ': 'da', 'ヂ': 'ji', 'ヅ': 'zu', 'デ': 'de', 'ド': 'do',
+            'バ': 'ba', 'ビ': 'bi', 'ブ': 'bu', 'ベ': 'be', 'ボ': 'bo',
+            'パ': 'pa', 'ピ': 'pi', 'プ': 'pu', 'ペ': 'pe', 'ポ': 'po',
+            'キャ': 'kya', 'キュ': 'kyu', 'キョ': 'kyo'
+        };
+        DICTIONARIES.HiraganaPlus = { ...DICTIONARIES.Hiragana, ...hAdd };
+        DICTIONARIES.KatakanaPlus = { ...DICTIONARIES.Katakana, ...kAdd };
+
+
+        // --- State ---
+        const GameState = {
+            mode: null,
+            dict: {},
+            keys: [],
+            questionCount: 0,
+            maxQuestions: 10,
+            score: 0,
+            streak: 0,
+            maxStreak: 0,
+            currentQ: { char: '', answer: '' },
+            isProcessing: false
+        };
+
+        // --- DOM Elements ---
+        const screens = {
+            start: document.getElementById('start-screen'),
+            quiz: document.getElementById('quiz-screen'),
+            results: document.getElementById('results-screen')
+        };
+        const ui = {
+            progress: document.getElementById('progress-container'),
+            progressBar: document.getElementById('progress-bar'),
+            question: document.getElementById('question-display'),
+            options: document.getElementById('options-grid'),
+            streak: document.getElementById('streak-counter'),
+            score: document.getElementById('score-counter'),
+            feedback: document.getElementById('feedback-overlay'),
+            feedbackText: document.getElementById('feedback-text'),
+            globalBest: document.getElementById('global-best-score')
+        };
+
+        // --- Core Functions ---
+
+        function init() {
+            document.getElementById('year').textContent = new Date().getFullYear();
+            loadGlobalBest();
+            
+            // Mode Selectors
+            document.querySelectorAll('[data-mode]').forEach(btn => {
+                btn.addEventListener('click', () => startGame(btn.dataset.mode));
+            });
+
+            // Navigation
+            document.getElementById('quit-button').addEventListener('click', showStartScreen);
+            document.getElementById('retry-button').addEventListener('click', () => startGame(GameState.mode));
+            document.getElementById('menu-button').addEventListener('click', showStartScreen);
+
+            // Keyboard
+            document.addEventListener('keydown', handleInput);
+        }
+
+        function loadGlobalBest() {
+            const best = localStorage.getItem('qk_best_streak') || 0;
+            ui.globalBest.textContent = `Global Best Streak: ${best}`;
+        }
+
+        function showScreen(screenName) {
+            Object.values(screens).forEach(s => s.classList.add('hidden'));
+            screens[screenName].classList.remove('hidden');
+            
+            if (screenName === 'quiz') {
+                ui.progress.classList.remove('hidden');
+            } else {
+                ui.progress.classList.add('hidden');
+            }
+        }
+
+        function startGame(mode) {
+            GameState.mode = mode;
+            GameState.dict = DICTIONARIES[mode];
+            GameState.keys = Object.keys(GameState.dict);
+            GameState.questionCount = 0;
+            GameState.score = 0;
+            GameState.streak = 0;
+            GameState.maxStreak = 0;
+            GameState.isProcessing = false;
+
+            updateStats();
+            updateProgressBar();
+            showScreen('quiz');
+            nextQuestion();
+        }
+
+        function updateStats() {
+            ui.streak.textContent = GameState.streak;
+            ui.score.textContent = GameState.score;
+        }
+
+        function updateProgressBar() {
+            const pct = (GameState.questionCount / GameState.maxQuestions) * 100;
+            ui.progressBar.style.width = `${pct}%`;
+        }
+
+        function nextQuestion() {
+            if (GameState.questionCount >= GameState.maxQuestions) {
+                endGame();
+                return;
+            }
+
+            GameState.isProcessing = false;
+            ui.question.style.transform = "scale(1)";
+            ui.question.style.color = "white";
+            ui.feedback.style.opacity = "0";
+
+            // Pick random character
+            const char = GameState.keys[Math.floor(Math.random() * GameState.keys.length)];
+            const answer = GameState.dict[char];
+            GameState.currentQ = { char, answer };
+
+            ui.question.textContent = char;
+
+            // Generate Options
+            const options = [answer];
+            const allAnswers = [...new Set(Object.values(GameState.dict))];
+            
+            while (options.length < 4) {
+                const r = allAnswers[Math.floor(Math.random() * allAnswers.length)];
+                if (!options.includes(r)) options.push(r);
+            }
+            
+            // Shuffle
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+
+            renderOptions(options);
+        }
+
+        function renderOptions(options) {
+            ui.options.innerHTML = '';
+            options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "btn-option p-4 rounded-lg text-xl font-bold font-sans relative overflow-hidden group";
+                
+                // Add Number Key Hint
+                const hint = document.createElement('span');
+                hint.className = "absolute top-2 left-3 text-[10px] text-[#94a3b8] opacity-30 group-hover:opacity-100 transition-opacity";
+                hint.textContent = idx + 1;
+                btn.appendChild(hint);
+
+                const text = document.createElement('span');
+                text.textContent = opt;
+                btn.appendChild(text);
+
+                btn.onclick = () => submitAnswer(opt, btn);
+                ui.options.appendChild(btn);
+            });
+        }
+
+        function handleInput(e) {
+            if (screens.quiz.classList.contains('hidden') || GameState.isProcessing) return;
+            
+            const key = parseInt(e.key);
+            if (key >= 1 && key <= 4) {
+                const buttons = ui.options.querySelectorAll('button');
+                if (buttons[key - 1]) {
+                    buttons[key - 1].click();
+                }
+            }
+        }
+
+        function submitAnswer(selected, btnElement) {
+            if (GameState.isProcessing) return;
+            GameState.isProcessing = true;
+            GameState.questionCount++;
+
+            const isCorrect = selected === GameState.currentQ.answer;
+            
+            // Visual Feedback
+            if (isCorrect) {
+                GameState.score++;
+                GameState.streak++;
+                if (GameState.streak > GameState.maxStreak) GameState.maxStreak = GameState.streak;
+                
+                btnElement.classList.add('correct');
+                ui.feedbackText.textContent = "CORRECT";
+                ui.feedbackText.style.color = "#10b981";
+                ui.question.style.color = "#10b981";
+            } else {
+                GameState.streak = 0;
+                btnElement.classList.add('wrong');
+                
+                // Highlight correct one
+                const buttons = ui.options.querySelectorAll('button');
+                buttons.forEach(b => {
+                    if (b.innerText.includes(GameState.currentQ.answer)) b.classList.add('correct');
+                });
+
+                ui.feedbackText.textContent = `WRONG (${GameState.currentQ.answer})`;
+                ui.feedbackText.style.color = "#ef4444";
+                ui.question.style.color = "#ef4444";
+            }
+
+            ui.feedback.style.opacity = "1";
+            ui.question.style.transform = "scale(1.1)";
+            
+            updateStats();
+            updateProgressBar();
+
+            setTimeout(() => {
+                nextQuestion();
+            }, 1200);
+        }
+
+        function endGame() {
+            showScreen('results');
+            
+            document.getElementById('final-score').textContent = `${GameState.score}/${GameState.maxQuestions}`;
+            document.getElementById('final-accuracy').textContent = `${Math.round((GameState.score / GameState.maxQuestions) * 100)}%`;
+            document.getElementById('final-streak').textContent = GameState.maxStreak;
+
+            // Save High Score
+            const prevBest = parseInt(localStorage.getItem('qk_best_streak') || 0);
+            const msg = document.getElementById('high-score-msg');
+            
+            if (GameState.maxStreak > prevBest) {
+                localStorage.setItem('qk_best_streak', GameState.maxStreak);
+                msg.classList.remove('hidden');
+                ui.globalBest.textContent = `Global Best Streak: ${GameState.maxStreak}`;
+            } else {
+                msg.classList.add('hidden');
+            }
+        }
+
+        function showStartScreen() {
+            showScreen('start');
+            loadGlobalBest();
+        }
+
+        // Boot
+        init();
+
+    </script>
+</body>
+</html>
