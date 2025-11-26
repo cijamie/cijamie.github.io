@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Entropy Ledger: Five-Minute Decay</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load custom fonts for the dramatic theme -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- THEME VARIABLES --- */
+        :root {
+            --bg-dark: #0f1115;
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-strong: rgba(30, 34, 45, 0.95);
+            --accent: #d4af37; /* Gold/Yellow */
+            --accent-dim: rgba(212, 175, 55, 0.3);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+            --warning-red: #ef4444; /* Standard Red for Decay */
+        }
+
+        /* --- GLOBAL & BACKGROUND --- */
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            transition: background-color 1s;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background Orbs */
+        .ambient-light {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none; z-index: -1; overflow: hidden;
+        }
+        .orb {
+            position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3;
+            animation: pulse 10s infinite alternate;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); animation-delay: 2s; }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        /* --- TYPOGRAPHY --- */
+        .title-text {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            background: linear-gradient(to right, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- SCREENS --- */
+        .screen-container {
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+        .hidden-screen {
+            display: none;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* --- START SCREEN --- */
+        #start-screen {
+            text-align: center;
+        }
+        .start-btn {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+        .start-btn:hover {
+            background: var(--accent);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--accent-dim);
+        }
+
+        /* --- EDITOR STYLES --- */
+        #editor {
+            min-height: 60vh;
+            line-height: 1.8;
+            font-size: 1.125rem;
+            outline: none;
+            caret-color: var(--accent); /* Cursor focus color */
+            background-color: var(--bg-glass);
+            color: var(--text-main);
+            backdrop-filter: blur(10px); /* Glass effect */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #editor:focus {
+            box-shadow: 0 0 10px var(--accent-dim);
+            border-color: var(--accent);
+        }
+
+        /* Style for individual words (Functional) */
+        .word {
+            display: inline-block;
+            transition: opacity 0.5s ease-out;
+            will-change: opacity;
+            line-height: 1.8;
+            margin-right: 4px; /* Space between words */
+        }
+        
+        /* Placeholder styling */
+        #editor:empty:before {
+            content: attr(data-placeholder);
+            color: var(--text-muted);
+            pointer-events: none;
+            display: block;
+        }
+
+        /* --- TIMER & STATUS --- */
+        .timer-running {
+            color: var(--accent); /* Gold color when session is active */
+        }
+        .timer-decay {
+            color: var(--warning-red); /* Red color when decay starts */
+        }
+        
+        #timer-display {
+            background-color: var(--bg-glass-strong);
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- SCORE DISPLAY --- */
+        #score-container {
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding-right: 1.5rem;
+        }
+        #score-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: -0.2rem;
+        }
+        #score-value {
+            font-family: monospace;
+            font-size: 1.5rem;
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        #status-message {
+            color: var(--text-muted);
+        }
+
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex items-center justify-center min-h-screen">
+    
+    <!-- Ambient Lighting for Theme -->
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="screen-container w-full max-w-2xl relative z-20 flex flex-col items-center justify-center space-y-8 p-8">
+        <h1 class="title-text text-5xl sm:text-7xl mb-4">The Entropy Ledger</h1>
+        <div class="space-y-4 text-center max-w-md mx-auto">
+            <p class="text-xl text-gray-300 font-light">Five minutes. No saves. Total release.</p>
+            <p class="text-sm text-gray-500">Everything you write will fade into the void. This is a space for thoughts you do not wish to keep.</p>
+        </div>
+        
+        <button onclick="enterApp()" class="start-btn mt-8 px-8 py-4 text-lg uppercase tracking-widest rounded-full font-semibold">
+            Begin Session
+        </button>
+    </div>
+
+    <!-- MAIN APP INTERFACE (Initially Hidden) -->
+    <div id="app-interface" class="hidden-screen w-full max-w-4xl relative z-10 opacity-0 transform translate-y-4 transition-all duration-1000">
+        <header class="mb-8 flex flex-col sm:flex-row justify-between items-center border-b border-gray-700/50 pb-4 gap-4 sm:gap-0">
+            <h1 class="title-text text-xl sm:text-3xl font-extrabold">The Entropy Ledger</h1>
+            
+            <div class="flex items-center space-x-6">
+                <!-- Score Display -->
+                <div id="score-container" class="text-right">
+                    <span id="score-label">Entropy Score</span>
+                    <span id="score-value">0</span>
+                </div>
+
+                <!-- Timer Display -->
+                <div id="timer-display" class="text-2xl font-mono p-3 rounded-xl transition-colors duration-500 shadow-lg min-w-[100px] text-center">
+                    05:00
+                </div>
+            </div>
+        </header>
+
+        <!-- The main editing area: contenteditable div -->
+        <div 
+            id="editor"
+            contenteditable="true"
+            data-placeholder="Start typing... The timer begins on your first keystroke."
+            class="rounded-xl p-8 shadow-2xl focus:ring-4 focus:ring-[var(--accent)] transition-all duration-300"
+            role="textbox"
+            aria-multiline="true"
+        ></div>
+
+        <!-- Session Status Message -->
+        <footer class="mt-8 text-center">
+            <p id="status-message" class="text-lg transition-opacity duration-1000">
+                A non-permanent space for thought release.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const timerDisplay = document.getElementById('timer-display');
+        const scoreValueDisplay = document.getElementById('score-value');
+        const statusMessage = document.getElementById('status-message');
+        const startScreen = document.getElementById('start-screen');
+        const appInterface = document.getElementById('app-interface');
+        
+        // --- Configuration ---
+        const SESSION_DURATION_MS = 5 * 60 * 1000; // 5 minutes
+        const SLOW_DECAY_DURATION_MS = 30 * 1000; // 30 seconds to fade out slowly
+        const RAPID_DECAY_DURATION_MS = 5 * 1000;  // 5 seconds to fade out rapidly
+        
+        let sessionStartTime = null;
+        let isSessionActive = false;
+        let timerInterval = null;
+        let decayInterval = null;
+        let hasEnteredApp = false;
+        
+        // --- Score Tracking ---
+        let score = 0;
+
+        // --- Transition Logic ---
+        function enterApp() {
+            hasEnteredApp = true;
+            
+            // Fade out start screen
+            startScreen.style.opacity = '0';
+            startScreen.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                
+                // Show app interface
+                appInterface.classList.remove('hidden-screen');
+                // Small delay to allow display:block to apply before opacity transition
+                requestAnimationFrame(() => {
+                    appInterface.style.opacity = '1';
+                    appInterface.style.transform = 'translateY(0)';
+                    editor.focus();
+                });
+            }, 500);
+        }
+
+        // --- Utility Functions ---
+
+        function formatTime(ms) {
+            const totalSeconds = Math.abs(Math.floor(ms / 1000));
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            const sign = ms < 0 ? "-" : "";
+            return `${sign}${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function updateScore(amount) {
+            if (!isSessionActive) return;
+            score += amount;
+            // Animation effect for score change could go here
+            scoreValueDisplay.textContent = score.toLocaleString();
+        }
+
+        function renderText() {
+            const rawText = editor.innerText;
+            if (!rawText) {
+                editor.innerHTML = '';
+                return;
+            }
+
+            const selection = window.getSelection();
+            const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+            
+            // Re-render text wrapped in spans
+            const newHTML = rawText.split(/(\s+)/).map(segment => {
+                if (segment.match(/\s+/)) return segment;
+                
+                // Check if existing span to preserve birth time
+                const existingSpan = Array.from(editor.querySelectorAll('.word')).find(span => span.textContent === segment);
+                const birthTime = existingSpan ? existingSpan.dataset.birth : Date.now();
+                
+                return `<span class="word" data-birth="${birthTime}">${segment}</span>`;
+            }).join('');
+
+            if (editor.innerHTML !== newHTML) {
+                editor.innerHTML = newHTML;
+                
+                // Restore cursor (Simplified heuristic: end of editor)
+                if (range) {
+                    const range = document.createRange();
+                    range.selectNodeContents(editor);
+                    range.collapse(false);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                }
+            }
+        }
+
+        function updateTimer() {
+            const now = Date.now();
+            const elapsed = now - sessionStartTime;
+            const remaining = SESSION_DURATION_MS - elapsed;
+
+            timerDisplay.textContent = formatTime(remaining);
+            
+            if (remaining <= 0) {
+                timerDisplay.classList.remove('timer-running');
+                timerDisplay.classList.add('timer-decay');
+                statusMessage.innerHTML = `<span style="color:var(--warning-red)">DECAY SEQUENCE INITIATED.</span>`;
+            } else {
+                timerDisplay.classList.add('timer-running');
+                timerDisplay.classList.remove('timer-decay');
+                statusMessage.textContent = "Writing Time: All words are safe until the timer hits 00:00.";
+            }
+
+            if (remaining < -1000 * 60) { 
+                endSession();
+            }
+        }
+
+        function decayLoop() {
+            const now = Date.now();
+            const elapsedFromEnd = now - (sessionStartTime + SESSION_DURATION_MS);
+            
+            if (elapsedFromEnd < 0) return; 
+
+            const words = editor.querySelectorAll('.word');
+
+            words.forEach(wordSpan => {
+                const birthTime = parseInt(wordSpan.dataset.birth, 10);
+                const timeSinceEnd = now - (sessionStartTime + SESSION_DURATION_MS);
+                
+                let fadeDuration = SLOW_DECAY_DURATION_MS; 
+                
+                if (timeSinceEnd > SLOW_DECAY_DURATION_MS) {
+                    fadeDuration = RAPID_DECAY_DURATION_MS;
+                    statusMessage.innerHTML = `<span style="color:var(--accent)">RAPID EROSION.</span> Release the last thoughts...`;
+                }
+
+                const decayAge = now - (birthTime + SESSION_DURATION_MS);
+                let opacity = 1 - (decayAge / fadeDuration);
+                opacity = Math.max(0, Math.min(1, opacity));
+                
+                wordSpan.style.opacity = opacity.toFixed(3);
+                
+                if (opacity <= 0.01) {
+                    wordSpan.remove();
+                }
+            });
+        }
+        
+        // --- Session Control ---
+
+        function startSession() {
+            if (isSessionActive) return;
+
+            isSessionActive = true;
+            sessionStartTime = Date.now();
+            score = 0;
+            scoreValueDisplay.textContent = "0";
+            
+            timerInterval = setInterval(updateTimer, 100);
+            decayInterval = setInterval(decayLoop, 50);
+            
+            editor.removeEventListener('keydown', startSession);
+            statusMessage.textContent = "Session started. Words are protected for 5 minutes.";
+            
+            editor.focus(); 
+        }
+
+        function endSession() {
+            clearInterval(timerInterval);
+            clearInterval(decayInterval);
+            isSessionActive = false;
+
+            editor.innerHTML = '';
+            timerDisplay.textContent = "00:00";
+            timerDisplay.classList.remove('timer-decay', 'timer-running');
+            
+            statusMessage.innerHTML = `<strong>SESSION COMPLETE.</strong> Final Entropy Score: <span style="color:var(--accent)">${score}</span>. All thoughts released.`;
+            
+            // Re-enable start
+            editor.addEventListener('keydown', startSession);
+            editor.addEventListener('input', renderText);
+        }
+
+        // --- Initialization ---
+
+        window.onload = () => {
+            // Trigger start on first keypress inside editor
+            editor.addEventListener('keydown', (e) => {
+                if (!isSessionActive && hasEnteredApp) startSession();
+                
+                // Scoring Logic (Cumulative)
+                // We track scoring here to ensure it counts even if text decays later
+                if (isSessionActive && !e.metaKey && !e.ctrlKey && !e.altKey) {
+                    // Base score for any character key of length 1
+                    if (e.key.length === 1) {
+                        updateScore(1); // 1 point per letter
+                        
+                        // Bonus for word separators
+                        if (e.key === ' ') {
+                            updateScore(10); // +10 points for completing a word (space)
+                        }
+                    } 
+                    // Bonus for Enter key (paragraph)
+                    else if (e.key === 'Enter') {
+                        updateScore(15); // +15 points for new line
+                    }
+                }
+            });
+            
+            editor.addEventListener('input', renderText);
+        };
+
+    </script>
+</body>
+</html>
