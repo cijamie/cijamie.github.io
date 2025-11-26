@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Republic of Chile Position Paper | Jamie Sessions & Maurilio Ramirez</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-strong: rgba(30, 34, 45, 0.95);
+            --accent: #d4af37;
+            --accent-dim: rgba(212, 175, 55, 0.3);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 3px;
+            z-index: 1000;
+            background: transparent;
+        }
+        #progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Layout Grid */
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 60px;
+            padding: 80px 20px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+        .nav-menu {
+            list-style: none;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+        .nav-menu li { margin-bottom: 15px; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main { max-width: 800px; }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--accent);
+            margin: 60px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 40px 0 15px 0;
+        }
+
+        p { margin-bottom: 1.5rem; color: #cbd5e1; text-align: justify; }
+
+        /* Quotes & Highlights */
+        blockquote {
+            background: var(--bg-glass);
+            border-left: 3px solid var(--accent);
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight { color: var(--accent); font-weight: 600; }
+        
+        .metadata {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            padding: 10px 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; padding: 40px 20px; }
+            aside { display: none; } /* Hide sidebar on mobile */
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="layout">
+        <aside>
+            <a href="../index.html" class="back-link">← Return to Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="active">Delegation Overview</a></li>
+                <li><a href="#women-context">Women & The SDGs</a></li>
+                <li><a href="#women-action">Chile's Framework</a></li>
+                <li><a href="#climate-impact">Climate & Humanity</a></li>
+                <li><a href="#climate-resilience">Resilience Strategy</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section id="intro" class="fade-in">
+                <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px;">Economic and Social Council</p>
+                <h1>Delegation from the Republic of Chile</h1>
+                <div class="metadata">
+                    <strong>Delivered at:</strong> 2025 National Model United Nations (NMUN), New York City<br>
+                    <strong>Authors:</strong> Jamie Sessions & Maurilio Ramirez
+                </div>
+                
+                <p>The issues presented before the Economic and Social Council are <strong>Empowering Women and Girls in the Achievement of the SDGs</strong> and <strong>Strengthening Humanitarian Assistance in the Face of Climate Crises</strong>. As a developing country committed to advancing human rights and addressing climate resilience, <span class="highlight">Chile</span> stands firm in its dedication to tackling these pressing global challenges.</p>
+            </section>
+
+            <section id="women-context" class="fade-in">
+                <h2>I. Empowering Women & Girls</h2>
+                <p>Gender equality is a fundamental human right. Women represent 50% of the current population living in extreme poverty, and one in three women experience gender-based violence at least one point in their lives. Globally, gender equality contributes to sustainable development, economic growth, and the overall betterment of society.</p>
+                
+                <p>However, persistent barriers such as gender-based violence, discriminatory norms, and unequal access to resources have disrupted progress. Chile recognizes that addressing these challenges is not just essential for justice, but also for building a more sustainable future.</p>
+            </section>
+
+            <section id="women-action" class="fade-in">
+                <h3>Chile's Strategic Framework</h3>
+                <p>Chile has long promoted gender equality in many ways. As a signatory of the Universal Declaration of Human Rights and a key contributor to the <span class="highlight">Beijing Declaration of 1995</span>, Chile has consistently advocated for the rights and liberties of women and girls. We have also endorsed UN General Assembly Resolution 77/193 to eradicate gender-based violence and dismantle harmful stereotypes.</p>
+
+                <blockquote>
+                    "In 2022, Chile's government set a historical precedent by appointing a cabinet where women comprised 14 of its 24 total ministers, reflecting its feminist foreign policy agenda."
+                </blockquote>
+
+                <p>Our commitment is further highlighted by the leadership of former President Michelle Bachelet, who served as the first director of UN Women. Domestically, Chile has established the Ministry of Women and Gender Equity as a core political entity. Looking forward, Chile urges the international community to expand the adoption of <span class="highlight">feminist foreign policies</span> worldwide. We strongly recommend prioritizing education and skill development to ensure women's full participation in economic and decision-making processes.</p>
+            </section>
+
+            <section id="climate-impact" class="fade-in">
+                <h2>II. Humanitarian Assistance & Climate</h2>
+                <p>Internationally, climate crises are creating devastation on a scale previously unimagined. The recurring droughts, wildfires, and floods have caused major humanitarian challenges worldwide.</p>
+                
+                <p>Chile’s unique varying geography, scaling from the arid Atacama Desert to the Patagonian glaciers, makes it especially vulnerable to climate-related disasters. In recent years, destructive wildfires and severe droughts have interfered with agricultural production and displaced thousands. These events disproportionately impact vulnerable populations, including indigenous communities and people living in poverty.</p>
+            </section>
+
+            <section id="climate-resilience" class="fade-in">
+                <h3>Building Resilience</h3>
+                <p>Chile has made numerous substantial efforts to address climate concerns, aligning its actions with SDG 1 (No Poverty), SDG 11 (Sustainable Cities), and SDG 13 (Climate Action). Under the <span class="highlight">Paris Agreement</span>, Chile committed to reducing greenhouse gas emissions by 30% by 2030 and achieving carbon neutrality by 2050.</p>
+
+                <blockquote>
+                    "Chile has already committed to transitioning to 70% renewable energy by 2030, demonstrating its leadership in sustainable development."
+                </blockquote>
+
+                <p>The <span class="highlight">Escazú Agreement</span> demonstrates Chile's dedication to providing public access to environmental information and justice. Furthermore, we have implemented the National Climate Change Adaptation plan, outlining strategies for disaster early warning systems and strengthened infrastructure. Internationally, Chile collaborates with the Red Cross, OCHA, and WMO to provide effective humanitarian assistance.</p>
+            </section>
+
+            <section id="conclusion" class="fade-in">
+                <h2>Conclusion</h2>
+                <p>To ensure accountability and progress, Chile advocates for convening regular international forums, such as the Regional Conference on Climate Resilience, to assess advancements and share experiences. Chile is committed to addressing the humanitarian challenges posed by climate crises.</p>
+                
+                <p>Through national initiatives, regional collaboration, and active participation in global frameworks, Chile continues to work in building resilience and promoting sustainable development. As the international community confronts the growing threats of climate change, Chile reaffirms its dedication to strengthening humanitarian assistance.</p>
+            </section>
+
+            <footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">
+                <p>&copy; 2025 Jamie Sessions & Maurilio Ramirez</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Update Active Link
+            updateActiveLink();
+        };
+
+        // Section Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Update Active Nav Link based on scroll position
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
