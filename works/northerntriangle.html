@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Northern Triangle Strategy | Jamie Sessions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-strong: rgba(30, 34, 45, 0.95);
+            --accent: #d4af37;
+            --accent-dim: rgba(212, 175, 55, 0.3);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 3px;
+            z-index: 1000;
+            background: transparent;
+        }
+        #progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Layout Grid */
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 60px;
+            padding: 80px 20px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+        .nav-menu {
+            list-style: none;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+        .nav-menu li { margin-bottom: 15px; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main { max-width: 800px; }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--accent);
+            margin: 60px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 40px 0 15px 0;
+        }
+
+        p { margin-bottom: 1.5rem; color: #cbd5e1; text-align: justify; }
+
+        /* Quotes & Highlights */
+        blockquote {
+            background: var(--bg-glass);
+            border-left: 3px solid var(--accent);
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight { color: var(--accent); font-weight: 600; }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; padding: 40px 20px; }
+            aside { display: none; } /* Hide sidebar on mobile */
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="layout">
+        <aside>
+            <a href="../index.html" class="back-link">← Return to Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="active">Regional Context</a></li>
+                <li><a href="#corruption">Anti-Corruption Frameworks</a></li>
+                <li><a href="#institutions">Institutional Oversight</a></li>
+                <li><a href="#green-jobs">Green Jobs Initiative</a></li>
+                <li><a href="#tech">Tech Partnerships & Visas</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section id="intro" class="fade-in">
+                <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px;">Policy Analysis</p>
+                <h1>Stability in the Northern Triangle</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px;">
+                    Strategic recommendations for addressing governance, economic stability, and security in Guatemala, Honduras, and El Salvador.
+                </p>
+
+                <p>The Northern Triangle, which comprises <span class="highlight">Guatemala, Honduras, and El Salvador</span>, faces significant and entrenched challenges in governance, economic stability, and security. The United States has vital strategic interests in the region, primarily due to regional security concerns such as gang violence, transnational drug trafficking, and organized crime, all of which create spillover effects within U.S. borders.</p>
+                
+                <p>Beyond immediate security threats, the U.S. must also address complex issues regarding irregular migration, regional economic integration, and the maintenance of geopolitical influence in the Western Hemisphere. Based on our discussions as well as my own analysis, I have identified two policy recommendations to help the U.S. achieve its national interest in the region: strengthening anti-corruption frameworks to restore institutional legitimacy, and launching a comprehensive Northern Triangle Green Jobs Initiative.</p>
+            </section>
+
+            <section id="corruption" class="fade-in">
+                <h2>Anti-Corruption Frameworks</h2>
+                <p>The first policy recommendation is to emplace and strengthen anti-corruption frameworks in the Northern Triangle. Systemic corruption is not merely a symptom but a primary driver of instability in the region; it undermines effective governance, erodes public trust in democratic systems, and directly fuels migration as citizens attempt to flee institutional collapse and a lack of legal recourse.</p>
+
+                <blockquote>
+                    "Publicly naming and shaming violators would serve as a powerful deterrent to complicity, cutting bad actors off from the global financial system."
+                </blockquote>
+
+                <p>To address these issues, the United States should aggressively expand the application of the <span class="highlight">Global Magnitsky Act</span>. This tool should be used to impose targeted visa bans and freeze the U.S.-held assets of corrupt officials, politicians, and business elites in the Northern Triangle who attempt to undermine democracy or profit from political graft. This demonstrates the United States' commitment to holding elites accountable.</p>
+            </section>
+
+            <section id="institutions" class="fade-in">
+                <h2>Institutional Oversight</h2>
+                <p>Additionally, the United States should partner with international organizations such as the United Nations and the Organization of American States to establish and protect independent anti-corruption institutions within the Northern Triangle. These institutions should be modeled after Guatemala’s CICIG (Comisión Internacional contra la Impunidad en Guatemala), which had historic success before its dissolution.</p>
+
+                <p>These new bodies must be funded and supported by the U.S. conditional on their complete autonomy and mandate enforcement, ensuring they have independent prosecutorial power. The role of these institutions would be to investigate and prosecute high-level corruption cases, helping to dismantle the kleptocratic networks that currently capture state resources.</p>
+                
+                <p>Furthermore, the United States should work to provide grants, technical protection, and asylum pathways for journalists and anti-corruption activists local to the Northern Triangle who face retaliation for their work. Supporting civil society is essential to ensuring that the government is held accountable by its own people. In the long term, building credible institutions will improve the rule of law, attract foreign direct investment, reduce emigration, and align with U.S. interests in the Northern Triangle’s stability.</p>
+            </section>
+
+            <section id="green-jobs" class="fade-in">
+                <h2>Green Jobs Initiative</h2>
+                <p>The second policy recommendation is the launch of a <strong>Northern Triangle Green Jobs Initiative</strong>, addressing poverty and climate-caused migration by helping to create sustainable economic opportunities. Economic instability and frequent environmental challenges, such as prolonged droughts and devastating hurricanes, have been significant drivers of migration in the region, particularly from the agrarian "Dry Corridor."</p>
+
+                <blockquote>
+                    "By prioritizing sustainable development, the initiative would not only create immediate employment... but also help vulnerable communities adapt to the long-term impacts of climate change."
+                </blockquote>
+
+                <p>By creating green jobs, the United States can help foster a more climate-resilient and economically prosperous Northern Triangle. To do this, the United States should provide seed funding to establish a Northern Triangle Green Jobs Investment Fund. This fund would support renewable energy projects, create agroforestry initiatives that stabilize soil and water tables, and build climate-resilient infrastructure in rural areas which are hit the hardest by environmental challenges.</p>
+            </section>
+
+            <section id="tech" class="fade-in">
+                <h2>Tech Partnerships & Visas</h2>
+                <p>In addition to these infrastructure projects, the United States could partner with major tech firms such as <span class="highlight">Cisco or Microsoft</span> to help provide digital skill training for young people in the region ("nearshoring" human capital). By teaching them these high-demand skills, these populations could access remote work opportunities with companies in the United States, bringing capital into their local economies and reducing the need for irregular migration.</p>
+
+                <p>Vocational training programs in energy, particularly solar and wind maintenance, and sustainable farming practices could also be implemented to diversify economic opportunities beyond subsistence agriculture. Furthermore, the United States should expand temporary worker visa programs for Northern Triangle citizens in sectors such as agriculture, construction, and healthcare. This circular labor program would provide a legal pathway for migration, allowing workers to earn money and return home, which helps to reduce the incentives for dangerous and irregular journeys to the U.S. border.</p>
+            </section>
+
+            <section id="conclusion" class="fade-in">
+                <h2>Conclusion</h2>
+                <p>The Northern Triangle’s challenges in governance, economic stability, and security have far-reaching implications for the United States. By strengthening anti-corruption frameworks and launching a Northern Triangle Green Jobs Initiative, the United States can address the underlying causes of instability rather than just the symptoms.</p>
+                <p>While these policies may face implementation challenges, they are designed to build credible, long-standing institutions that create economic opportunities and align with the United States' national interests. A balanced approach that combines both accountability for elites and opportunity for the populace will lead to a more stable Northern Triangle.</p>
+            </section>
+
+            <footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">
+                <p>&copy; 2025 Jamie Sessions</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Update Active Link
+            updateActiveLink();
+        };
+
+        // Section Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Update Active Nav Link based on scroll position
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
