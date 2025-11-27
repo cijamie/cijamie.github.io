@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReasonKnot | Logic Weaver</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg-dark: #09090b;
+            --bg-glass: rgba(24, 24, 27, 0.6);
+            --bg-glass-strong: rgba(24, 24, 27, 0.95);
+            --accent: #8b5cf6; /* Violet */
+            --accent-glow: rgba(139, 92, 246, 0.3);
+            --text-main: #e4e4e7;
+            --text-muted: #a1a1aa;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow: hidden; /* We handle scrolling via JS transformation */
+        }
+
+        /* Ambient Background Orbs */
+        .ambient-light {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.25;
+            animation: pulse 10s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.2; }
+            100% { transform: scale(1.1); opacity: 0.3; }
+        }
+        .orb-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent), transparent); }
+        .orb-2 { bottom: -20%; right: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, #3b82f6, transparent); }
+
+        /* Canvas Grid */
+        #bg-pattern {
+            background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Glass Components */
+        .glass-panel {
+            background: var(--bg-glass-strong);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .glass-card {
+            background: rgba(39, 39, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Typography */
+        h1, h2, .brand-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* Canvas Interaction */
+        .canvas-area { cursor: grab; }
+        .canvas-area:active { cursor: grabbing; }
+
+        /* Connector Lines */
+        .connector-line {
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        /* Node Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .animate-node {
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen w-screen text-slate-200">
+
+    <!-- Ambient Background -->
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="glass-panel h-16 px-6 flex items-center justify-between z-50 shrink-0 relative border-b border-white/5">
+        <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br from-violet-600 to-blue-600 text-white shadow-lg shadow-violet-900/40">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight text-white brand-font">REASONKNOT</h1>
+                <p class="text-[10px] uppercase tracking-widest text-violet-400 font-semibold opacity-90">Weave your logic</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3 md:gap-4">
+            <!-- Add Claim Button -->
+            <button onclick="app.addNodeToRoot('claim')" class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-violet-600/20 hover:bg-violet-600/40 text-violet-300 hover:text-white border border-violet-500/30 rounded-lg transition-all mr-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                <span class="text-xs font-semibold uppercase tracking-wide">Add Point</span>
+            </button>
+
+            <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+
+            <!-- Zoom Controls -->
+            <div class="flex bg-black/20 rounded-lg p-1 border border-white/5">
+                <button onclick="app.zoom(-0.1)" class="p-2 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors" title="Zoom Out">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
+                <span id="zoom-level" class="text-xs flex items-center px-2 font-mono text-slate-500 w-12 justify-center">100%</span>
+                <button onclick="app.zoom(0.1)" class="p-2 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors" title="Zoom In">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                </button>
+                <button onclick="app.resetView()" class="p-2 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors" title="Reset View">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+                </button>
+            </div>
+
+            <div class="h-6 w-px bg-white/10"></div>
+
+            <button onclick="app.toggleOutline()" id="btn-outline" class="p-2 md:px-3 md:py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-2 text-slate-400 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10" title="Text Outline">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                <span class="hidden md:inline">Outline</span>
+            </button>
+            
+            <button onclick="app.clearMap()" class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors border border-transparent hover:border-red-500/20" title="Clear Map">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            </button>
+            
+            <button onclick="app.toggleHelp()" class="p-2 text-slate-400 hover:text-violet-400 hover:bg-white/5 rounded-lg transition-colors" title="Help">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </button>
+            
+            <!-- Import Button -->
+            <input type="file" id="import-file" accept=".json" class="hidden" onchange="app.handleImport(this)">
+            <button onclick="document.getElementById('import-file').click()" class="hidden md:flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-wide uppercase bg-white/5 text-slate-300 rounded hover:bg-white/10 hover:text-white transition-colors border border-white/10" title="Import JSON">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                Import
+            </button>
+
+            <!-- Export Button -->
+            <button onclick="app.exportJSON()" class="hidden md:flex items-center gap-2 px-4 py-1.5 text-xs font-bold tracking-wide uppercase bg-white text-black rounded hover:bg-slate-200 transition-colors shadow-lg shadow-white/10" title="Export JSON">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="flex-1 relative overflow-hidden canvas-area" id="canvas-container">
+        <!-- Background Pattern -->
+        <div id="bg-pattern" class="absolute inset-0 opacity-20 pointer-events-none" style="transform-origin: 0 0;"></div>
+
+        <!-- Tree Canvas -->
+        <div id="canvas-content" class="absolute top-0 left-0 w-full h-full flex items-center justify-center transform-origin-center transition-transform duration-100 ease-out origin-center z-10">
+            <div id="tree-root" class="pt-20 pb-40 px-20 min-w-min">
+                <!-- Tree will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Floating Outline Panel -->
+        <div id="outline-panel" class="hidden absolute right-0 top-0 bottom-0 w-96 glass-panel border-l border-white/10 z-40 flex flex-col backdrop-blur-xl transform transition-transform duration-300">
+            <div class="p-5 border-b border-white/10 flex justify-between items-center bg-white/5">
+                <h2 class="brand-font text-lg text-violet-400 flex items-center gap-2 font-bold">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Outline View
+                </h2>
+                <div class="flex gap-2">
+                    <button onclick="app.copyOutline()" class="p-2 hover:bg-white/10 rounded text-violet-400 transition-colors" title="Copy to Clipboard">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    </button>
+                    <button onclick="app.toggleOutline()" class="p-2 hover:bg-white/10 rounded text-slate-400 hover:text-white transition-colors">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+            <pre id="outline-content" class="flex-1 overflow-auto p-6 font-mono text-sm leading-relaxed whitespace-pre-wrap text-slate-300"></pre>
+        </div>
+
+        <!-- Help Modal -->
+        <div id="help-modal" class="hidden absolute inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+            <div class="glass-panel rounded-xl shadow-2xl max-w-md w-full p-8 border border-white/10">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 class="text-2xl brand-font font-bold text-white">Guide</h2>
+                    <button onclick="app.toggleHelp()" class="text-slate-500 hover:text-white transition-colors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+                
+                <div class="space-y-6 text-sm text-slate-300 leading-relaxed">
+                    <p>Map your arguments visually. Structure complex thoughts into claims, evidence, and counter-points.</p>
+                    
+                    <div class="space-y-3">
+                        <h3 class="font-bold text-white uppercase tracking-wider text-xs border-b border-white/10 pb-1">Node Types</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-blue-400 shadow-[0_0_8px_rgba(96,165,250,0.6)]"></div> 
+                                <span><strong>Claim:</strong> Primary assertions or sub-points.</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.6)]"></div> 
+                                <span><strong>Evidence:</strong> Supporting data or facts.</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <div class="w-2 h-2 rounded-full bg-rose-400 shadow-[0_0_8px_rgba(248,113,113,0.6)]"></div> 
+                                <span><strong>Counter:</strong> Rebuttals or opposing views.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="font-bold text-white uppercase tracking-wider text-xs border-b border-white/10 pb-1">Controls</h3>
+                        <ul class="space-y-2 text-slate-400">
+                            <li>• <strong>Scroll/Pan</strong> Use mouse wheel or trackpad to move view.</li>
+                            <li>• <strong>Ctrl + Scroll</strong> to Zoom.</li>
+                            <li>• <strong>Drag</strong> background to pan view.</li>
+                            <li>• <strong>Hover</strong> a card to add children or delete.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button onclick="app.toggleHelp()" class="mt-8 w-full py-3 bg-violet-600 hover:bg-violet-500 text-white font-semibold rounded-lg shadow-lg shadow-violet-900/30 transition-all transform hover:translate-y-[-1px]">
+                    Start Mapping
+                </button>
+                
+                <div class="mt-6 pt-6 border-t border-white/10 text-center text-[10px] text-slate-500 uppercase tracking-widest font-medium">
+                    &copy; Jamie Sessions
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Status -->
+    <div class="absolute bottom-6 left-6 z-40 pointer-events-none">
+        <div class="glass-panel px-4 py-2 rounded-full flex items-center gap-3 text-xs text-slate-400 border border-white/5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+            RSNknot v2.1 // Auto-save on
+        </div>
+    </div>
+
+    <script>
+        // --- SVG Icons Map ---
+        const ICONS = {
+            claim: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
+            evidence: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+            counter: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>',
+            trash: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>',
+            plus: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>'
+        };
+
+        // Redefined Node Colors for RSNKNOT Theme
+        const NODE_TYPES = {
+            claim: { 
+                label: 'Claim', 
+                borderColor: 'border-blue-500', 
+                textColor: 'text-blue-400',
+                shadowColor: 'hover:shadow-blue-500/20',
+                btnColor: 'bg-blue-600 hover:bg-blue-500',
+                icon: 'claim' 
+            },
+            evidence: { 
+                label: 'Evidence', 
+                borderColor: 'border-emerald-500', 
+                textColor: 'text-emerald-400',
+                shadowColor: 'hover:shadow-emerald-500/20',
+                btnColor: 'bg-emerald-600 hover:bg-emerald-500',
+                icon: 'evidence' 
+            },
+            counter: { 
+                label: 'Counter', 
+                borderColor: 'border-rose-500', 
+                textColor: 'text-rose-400',
+                shadowColor: 'hover:shadow-rose-500/20',
+                btnColor: 'bg-rose-600 hover:bg-rose-500',
+                icon: 'counter' 
+            },
+        };
+
+        const DEMO_DATA = {
+            id: 'root',
+            type: 'claim',
+            content: 'Universal Basic Income (UBI) should be implemented globally.',
+            children: [
+                {
+                    id: 'c1',
+                    type: 'evidence',
+                    content: 'It alleviates systemic poverty by providing a guaranteed safety net.',
+                    children: []
+                },
+                {
+                    id: 'c2',
+                    type: 'counter',
+                    content: 'Fiscal burden is unsustainable for most developing economies.',
+                    children: [
+                        {
+                            id: 'c2-1',
+                            type: 'evidence',
+                            content: 'Studies suggest costs can be offset by eliminating bureaucratic overhead of existing welfare.',
+                            children: []
+                        }
+                    ]
+                }
+            ]
+        };
+
+        const BLANK_ROOT = {
+            id: 'root',
+            type: 'claim',
+            content: 'Main Thesis',
+            children: []
+        };
+
+        // --- State Management ---
+        const state = {
+            data: null,
+            scale: 1,
+            position: { x: 0, y: 0 },
+            isDragging: false,
+            dragStart: { x: 0, y: 0 },
+            showOutline: false
+        };
+
+        // --- Logic & Helpers ---
+        const generateId = () => Math.random().toString(36).substr(2, 9);
+
+        function updateNodeInTree(node, nodeId, updateFn) {
+            if (node.id === nodeId) return updateFn(node);
+            if (node.children) {
+                return {
+                    ...node,
+                    children: node.children.map(child => updateNodeInTree(child, nodeId, updateFn))
+                };
+            }
+            return node;
+        }
+
+        function deleteNodeFromTree(node, nodeId) {
+            if (node.children) {
+                if (node.children.some(child => child.id === nodeId)) {
+                    return { ...node, children: node.children.filter(child => child.id !== nodeId) };
+                }
+                return { ...node, children: node.children.map(child => deleteNodeFromTree(child, nodeId)) };
+            }
+            return node;
+        }
+
+        function generateOutline(node, depth = 0) {
+            const indent = '  '.repeat(depth);
+            const prefix = node.type === 'claim' ? '• ' : node.type === 'evidence' ? '+ ' : '- ';
+            let text = `${indent}${prefix}[${node.type.toUpperCase()}] ${node.content}\n`;
+            if (node.children) {
+                node.children.forEach(child => {
+                    text += generateOutline(child, depth + 1);
+                });
+            }
+            return text;
+        }
+
+        // --- Application Logic ---
+        const app = {
+            init() {
+                const saved = localStorage.getItem('rsnknot-map-data-v1');
+                state.data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEMO_DATA));
+
+                const container = document.getElementById('canvas-container');
+                container.addEventListener('mousedown', this.handleMouseDown.bind(this));
+                window.addEventListener('mousemove', this.handleMouseMove.bind(this));
+                window.addEventListener('mouseup', this.handleMouseUp.bind(this));
+                
+                // Add passive: false to prevent default scrolling behavior and handle it manually
+                container.addEventListener('wheel', this.handleWheel.bind(this), { passive: false });
+
+                this.render();
+            },
+
+            save() {
+                localStorage.setItem('rsnknot-map-data-v1', JSON.stringify(state.data));
+            },
+
+            addNode(parentId, type) {
+                const newNode = { id: generateId(), type, content: '', children: [] };
+                state.data = updateNodeInTree(state.data, parentId, node => ({
+                    ...node, children: [...node.children, newNode]
+                }));
+                this.save();
+                this.renderTree();
+            },
+
+            addNodeToRoot(type) {
+                // Feature: Add child directly to root
+                this.addNode(state.data.id, type);
+            },
+
+            deleteNode(nodeId) {
+                if (nodeId === state.data.id) return;
+                if (confirm('Delete this node and all its children?')) {
+                    state.data = deleteNodeFromTree(state.data, nodeId);
+                    this.save();
+                    this.renderTree();
+                }
+            },
+
+            updateNodeContent(nodeId, newContent) {
+                state.data = updateNodeInTree(state.data, nodeId, node => ({ ...node, content: newContent }));
+                this.save();
+            },
+
+            clearMap() {
+                // Feature: Reset to just the root claim
+                if (confirm("Clear the entire map? This cannot be undone.")) {
+                    state.data = JSON.parse(JSON.stringify(BLANK_ROOT));
+                    state.scale = 1;
+                    state.position = { x: 0, y: 0 };
+                    this.save();
+                    this.render();
+                }
+            },
+
+            zoom(delta) {
+                state.scale = Math.min(Math.max(0.1, state.scale + delta), 3);
+                this.updateTransform();
+                document.getElementById('zoom-level').textContent = Math.round(state.scale * 100) + '%';
+            },
+
+            resetView() {
+                state.scale = 1;
+                state.position = { x: 0, y: 0 };
+                this.updateTransform();
+                document.getElementById('zoom-level').textContent = '100%';
+            },
+
+            handleWheel(e) {
+                e.preventDefault();
+
+                if (e.ctrlKey || e.metaKey) {
+                    // Zoom if CTRL key is pressed
+                    this.zoom(-e.deltaY * 0.001);
+                } else {
+                    // Otherwise Pan (Scroll)
+                    state.position.x -= e.deltaX;
+                    state.position.y -= e.deltaY;
+                    this.updateTransform();
+                }
+            },
+
+            handleMouseDown(e) {
+                if (e.target.classList.contains('canvas-area') || e.target.id === 'canvas-content') {
+                    state.isDragging = true;
+                    state.dragStart = { x: e.clientX - state.position.x, y: e.clientY - state.position.y };
+                    document.getElementById('canvas-container').style.cursor = 'grabbing';
+                }
+            },
+
+            handleMouseMove(e) {
+                if (state.isDragging) {
+                    state.position = {
+                        x: e.clientX - state.dragStart.x,
+                        y: e.clientY - state.dragStart.y
+                    };
+                    this.updateTransform();
+                }
+            },
+
+            handleMouseUp() {
+                state.isDragging = false;
+                document.getElementById('canvas-container').style.cursor = '';
+            },
+
+            updateTransform() {
+                const content = document.getElementById('canvas-content');
+                const bg = document.getElementById('bg-pattern');
+                
+                content.style.transform = `translate(${state.position.x}px, ${state.position.y}px) scale(${state.scale})`;
+                bg.style.transform = `scale(${state.scale}) translate(${state.position.x}px, ${state.position.y}px)`;
+            },
+
+            toggleOutline() {
+                state.showOutline = !state.showOutline;
+                const panel = document.getElementById('outline-panel');
+                const btn = document.getElementById('btn-outline');
+                
+                if (state.showOutline) {
+                    panel.classList.remove('hidden');
+                    // wait a tick for transition
+                    setTimeout(() => panel.style.transform = 'translateX(0)', 10);
+                    
+                    btn.classList.add('bg-white/10', 'text-white');
+                    document.getElementById('outline-content').textContent = generateOutline(state.data);
+                } else {
+                    panel.style.transform = 'translateX(100%)';
+                    setTimeout(() => panel.classList.add('hidden'), 300);
+                    btn.classList.remove('bg-white/10', 'text-white');
+                }
+            },
+
+            copyOutline() {
+                navigator.clipboard.writeText(generateOutline(state.data));
+                const originalText = document.getElementById('outline-content').style.opacity;
+                document.getElementById('outline-content').style.opacity = '0.5';
+                setTimeout(() => document.getElementById('outline-content').style.opacity = '1', 200);
+            },
+
+            toggleHelp() {
+                document.getElementById('help-modal').classList.toggle('hidden');
+            },
+
+            exportJSON() {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.data));
+                const anchor = document.createElement('a');
+                anchor.href = dataStr;
+                anchor.download = "rsnknot_map.json";
+                anchor.click();
+            },
+
+            handleImport(input) {
+                const file = input.files[0];
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const json = JSON.parse(e.target.result);
+                        if (json.id && json.type) {
+                            state.data = json;
+                            state.scale = 1;
+                            state.position = { x: 0, y: 0 };
+                            this.save();
+                            this.render();
+                            alert('Map imported successfully');
+                        } else {
+                            alert('Invalid map file format');
+                        }
+                    } catch (err) {
+                        alert('Error parsing JSON file');
+                    }
+                };
+                reader.readAsText(file);
+                input.value = ''; // Reset input to allow same file selection
+            },
+
+            render() {
+                this.updateTransform();
+                this.renderTree();
+            },
+
+            renderTree() {
+                const root = document.getElementById('tree-root');
+                root.innerHTML = '';
+                root.appendChild(this.createNodeElement(state.data, true));
+            },
+
+            createNodeElement(node, isRoot = false) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'flex flex-col items-center animate-node';
+
+                const style = NODE_TYPES[node.type] || NODE_TYPES.claim;
+                
+                // Glass Card styling
+                const card = document.createElement('div');
+                card.className = `glass-card relative group flex flex-col items-start p-4 rounded-xl border-l-[3px] ${style.borderColor} w-72 transition-all duration-300 ${style.shadowColor} hover:scale-105 z-10`;
+                
+                const header = document.createElement('div');
+                header.className = 'flex justify-between items-center w-full mb-3 border-b border-white/10 pb-2';
+                header.innerHTML = `
+                    <div class="flex items-center space-x-2 text-[10px] font-bold uppercase tracking-widest ${style.textColor}">
+                        ${ICONS[style.icon]}
+                        <span>${style.label}</span>
+                    </div>
+                `;
+
+                if (!isRoot) {
+                    const actions = document.createElement('div');
+                    actions.className = 'flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200';
+                    
+                    const delBtn = document.createElement('button');
+                    delBtn.className = 'p-1 hover:bg-white/10 text-slate-400 hover:text-red-400 rounded transition-colors';
+                    delBtn.innerHTML = ICONS.trash;
+                    delBtn.onclick = (e) => { 
+                        e.stopPropagation(); 
+                        app.deleteNode(node.id); 
+                    };
+                    
+                    actions.appendChild(delBtn);
+                    header.appendChild(actions);
+                } else {
+                    header.appendChild(document.createElement('div'));
+                }
+                card.appendChild(header);
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'w-full text-sm font-normal text-slate-200 cursor-text min-h-[60px] whitespace-pre-wrap leading-relaxed';
+                contentDiv.title = 'Click to edit';
+                contentDiv.textContent = node.content || '';
+                if (!node.content) contentDiv.innerHTML = '<span class="text-slate-600 italic">Enter argument text...</span>';
+
+                contentDiv.onclick = function() {
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'w-full bg-transparent resize-none outline-none text-sm font-normal text-white min-h-[60px] leading-relaxed';
+                    textarea.value = node.content;
+                    
+                    textarea.onblur = function() {
+                        if (this.value !== node.content) {
+                            app.updateNodeContent(node.id, this.value);
+                            if (state.showOutline) document.getElementById('outline-content').textContent = generateOutline(state.data);
+                        }
+                        contentDiv.textContent = this.value;
+                        if (!this.value) contentDiv.innerHTML = '<span class="text-slate-600 italic">Enter argument text...</span>';
+                        card.replaceChild(contentDiv, textarea);
+                    };
+
+                    textarea.onkeydown = function(e) {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            this.blur();
+                        }
+                    };
+
+                    card.replaceChild(textarea, contentDiv);
+                    textarea.focus();
+                };
+
+                card.appendChild(contentDiv);
+
+                // Floating Action Menu
+                const floatingMenu = document.createElement('div');
+                floatingMenu.className = 'absolute -bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 z-20';
+                
+                const createAddBtn = (type, btnClass) => {
+                    const btn = document.createElement('button');
+                    const typeStyle = NODE_TYPES[type];
+                    btn.className = `${typeStyle.btnColor} text-white p-2 rounded-full shadow-lg hover:scale-110 transition-transform border border-white/20`;
+                    btn.innerHTML = ICONS[typeStyle.icon];
+                    btn.title = `Add ${typeStyle.label}`;
+                    btn.onclick = (e) => { e.stopPropagation(); app.addNode(node.id, type); };
+                    return btn;
+                };
+
+                floatingMenu.appendChild(createAddBtn('claim'));
+                floatingMenu.appendChild(createAddBtn('evidence'));
+                floatingMenu.appendChild(createAddBtn('counter'));
+                
+                card.appendChild(floatingMenu);
+                wrapper.appendChild(card);
+
+                if (node.children && node.children.length > 0) {
+                    const childrenContainer = document.createElement('div');
+                    childrenContainer.className = 'flex flex-row items-start pt-10 relative';
+
+                    // Vertical line from parent
+                    if (node.children.length > 0) {
+                        const vLine = document.createElement('div');
+                        vLine.className = 'absolute top-0 left-[calc(50%-1px)] w-[1px] h-10 connector-line';
+                        childrenContainer.appendChild(vLine);
+                    }
+
+                    node.children.forEach((child, index) => {
+                        const childWrapper = document.createElement('div');
+                        childWrapper.className = 'relative px-4 flex flex-col items-center';
+
+                        // Connector from child up
+                        const connector = document.createElement('div');
+                        connector.className = 'absolute top-0 left-1/2 -ml-px w-[1px] h-6 connector-line';
+                        childWrapper.appendChild(connector);
+
+                        // Horizontal connectors
+                        if (node.children.length > 1) {
+                            const line = document.createElement('div');
+                            line.className = 'absolute top-0 h-[1px] connector-line';
+                            
+                            if (index === 0) {
+                                line.classList.add('right-0', 'w-1/2');
+                            } else if (index === node.children.length - 1) {
+                                line.classList.add('left-0', 'w-1/2');
+                            } else {
+                                line.classList.add('left-0', 'w-full');
+                            }
+                            childWrapper.appendChild(line);
+                        }
+
+                        childWrapper.appendChild(this.createNodeElement(child));
+                        childrenContainer.appendChild(childWrapper);
+                    });
+
+                    wrapper.appendChild(childrenContainer);
+                }
+
+                return wrapper;
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>
