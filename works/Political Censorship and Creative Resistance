@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Censorship & Resistance in Chinese Cinema | Jamie Sessions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f1115;
+            --bg-glass: rgba(30, 34, 45, 0.6);
+            --bg-glass-strong: rgba(30, 34, 45, 0.95);
+            --accent: #d4af37;
+            --accent-dim: rgba(212, 175, 55, 0.3);
+            --text-main: #e0e6ed;
+            --text-muted: #94a3b8;
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); }
+
+        /* Progress Bar */
+        #progress-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 3px;
+            z-index: 1000;
+            background: transparent;
+        }
+        #progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Layout Grid */
+        .layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 60px;
+            padding: 80px 20px;
+        }
+
+        /* Sidebar Navigation */
+        aside {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+        .nav-menu {
+            list-style: none;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            padding-left: 20px;
+        }
+        .nav-menu li { margin-bottom: 15px; }
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-menu a:hover, .nav-menu a.active {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 40px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main { max-width: 800px; }
+
+        h1 {
+            font-family: var(--font-serif);
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            color: var(--accent);
+            margin: 60px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        h3 {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            color: #fff;
+            margin: 40px 0 15px 0;
+        }
+
+        p { margin-bottom: 1.5rem; color: #cbd5e1; text-align: justify; }
+
+        /* Quotes & Highlights */
+        blockquote {
+            background: var(--bg-glass);
+            border-left: 3px solid var(--accent);
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: #fff;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .highlight { color: var(--accent); font-weight: 600; }
+
+        /* Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; padding: 40px 20px; }
+            aside { display: none; } /* Hide sidebar on mobile */
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    
+    <div class="ambient-light">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
+    <div class="layout">
+        <aside>
+            <a href="../index.html" class="back-link">← Return to Portfolio</a>
+            <ul class="nav-menu">
+                <li><a href="#intro" class="active">Introduction & Thesis</a></li>
+                <li><a href="#mechanism">The Censorship Mechanism</a></li>
+                <li><a href="#genre">Genre as Camouflage</a></li>
+                <li><a href="#wuxia">Case Study: Wuxia</a></li>
+                <li><a href="#noir">Case Study: Noir</a></li>
+                <li><a href="#limits">The Limits of Coding</a></li>
+                <li><a href="#conclusion">Conclusion</a></li>
+                <li><a href="#refs">References</a></li>
+            </ul>
+        </aside>
+
+        <main>
+            <section id="intro" class="fade-in">
+                <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px;">FLEN 3260 • University of Idaho</p>
+                <h1>Political Censorship and Creative Resistance</h1>
+                <p style="font-size: 1.2rem; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px;">
+                    Genre, Allegory, and Critique in Contemporary Chinese-Language Cinema
+                </p>
+
+                <p>For decades the most widespread understanding of censorship in China was that it was a crude, blunt instrument of state control over information: a means of repressing dissent and stamping out debate. That perception is not entirely wrong, but it does hide much of the truth. As media scholar Thomas M. Chen argues in <em>Made in Censorship</em>, the state's regulation of cinema functions not merely as a repressive force, but as a "productive" one, generating structural pressures that compel filmmakers to develop innovative formal and narrative strategies to speak critically within, around, and against the limits of what can be publicly represented.</p>
+
+                <blockquote>
+                    "Rather than a straightforward battle between brave artists and malevolent censors, contemporary Chinese-language cinema reveals a system in which political constraint generates aesthetic sophistication."
+                </blockquote>
+
+                <p>Since the centralization of cultural authority under Xi Jinping, the Chinese Communist Party has tightened its grip on the film industry. Yet, faced with these constraints, filmmakers have developed what might be called <span class="highlight">"navigational strategies"</span>—formal and generic choices that allow them to stage politically pointed critiques while remaining, formally at least, within the bounds of censorship tolerance. As demonstrated by films such as Jia Zhangke's <em>A Touch of Sin</em> (2013), Diao Yinan's <em>Black Coal, Thin Ice</em> (2014), and Zhang Yimou's <em>One Second</em> (2020), the deployment of wuxia, noir, and historical melodrama conventions allows for an implicit critique of corruption and social decline.</p>
+            </section>
+
+            <section id="mechanism" class="fade-in">
+                <h2>The Censorship Mechanism</h2>
+                <p>Analyzing the methods employed by filmmakers requires a basic understanding of the censorship system itself. The CCP's involvement with film is as old as the People's Republic itself, but censorship has become more robust under Xi Jinping. After securing power and cracking down on perceived corruption, the CCP brought the film industry under more direct control due to its mass appeal and emotional potency.</p>
+                
+                
+
+                <p>Film under the current system must receive approval at multiple stages. The <strong>China Film Administration (CFA)</strong>, led by the Central Propaganda Department, controls licensing and financing. Scripts are pre-approved, and completed work must be submitted to a review board. Censors work from a collection of unspoken "red lines" and sensitivity thresholds. Categories of prohibited subject matter are expansive, covering negative depictions of government officials, scenes of social unrest, or historical events the Party prefers to control, such as the Cultural Revolution or Tiananmen Square.</p>
+
+                <p>Gatekeeping takes place by a thousand cuts: filmmakers must try to read their own censor's mind, always guessing at the trigger points while trying to maintain the integrity of their vision.</p>
+            </section>
+
+            <section id="genre" class="fade-in">
+                <h2>Genre as Camouflage</h2>
+                <p>The system is "productive" in that it bends expression rather than extinguishes it. The corruption filmmakers cannot directly depict and the state violence they cannot show are staged through other means—from genre to visual metaphor to the rhetorical use of absence and silence. The censorship regime thus creates an entire aesthetic of <span class="highlight">indirection and allegory</span>.</p>
+
+                <p>One of the most important strategies is weaponizing genre. Genre works like political immunity: a noir detective story or a wuxia revenge tale can be plausibly presented to the censors as "just entertainment." A detective noir set in a post-industrial cityscape draws attention to moral rot and institutional incompetence, which are implicit in the generic tropes themselves. Wuxia, similarly, has for centuries been a home for stories of resistance to tyranny. Genre is a Trojan horse smuggling critique past the censor by coding it in the language of popular entertainment.</p>
+            </section>
+
+            <section id="wuxia" class="fade-in">
+                <h2>Case Study: The Wuxia Allegory</h2>
+                <p>Jia Zhangke's <em>A Touch of Sin</em> (2013) deploys this strategy with particular clarity. Based on real-life incidents of violence reported in Chinese newspapers, the film is an anthology of four stories where protagonists are pushed to violent desperation by exploitation and humiliation.</p>
+                
+                
+
+                <p>Jia invokes the conventions of wuxia to code these acts not as simple criminality, but as the actions of the <em>xia</em>—the knight-errant who oversteps the law to enforce a higher morality. By utilizing wuxia iconography on modern-day migrant workers, Jia reframes individual acts of violence as rational responses to structural injustice. This framing enables a reframing of the discourse of the <strong>"harmonious society"</strong> (<em>hexie shehui</em>). If Jia’s wuxia-inflected cinema offers an implicit claim, it is not that harmony is possible, but that it is impossible under existing inequality.</p>
+            </section>
+
+            <section id="noir" class="fade-in">
+                <h2>Case Study: Noir & Decay</h2>
+                <p>Diao Yinan turns to film noir in <em>Black Coal, Thin Ice</em> (2014) to give voice to the erosion of social trust. On the surface, it is a crime thriller about a detective tracking a serial killer who dumps corpses into coal mining distributions. However, the film's subject is the pervasive atmosphere of repression and alienation in a society where institutions have broken down.</p>
+
+                
+
+                <p>The film's noir look—its tonal palette of gray and black and its focus on faded people moving through urban decay—becomes a language for expressing systemic disillusionment. The dismemberment of the body becomes a metaphor for the dismemberment of social bonds. Diao's use of noir tropes is subtle because noir comes with an implicit critique of authority built-in. The success of the film's 2014 Golden Bear win shows that the noir genre offered enough political insulation to pass censors.</p>
+            </section>
+
+            <section id="limits" class="fade-in">
+                <h2>The Limits of Coding</h2>
+                <p>Zhang Yimou's <em>One Second</em> (2020) demonstrates the limits of this coding. The film follows a man escaping a labor camp to see a newsreel containing footage of his daughter, establishing cinema as a space of memory and hope. However, the film's critique of the Cultural Revolution as a space of collective trauma proved too sensitive.</p>
+                
+                
+
+                <p>Originally set to premiere at the Berlin Film Festival in 2019, it was pulled for "technical reasons"—a euphemism for political interference. Zhang Yimou was forced to reshoot and re-edit the film. This case shows that aesthetic strategies may not be enough to negotiate non-negotiable periods of history over which the Party maintains strict memory management.</p>
+            </section>
+
+            <section id="conclusion" class="fade-in">
+                <h2>Conclusion</h2>
+                <p>The history of the CCP’s political censorship is not a simple story of repression and resistance. It is a dynamic, ongoing negotiation in which state control paradoxically engenders formal richness. When unable to represent realities directly, films develop alternative languages: noir visual styles stage institutional decay, and wuxia tropes represent desperation as heroism.</p>
+                <p>Taken as a whole, the case studies suggest that the Chinese filmmaker’s relationship to the state is one of <span class="highlight">volatile and generative friction</span>. In forcing the logic of social critique into the subtext, the censorship regime has created a cinema of profound subtlety, where the "unsaid" speaks with far more resonance than the dialogue.</p>
+            </section>
+
+            <footer id="refs" style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">
+                <h3>References</h3>
+                <ul style="list-style: none; color: var(--text-muted);">
+                    <li style="margin-bottom: 10px;">Ashok, G. (2014). A touch of sin: Grim and compelling. <em>The Diplomat</em>.</li>
+                    <li style="margin-bottom: 10px;">Berry, C., Lu, X., & Rofel, L. (Eds.). (2014). Violence, wuxia, migrants: Jia Zhangke's cinematic discontent in A Touch of Sin. <em>Asian American Studies Department Faculty Scholarship</em>.</li>
+                    <li style="margin-bottom: 10px;">Chen, T. M. (2022). <em>Made in censorship: The Tiananmen movement in Chinese literature and film</em>. Columbia University Press.</li>
+                    <li style="margin-bottom: 10px;">Hale, C. (2021). Film in the age of Xi: Censorship practices in contemporary Chinese cinema. <em>Journal of Media Studies</em>, 34(2), 145–168.</li>
+                    <li style="margin-bottom: 10px;">Rosen, S. (2021). Censor's dilemma: Film in the era of Xi Jinping. In D. C. Kang (Ed.), <em>China's grand strategy</em>. Brookings Institution Press.</li>
+                    <li style="margin-bottom: 10px;">Stone, A. (2012). Zhang Yimou's long road home. <em>Boston Review</em>.</li>
+                </ul>
+                <p style="margin-top: 30px;">&copy; 2025 Jamie Sessions</p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Scroll Progress Bar
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Update Active Link
+            updateActiveLink();
+        };
+
+        // Section Reveal Animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Update Active Nav Link based on scroll position
+        function updateActiveLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
