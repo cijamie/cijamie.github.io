@@ -8,33 +8,31 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
     <style>
         :root {
-            --bg-dark: #0f1115;
-            --bg-glass: rgba(30, 34, 45, 0.6);
+            /* Inherits some variables from styles.css */
             --bg-glass-hover: rgba(40, 45, 60, 0.8);
-            --accent: #d4af37;
-            --accent-dim: rgba(212, 175, 55, 0.2);
-            --accent-glow: rgba(212, 175, 55, 0.5);
-            --text-main: #e0e6ed;
-            --text-muted: #94a3b8;
             --error: #ef4444;
             --success: #10b981;
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Inter', sans-serif;
             --font-jp: 'Noto Sans JP', sans-serif;
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-sans);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
             position: relative;
         }
+        
+        /* Nav override for full screen apps */
+        nav {
+            padding: 15px 30px !important;
+            border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        }
+        .logo { font-size: 1.1rem !important; }
+        .nav-links a { font-size: 0.75rem !important; margin-left: 20px !important; }
 
         /* Ambient Background */
         .ambient-light {
@@ -143,6 +141,7 @@
     </style>
 </head>
 <body class="justify-center items-center p-4">
+    <header><nav></nav></header>
 
     <!-- Ambient Background -->
     <div class="ambient-light">
@@ -257,6 +256,7 @@
         <p class="text-[10px] text-[#94a3b8] opacity-50 uppercase tracking-widest">&copy; <span id="year"></span> Jamie Sessions</p>
     </footer>
 
+    <script src="../components.js"></script>
     <script>
         // --- Data ---
         const DICTIONARIES = {

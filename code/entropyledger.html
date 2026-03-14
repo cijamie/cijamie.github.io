@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
     
     <style>
         /* --- THEME VARIABLES --- */
@@ -162,64 +163,68 @@
 
     </style>
 </head>
-<body class="p-4 sm:p-8 flex items-center justify-center min-h-screen">
+<body class="min-h-screen flex flex-col">
+    <header><nav></nav></header>
     
-    <!-- Ambient Lighting for Theme -->
-    <div class="ambient-light">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-    </div>
-
-    <!-- START SCREEN -->
-    <div id="start-screen" class="screen-container w-full max-w-2xl relative z-20 flex flex-col items-center justify-center space-y-8 p-8">
-        <h1 class="title-text text-5xl sm:text-7xl mb-4">The Entropy Ledger</h1>
-        <div class="space-y-4 text-center max-w-md mx-auto">
-            <p class="text-xl text-gray-300 font-light">Five minutes. No saves. Total release.</p>
-            <p class="text-sm text-gray-500">Everything you write will fade into the void. This is a space for thoughts you do not wish to keep.</p>
+    <main class="flex-grow flex items-center justify-center p-4 sm:p-8 relative">
+        <!-- Ambient Lighting for Theme -->
+        <div class="ambient-light">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
         </div>
-        
-        <button onclick="enterApp()" class="start-btn mt-8 px-8 py-4 text-lg uppercase tracking-widest rounded-full font-semibold">
-            Begin Session
-        </button>
-    </div>
 
-    <!-- MAIN APP INTERFACE (Initially Hidden) -->
-    <div id="app-interface" class="hidden-screen w-full max-w-4xl relative z-10 opacity-0 transform translate-y-4 transition-all duration-1000">
-        <header class="mb-8 flex flex-col sm:flex-row justify-between items-center border-b border-gray-700/50 pb-4 gap-4 sm:gap-0">
-            <h1 class="title-text text-xl sm:text-3xl font-extrabold">The Entropy Ledger</h1>
+        <!-- START SCREEN -->
+        <div id="start-screen" class="screen-container w-full max-w-2xl relative z-20 flex flex-col items-center justify-center space-y-8 p-8">
+            <h1 class="title-text text-5xl sm:text-7xl mb-4">The Entropy Ledger</h1>
+            <div class="space-y-4 text-center max-w-md mx-auto">
+                <p class="text-xl text-gray-300 font-light">Five minutes. No saves. Total release.</p>
+                <p class="text-sm text-gray-500">Everything you write will fade into the void. This is a space for thoughts you do not wish to keep.</p>
+            </div>
             
-            <div class="flex items-center space-x-6">
-                <!-- Score Display -->
-                <div id="score-container" class="text-right">
-                    <span id="score-label">Entropy Score</span>
-                    <span id="score-value">0</span>
-                </div>
+            <button onclick="enterApp()" class="start-btn mt-8 px-8 py-4 text-lg uppercase tracking-widest rounded-full font-semibold">
+                Begin Session
+            </button>
+        </div>
 
-                <!-- Timer Display -->
-                <div id="timer-display" class="text-2xl font-mono p-3 rounded-xl transition-colors duration-500 shadow-lg min-w-[100px] text-center">
-                    05:00
+        <!-- MAIN APP INTERFACE (Initially Hidden) -->
+        <div id="app-interface" class="hidden-screen w-full max-w-4xl relative z-10 opacity-0 transform translate-y-4 transition-all duration-1000">
+            <div class="mb-8 flex flex-col sm:flex-row justify-between items-center border-b border-gray-700/50 pb-4 gap-4 sm:gap-0">
+                <h1 class="title-text text-xl sm:text-3xl font-extrabold">The Entropy Ledger</h1>
+                
+                <div class="flex items-center space-x-6">
+                    <!-- Score Display -->
+                    <div id="score-container" class="text-right">
+                        <span id="score-label">Entropy Score</span>
+                        <span id="score-value">0</span>
+                    </div>
+
+                    <!-- Timer Display -->
+                    <div id="timer-display" class="text-2xl font-mono p-3 rounded-xl transition-colors duration-500 shadow-lg min-w-[100px] text-center">
+                        05:00
+                    </div>
                 </div>
             </div>
-        </header>
 
-        <!-- The main editing area: contenteditable div -->
-        <div 
-            id="editor"
-            contenteditable="true"
-            data-placeholder="Start typing... The timer begins on your first keystroke."
-            class="rounded-xl p-8 shadow-2xl focus:ring-4 focus:ring-[var(--accent)] transition-all duration-300"
-            role="textbox"
-            aria-multiline="true"
-        ></div>
+            <!-- The main editing area: contenteditable div -->
+            <div 
+                id="editor"
+                contenteditable="true"
+                data-placeholder="Start typing... The timer begins on your first keystroke."
+                class="rounded-xl p-8 shadow-2xl focus:ring-4 focus:ring-[var(--accent)] transition-all duration-300"
+                role="textbox"
+                aria-multiline="true"
+            ></div>
 
-        <!-- Session Status Message -->
-        <footer class="mt-8 text-center">
-            <p id="status-message" class="text-lg transition-opacity duration-1000">
-                A non-permanent space for thought release.
-            </p>
-        </footer>
-    </div>
-
+            <!-- Session Status Message -->
+            <footer class="mt-8 text-center">
+                <p id="status-message" class="text-lg transition-opacity duration-1000">
+                    A non-permanent space for thought release.
+                </p>
+            </footer>
+        </div>
+    </main>
+    
+    <script src="../components.js"></script>
     <script>
         const editor = document.getElementById('editor');
         const timerDisplay = document.getElementById('timer-display');

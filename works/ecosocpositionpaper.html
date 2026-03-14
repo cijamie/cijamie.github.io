@@ -7,174 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-dark: #0f1115;
-            --bg-glass: rgba(30, 34, 45, 0.6);
-            --bg-glass-strong: rgba(30, 34, 45, 0.95);
-            --accent: #d4af37;
-            --accent-dim: rgba(212, 175, 55, 0.3);
-            --text-main: #e0e6ed;
-            --text-muted: #94a3b8;
-            --font-serif: 'Playfair Display', serif;
-            --font-sans: 'Inter', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-sans);
-            line-height: 1.8;
-            overflow-x: hidden;
-        }
-
-        /* Ambient Background */
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
-        }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-        }
-        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
-        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); }
-
-        /* Progress Bar */
-        #progress-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 3px;
-            z-index: 1000;
-            background: transparent;
-        }
-        #progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        /* Layout Grid */
-        .layout {
-            display: grid;
-            grid-template-columns: 250px 1fr;
-            max-width: 1200px;
-            margin: 0 auto;
-            gap: 60px;
-            padding: 80px 20px;
-        }
-
-        /* Sidebar Navigation */
-        aside {
-            position: sticky;
-            top: 80px;
-            height: fit-content;
-        }
-        .nav-menu {
-            list-style: none;
-            border-left: 1px solid rgba(255,255,255,0.1);
-            padding-left: 20px;
-        }
-        .nav-menu li { margin-bottom: 15px; }
-        .nav-menu a {
-            text-decoration: none;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            transition: 0.3s;
-            display: block;
-        }
-        .nav-menu a:hover, .nav-menu a.active {
-            color: var(--accent);
-            transform: translateX(5px);
-        }
-        .back-link {
-            display: inline-block;
-            margin-bottom: 40px;
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        /* Main Content */
-        main { max-width: 800px; }
-
-        h1 {
-            font-family: var(--font-serif);
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        h2 {
-            font-family: var(--font-serif);
-            font-size: 2rem;
-            color: var(--accent);
-            margin: 60px 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-        }
-
-        h3 {
-            font-family: var(--font-serif);
-            font-size: 1.4rem;
-            color: #fff;
-            margin: 40px 0 15px 0;
-        }
-
-        p { margin-bottom: 1.5rem; color: #cbd5e1; text-align: justify; }
-
-        /* Quotes & Highlights */
-        blockquote {
-            background: var(--bg-glass);
-            border-left: 3px solid var(--accent);
-            padding: 20px 30px;
-            margin: 30px 0;
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: #fff;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .highlight { color: var(--accent); font-weight: 600; }
-        
-        .metadata {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 40px;
-            padding: 10px 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Animation */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
-
-        /* Mobile */
-        @media (max-width: 900px) {
-            .layout { grid-template-columns: 1fr; padding: 40px 20px; }
-            aside { display: none; } /* Hide sidebar on mobile */
-            h1 { font-size: 2.5rem; }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="works-style.css">
 </head>
 <body>
+
+    <header>
+        <nav></nav>
+    </header>
 
     <div id="progress-container"><div id="progress-bar"></div></div>
     
@@ -185,19 +25,19 @@
 
     <div class="layout">
         <aside>
-            <a href="../index.html" class="back-link">← Return to Portfolio</a>
+            <a href="../works.html" class="back-link">← Return to Research</a>
             <ul class="nav-menu">
-                <li><a href="#intro" class="active">Delegation Overview</a></li>
-                <li><a href="#women-context">Women & The SDGs</a></li>
-                <li><a href="#women-action">Chile's Framework</a></li>
-                <li><a href="#climate-impact">Climate & Humanity</a></li>
-                <li><a href="#climate-resilience">Resilience Strategy</a></li>
+                <li><a href="#intro" class="active">Overview</a></li>
+                <li><a href="#women-context">Women's Context</a></li>
+                <li><a href="#women-action">Women's Action</a></li>
+                <li><a href="#climate-impact">Climate Impact</a></li>
+                <li><a href="#climate-resilience">Climate Resilience</a></li>
                 <li><a href="#conclusion">Conclusion</a></li>
             </ul>
         </aside>
 
         <main>
-            <section id="intro" class="fade-in">
+        <section id="intro" class="fade-in">
                 <p style="text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px;">Economic and Social Council</p>
                 <h1>Delegation from the Republic of Chile</h1>
                 <div class="metadata">
@@ -250,59 +90,12 @@
                 
                 <p>Through national initiatives, regional collaboration, and active participation in global frameworks, Chile continues to work in building resilience and promoting sustainable development. As the international community confronts the growing threats of climate change, Chile reaffirms its dedication to strengthening humanitarian assistance.</p>
             </section>
+            </main>
+            </div>
 
-            <footer style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); font-size: 0.8rem;">
-                <p>&copy; 2025 Jamie Sessions & Maurilio Ramirez</p>
-            </footer>
-        </main>
-    </div>
+    <footer></footer>
 
-    <script>
-        // Scroll Progress Bar
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
-
-            // Update Active Link
-            updateActiveLink();
-        };
-
-        // Section Reveal Animation
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.fade-in').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Update Active Nav Link based on scroll position
-        function updateActiveLink() {
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            
-            let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (scrollY >= sectionTop - 150) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
-            });
-        }
-    </script>
+    <script src="../components.js"></script>
+    <script src="works-scripts.js"></script>
 </body>
 </html>

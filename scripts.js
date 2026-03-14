@@ -1,32 +1,70 @@
+/**
+ * Jamie Sessions | Portfolio Main Scripts
+ */
+
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Portfolio Loaded');
+    initScrollAnimations();
+    initSmoothScrolling();
+});
 
-    // Select all links with the class 'disabled-link' or href="#"
-    const disabledLinks = document.querySelectorAll('a[href="#"]');
+/**
+ * Handles fade-in animations as elements enter the viewport
+ */
+function initScrollAnimations() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-    disabledLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            // Prevent the default jump-to-top behavior
-            e.preventDefault();
-            console.log('This project is coming soon.');
-            
-            // Optional: Add a subtle visual cue that the link is disabled
-            link.style.cursor = 'not-allowed';
-        });
-    });
-
-    // Optional: Add scroll reveal animation for cards
-    // This adds a class 'visible' when elements come into view
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = 1;
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.classList.add('visible');
+                // Once visible, we can stop observing this element
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Elements we want to animate
+    const animateElements = document.querySelectorAll('.card, .hero-content, .about-section, .section-header, .about-container');
+    
+    animateElements.forEach(el => {
+        // Add the base fade-in class if it doesn't exist
+        if (!el.classList.contains('fade-in')) {
+            el.classList.add('fade-in');
+        }
+        observer.observe(el);
+    });
+
+    // Special case for elements already at the top of the page (Hero)
+    // We reveal them immediately if they are in view
+    setTimeout(() => {
+        animateElements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                el.classList.add('visible');
+            }
+        });
+    }, 100);
+}
+
+/**
+ * Ensures smooth scrolling for anchor links
+ */
+function initSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href === '#' || !href.startsWith('#')) return;
+            
+            const target = document.querySelector(href);
+            if (target) {
+                e.preventDefault();
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
-
-    // You can attach this observer to your cards if you modify the CSS initial state
-    // const cards = document.querySelectorAll('.card');
-    // cards.forEach(card => observer.observe(card));
-});
+}

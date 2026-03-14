@@ -1,0 +1,204 @@
+/* works-style.css - Paper specific layout overrides */
+:root {
+    /* Inherits variables from styles.css */
+    --accent-glow-paper: rgba(212, 175, 55, 0.2);
+}
+
+/* Specific Layout Grid for Papers */
+.layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    max-width: 1300px;
+    margin: 0 auto;
+    gap: 80px;
+    padding: 60px 40px 100px 40px;
+}
+
+/* Sidebar Navigation Overrides */
+aside {
+    position: sticky;
+    top: 120px; /* Account for the new top header */
+    height: fit-content;
+}
+.nav-menu {
+    list-style: none;
+    border-left: 1px solid var(--border-glass);
+    padding-left: 30px;
+}
+.nav-menu li { margin-bottom: 20px; }
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    display: block;
+    position: relative;
+}
+
+.nav-menu a:hover, .nav-menu a.active {
+    color: var(--accent);
+}
+
+.nav-menu a.active::before {
+    content: '';
+    position: absolute;
+    left: -31px; top: 50%;
+    width: 2px; height: 20px;
+    background: var(--accent);
+    transform: translateY(-50%);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 50px;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: var(--transition);
+}
+
+.back-link:hover {
+    transform: translateX(-5px);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Content Overrides for Reading Focus */
+main { max-width: 850px; }
+
+h2 {
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--accent);
+    margin: 80px 0 30px 0;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-glass);
+    font-weight: 400;
+}
+
+h3 {
+    font-family: var(--font-serif);
+    font-size: 1.6rem;
+    color: #fff;
+    margin: 40px 0 20px 0;
+    font-weight: 400;
+}
+
+p { 
+    margin-bottom: 1.8rem; 
+    color: var(--text-muted); 
+    font-size: 1.15rem;
+    text-align: justify; 
+    font-weight: 300;
+}
+
+/* Quotes & Highlights */
+blockquote {
+    background: var(--bg-card);
+    border-left: 2px solid var(--accent);
+    padding: 40px;
+    margin: 50px 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: #fff;
+    font-size: 1.4rem;
+    line-height: 1.6;
+}
+
+.highlight { 
+    color: var(--accent); 
+    font-weight: 500; 
+}
+
+/* Grid Cards for Literature */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-top: 40px;
+}
+.card {
+    background: var(--bg-card);
+    padding: 35px;
+    border: 1px solid var(--border-glass);
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+.card:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    background: rgba(20, 22, 30, 0.8);
+}
+.card h3 { 
+    font-size: 1.4rem; 
+    margin: 15px 0; 
+    color: #fff; 
+    font-family: var(--font-serif); 
+}
+.card .cite { 
+    font-size: 0.75rem; 
+    color: var(--accent); 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    font-family: var(--font-mono);
+}
+
+/* Methodology List */
+.method-list {
+    list-style: none;
+    counter-reset: my-counter;
+    margin-top: 40px;
+}
+.method-list li {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 50px;
+}
+.method-list li::before {
+    counter-increment: my-counter;
+    content: "0" counter(my-counter);
+    position: absolute;
+    left: 0;
+    top: -5px;
+    font-family: var(--font-serif);
+    font-size: 2.5rem;
+    color: var(--accent);
+    opacity: 0.2;
+}
+.method-list strong { 
+    color: #fff; 
+    font-size: 1.25rem; 
+    display: block; 
+    margin-bottom: 10px; 
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+
+/* References */
+.references p {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+    padding-left: 40px;
+    text-indent: -40px;
+    color: var(--text-dim);
+    border-left: 1px solid var(--border-glass);
+    text-align: left;
+}
+
+/* Progress Bar Overrides */
+#progress-container {
+    top: 65px; /* Stay just below the main header */
+}
+
+/* Mobile */
+@media (max-width: 1024px) {
+    .layout { grid-template-columns: 1fr; padding: 60px 30px; }
+    aside { display: none; }
+    h1 { font-size: 3rem; }
+    main { max-width: 100%; }
+}
