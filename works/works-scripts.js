@@ -36,10 +36,13 @@ function updateActiveLink() {
         }
     });
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').includes(current)) {
-            link.classList.add('active');
-        }
-    });
+    if (current) {
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href === '#' + current || href.endsWith('#' + current)) {
+                link.classList.add('active');
+            }
+        });
+    }
 }

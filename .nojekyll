@@ -1,0 +1,3 @@
+# GitHub Pages Jekyll bypass
+# This prevents GitHub from running Jekyll on the site, which can speed up deployments
+# and ensures that directories starting with an underscore are not ignored.

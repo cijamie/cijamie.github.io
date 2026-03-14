@@ -13,11 +13,10 @@ function injectNavigation() {
     const nav = document.querySelector('nav');
     if (!nav) return;
 
-    // Check if we are in a subdirectory (like /works/ or /code/)
-    const pathDepth = window.location.pathname.split('/').filter(p => p).length;
-    // This is a simple heuristic. For a local file system it might be different.
-    // Let's check if the current path contains /works/ or /code/
-    const isSubfolder = window.location.pathname.includes('/works/') || window.location.pathname.includes('/code/');
+    // More robust subfolder detection for GitHub Pages
+    // We check if the current path contains /works/ or /code/ as a directory segment
+    const path = window.location.pathname;
+    const isSubfolder = /\/(works|code)\//i.test(path);
     const prefix = isSubfolder ? '../' : '';
 
     nav.innerHTML = `
@@ -48,21 +47,34 @@ function injectFooter() {
 function setActiveLink() {
     const navLinks = document.querySelectorAll('.nav-links a');
     const currentPath = window.location.pathname;
+    const currentHash = window.location.hash;
 
     navLinks.forEach(link => {
-        // Remove active class first
         link.classList.remove('active');
-
+        
         const href = link.getAttribute('href');
-        if (currentPath.endsWith(href) || (currentPath === '/' && href === 'index.html')) {
-            link.classList.add('active');
+        if (!href) return;
+
+        // Clean href of prefix for comparison
+        const cleanHref = href.replace(/^(\.\.\/)+/, '');
+        const hrefBase = cleanHref.split('#')[0];
+        const hrefHash = cleanHref.includes('#') ? '#' + cleanHref.split('#')[1] : '';
+
+        // Exact match for the page
+        const isPageMatch = currentPath.endsWith(hrefBase) || (currentPath.endsWith('/') && hrefBase === 'index.html');
+        
+        if (isPageMatch) {
+            // If there's a hash in the link, it must match current hash or current hash must be empty
+            if (!hrefHash || currentHash === hrefHash) {
+                link.classList.add('active');
+            }
         }
         
         // Special case for Research & Projects sub-pages
-        if (currentPath.includes('/works/') && href.includes('works.html')) {
+        if (currentPath.includes('/works/') && hrefBase === 'works.html') {
             link.classList.add('active');
         }
-        if (currentPath.includes('/code/') && href.includes('code.html')) {
+        if (currentPath.includes('/code/') && hrefBase === 'code.html') {
             link.classList.add('active');
         }
     });
