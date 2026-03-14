@@ -14,13 +14,17 @@ function injectNavigation() {
     if (!nav) return;
 
     // More robust subfolder detection for GitHub Pages
-    // We check if the current path contains /works/ or /code/ as a directory segment
     const path = window.location.pathname;
     const isSubfolder = /\/(works|code)\//i.test(path);
     const prefix = isSubfolder ? '../' : '';
 
     nav.innerHTML = `
         <div class="logo"><a href="${prefix}index.html" style="text-decoration: none; color: inherit;">JAMIE SESSIONS</a></div>
+        
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+            <span class="hamburger"></span>
+        </button>
+
         <div class="nav-links">
             <a href="${prefix}index.html">Home</a>
             <a href="${prefix}works.html">Research</a>
@@ -29,6 +33,30 @@ function injectNavigation() {
             <a href="mailto:contact@jamiesessions.com">Contact</a>
         </div>
     `;
+
+    // Re-attach event listener for mobile toggle after injection
+    const toggle = nav.querySelector('.mobile-nav-toggle');
+    const navLinks = nav.querySelector('.nav-links');
+    
+    if (toggle && navLinks) {
+        toggle.addEventListener('click', () => {
+            const isOpened = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', !isOpened);
+            navLinks.classList.toggle('active');
+            toggle.classList.toggle('is-active');
+            document.body.classList.toggle('nav-open');
+        });
+
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                toggle.classList.remove('is-active');
+                toggle.setAttribute('aria-expanded', 'false');
+                document.body.classList.remove('nav-open');
+            });
+        });
+    }
 }
 
 function injectFooter() {
