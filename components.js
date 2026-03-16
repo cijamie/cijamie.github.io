@@ -30,7 +30,7 @@ function injectNavigation() {
             <a href="${prefix}works.html">Research</a>
             <a href="${prefix}code.html">Projects</a>
             <a href="${prefix}index.html#about">About</a>
-            <a href="mailto:contact@jamiesessions.com">Contact</a>
+            <a href="mailto:jamiesess05@gmail.com">Contact</a>
         </div>
     `;
 
