@@ -10,10 +10,6 @@ A professional portfolio bridging the gap between **Political Theory**, **Intell
 ## 🧑‍💻 About the Author
 Jamie Sessions is a dual-major in **International Studies** and **Political Science** at the University of Idaho. His work focuses on the intersection of international relations, sociology, and political ideologies.
 
-### Key Roles & Affiliations
-- **Cadet**, Army ROTC Chrisman Battalion
-- **Soldier**, Idaho Army National Guard
-- **Student**, University of Idaho
 
 ### Focus Areas
 - Political Science & International Relations
@@ -26,18 +22,10 @@ Jamie Sessions is a dual-major in **International Studies** and **Political Scie
 ## 📚 Portfolio Content
 
 ### [Research & Publications](works.html)
-A collection of academic papers and policy briefs covering global governance, development, and social change:
-- **The Dimensions of Development**: Exploration of state capacity and economic inclusivity.
-- **Prayers & Policies**: Investigation into religious influence on political decision-making.
-- **NGOs and Global Governance**: Analysis of the non-profit sector's political relationships.
-- **Stability in the Northern Triangle**: Strategic policy recommendations for Central America.
-- **Censorship & Resistance in Chinese Cinema**: Analysis of genre and allegory in film.
+A collection of academic papers and policy briefs covering global governance, development, and social change.
 
 ### [Programming Projects](code.html)
 Digital tools designed for education, logic mapping, and focused writing:
-- **QuickKana**: A high-speed learning tool for Hiragana and Katakana.
-- **Reason Knot**: An argument mapper for visualizing claims, evidence, and reasoning.
-- **The Entropy Ledger**: A unique writing space where thoughts "fade into the void."
 
 ---
 
