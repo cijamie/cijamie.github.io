@@ -6,8 +6,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     injectNavigation();
     injectFooter();
+    injectBackToTop();
     setActiveLink();
 });
+
+function injectBackToTop() {
+    // Only inject if it doesn't exist
+    if (document.getElementById('back-to-top')) return;
+    
+    const btt = document.createElement('div');
+    btt.id = 'back-to-top';
+    btt.innerHTML = '↑';
+    btt.setAttribute('aria-label', 'Back to Top');
+    document.body.appendChild(btt);
+}
 
 function injectNavigation() {
     const nav = document.querySelector('nav');

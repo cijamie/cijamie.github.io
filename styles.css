@@ -136,6 +136,49 @@ nav {
 .nav-links a.active { color: var(--accent); }
 .nav-links a.active::after { width: 100%; background: var(--accent); }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb { 
+    background: var(--border-glass); 
+    border-radius: 5px; 
+    border: 3px solid var(--bg-deep);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
+
+/* Back to Top Button */
+#back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    color: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+#back-to-top.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#back-to-top:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
 /* Hero Section - Elevated */
 .hero {
     min-height: 90vh;
@@ -152,13 +195,19 @@ nav {
 
 h1 {
     font-family: var(--font-serif);
-    font-size: 6rem;
-    line-height: 0.95;
+    font-size: 6.5rem; /* Slightly larger */
+    line-height: 0.9;
     margin-bottom: 40px;
-    letter-spacing: -2px;
+    letter-spacing: -3px;
     background: linear-gradient(135deg, #fff 0%, #64748b 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    animation: heroReveal 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes heroReveal {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .highlight {
@@ -167,6 +216,8 @@ h1 {
     color: var(--accent);
     -webkit-text-fill-color: var(--accent);
     text-shadow: 0 0 30px var(--accent-glow);
+    display: inline-block;
+    position: relative;
 }
 
 .subtitle {
@@ -282,12 +333,12 @@ h1 {
     transform: translateY(-12px);
     border-color: var(--accent);
     background: rgba(20, 22, 30, 0.9);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5);
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5), 0 0 20px -5px var(--accent-glow);
 }
 
 .code-card:hover {
     border-color: var(--accent-code);
-    box-shadow: 0 30px 60px -20px rgba(100, 255, 218, 0.1);
+    box-shadow: 0 30px 60px -20px rgba(100, 255, 218, 0.1), 0 0 20px -5px var(--accent-code-glow);
 }
 
 .card-category {
@@ -391,7 +442,7 @@ h1 {
 
 .about-info-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 100px;
     margin-top: 100px;
     padding-top: 80px;

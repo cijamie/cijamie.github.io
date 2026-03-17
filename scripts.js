@@ -5,7 +5,31 @@
 document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimations();
     initSmoothScrolling();
+    initBackToTop();
 });
+
+/**
+ * Handles the "Back to Top" button visibility and click
+ */
+function initBackToTop() {
+    const backToTop = document.getElementById('back-to-top');
+    if (!backToTop) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 500) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
 
 /**
  * Handles fade-in animations as elements enter the viewport

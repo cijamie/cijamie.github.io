@@ -1,13 +1,32 @@
-// Scroll Progress Bar
+// Scroll Progress Bar & Reading Time
 window.onscroll = function() {
     let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     let scrolled = (winScroll / height) * 100;
-    document.getElementById("progress-bar").style.width = scrolled + "%";
+    
+    const progressBar = document.getElementById("progress-bar");
+    if (progressBar) progressBar.style.width = scrolled + "%";
 
     // Update Active Link
     updateActiveLink();
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+    calculateReadingTime();
+});
+
+function calculateReadingTime() {
+    const main = document.querySelector('main');
+    const display = document.getElementById('reading-time');
+    if (!main || !display) return;
+
+    const text = main.innerText;
+    const wpm = 225; // Average adult reading speed
+    const words = text.trim().split(/\s+/).length;
+    const time = Math.ceil(words / wpm);
+    
+    display.innerText = `${time} min read`;
+}
 
 // Section Reveal Animation
 const observer = new IntersectionObserver((entries) => {
