@@ -1,66 +1,45 @@
 # Jamie Sessions | Portfolio
 
-A professional portfolio bridging the gap between **Political Theory**, **Intelligence Analysis**, and **Cybersecurity**. This site serves as a central hub for academic research, policy analysis, and digital tools developed by Jamie Sessions.
+[![Status](https://img.shields.io/badge/Status-Operational-10b981?style=flat-square&logo=statuspage)](https://cijamie.github.io)
+[![Version](https://img.shields.io/badge/Version-3.0.0-white?style=flat-square&logo=github)](https://github.com/cijamie)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE.txt)
 
-## 🌐 Live Site
-[cijamie.github.io](https://cijamie.github.io/)
+> **Bridging Political Theory, Intelligence Analysis, and Cybersecurity.**
 
----
+This repository hosts my personal portfolio, showcasing the intersection of global governance, institutional policy, and technical vulnerabilities in a digitized world.
 
-## 🧑‍💻 About the Author
-Jamie Sessions is a dual-major in **International Studies** and **Political Science** at the University of Idaho. His work focuses on the intersection of international relations, sociology, and political ideologies.
-
-
-### Focus Areas
-- Political Science & International Relations
-- Intelligence Analysis (OSINT)
-- Penetration Testing & Cybersecurity
-- Educational Tool Development
+## 🌐 [Visit Portfolio](https://cijamie.github.io/)
 
 ---
 
-## 📚 Portfolio Content
+### 📚 Academic & Professional Focus
+I am a dual-major in International Studies and Political Science, focusing on the intersection of international relations, sociology, and political ideologies.
 
-### [Research & Publications](works.html)
-A collection of academic papers and policy briefs covering global governance, development, and social change.
+**Key Areas of Expertise:**
+- **Political Science & International Relations:** Analyzing global systems and state capacity.
+- **Intelligence Analysis (OSINT):** Leveraging digital tools for rapid discovery.
+- **Cybersecurity:** Pentesting, hardware configuration, and technical inquiry.
 
-### [Programming Projects](code.html)
-Digital tools designed for education, logic mapping, and focused writing:
-
----
-
-## 🛠️ Technical Stack
-- **Frontend**: Vanilla HTML5, CSS3, JavaScript.
-- **Typography**: Google Fonts (Inter & Playfair Display).
-- **Architecture**: Modular component injection for consistent navigation/footers.
-- **Hosting**: GitHub Pages.
+### 🛠️ Technical Proficiency
+- **Languages:** Python, JavaScript (ES6+), SQL, Bash.
+- **Web:** HTML5, CSS3, GitHub Pages.
+- **Tools:** Linux CLI, Penetration Testing frameworks.
 
 ---
 
-## 📁 Project Structure
+### 📖 Research & Projects
+My portfolio features a collection of academic research and technical projects focused on:
+- **Global Governance:** Institutional policy and international systems.
+- **Intelligence Management:** OSINT tools and discovery analysis.
+- **Cybersecurity Innovation:** Exploring technical vulnerabilities in modern systems.
 
-```text
-├── index.html          # Main landing page & About section
-├── works.html          # Research & Publications directory
-├── code.html           # Programming projects directory
-├── components.js       # Dynamic injection of Nav/Footer
-├── scripts.js          # Site-wide interactions & animations
-├── styles.css          # Core design system & responsive layout
-├── code/               # Detailed project pages (QuickKana, etc.)
-├── works/              # Individual research paper pages
-└── logo.png            # Site favicon/branding
-```
+[Explore all research and projects on my website →](https://cijamie.github.io/)
 
 ---
 
-## 🚀 Deployment
-This project is configured for **GitHub Pages**. 
-- The `.nojekyll` file ensures that GitHub Pages does not ignore folders starting with underscores or other Jekyll-specific exclusions.
-- Use `pushgit.bat` (Windows) for streamlined staging and pushing of changes to the repository.
+### 📜 License
+This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
 
 ---
 
-## 📧 Contact
-- **LinkedIn**: [Jamie Sessions](https://www.linkedin.com/in/jamie-sessions-15b646281)
-- **Email**: jamiesess05@gmail.com
-- **Instagram**: [@cijamie](https://instagram.com/cijamie)
+*“Understanding how the world works—both through human systems and digital ones.”*
