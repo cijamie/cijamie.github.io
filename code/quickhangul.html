@@ -205,6 +205,9 @@
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.2); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.4); }
+
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -243,7 +246,7 @@
 
                 <!-- STEP 2: SUB-CATEGORY -->
                 <div id="flow-step-2" class="step-container hidden space-y-8 pt-10 md:pt-0">
-                    <button onclick="prevStep(1)" class="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                    <button type="button" onclick="prevStep(1)" class="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
                     
                     <div class="space-y-2">
                         <p id="step-2-label" class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Step 2</p>
@@ -252,56 +255,56 @@
 
                     <!-- Characters Path -->
                     <div id="filter-chars" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3">
-                        <button class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="consonants">Consonants</button>
-                        <button class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vowels">Vowels</button>
-                        <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="doubleConsonants">Double</button>
-                        <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="diphthongs">Diphthongs</button>
+                        <button type="button" class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="consonants">Consonants</button>
+                        <button type="button" class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vowels">Vowels</button>
+                        <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="doubleConsonants">Double</button>
+                        <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="diphthongs">Diphthongs</button>
                     </div>
 
                     <!-- Vocabulary Path -->
                     <div id="filter-vocab" class="hidden space-y-8">
                         <div class="segmented-control">
-                            <button class="segment-btn active" onclick="switchVocabTab('curated', event)">Curated</button>
-                            <button class="segment-btn" onclick="switchVocabTab('library', event)">My Library</button>
+                            <button type="button" class="segment-btn active" onclick="switchVocabTab('curated', event)">Curated</button>
+                            <button type="button" class="segment-btn" onclick="switchVocabTab('library', event)">My Library</button>
                         </div>
 
                         <div id="vocab-curated" class="grid grid-cols-3 gap-3">
-                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="travel">Travel</button>
-                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="school">School</button>
-                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vocabulary">General</button>
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="travel">Travel</button>
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="school">School</button>
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vocabulary">General</button>
                         </div>
 
                         <div id="vocab-library" class="hidden space-y-4">
                             <div class="flex justify-between items-center px-1">
                                 <span class="text-[9px] uppercase tracking-widest font-bold opacity-40">Saved Words</span>
-                                <button onclick="clearLibrary()" class="text-[9px] text-red-500/60 hover:text-red-500 uppercase font-bold transition-colors">Clear All</button>
+                                <button type="button" onclick="clearLibrary()" class="text-[9px] text-red-500/60 hover:text-red-500 uppercase font-bold transition-colors">Clear All</button>
                             </div>
                             <div id="custom-word-bank" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
-                            <button class="btn-outline w-full p-4 rounded-xl border-dashed border-[#d4af37]/30 text-[10px] uppercase tracking-widest font-bold" id="custom-cat-btn">
+                            <button type="button" class="btn-outline w-full p-4 rounded-xl border-dashed border-[#d4af37]/30 text-[10px] uppercase tracking-widest font-bold" id="custom-cat-btn">
                                 + Add More Words
                             </button>
                             <div id="custom-importer" class="hidden p-6 bg-white/5 rounded-2xl border border-[#d4af37]/20 text-left fade-in">
                                 <div id="importer-input-step">
                                     <textarea id="custom-input" placeholder="apple, water, cat..." class="w-full h-32 bg-black/60 border-2 border-white/10 rounded-xl p-4 text-sm mb-4 focus:border-[#d4af37] outline-none text-white transition-all shadow-inner"></textarea>
-                                    <button id="translate-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Translate</button>
+                                    <button type="button" id="translate-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Translate</button>
                                 </div>
                                 <div id="importer-preview-step" class="hidden space-y-4">
                                     <div id="preview-list" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
-                                    <button id="add-to-list-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Add All to Library</button>
+                                    <button type="button" id="add-to-list-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Add All to Library</button>
                                 </div>
                                 <div id="import-status" class="mt-3 text-[9px] uppercase opacity-50 font-bold text-center"></div>
                             </div>
                         </div>
                     </div>
 
-                    <button onclick="nextStep(3)" class="btn-primary w-full max-w-xs mx-auto py-4 rounded-xl text-xs font-bold tracking-[0.2em]">
+                    <button type="button" onclick="nextStep(3)" class="btn-primary w-full max-w-xs mx-auto py-4 rounded-xl text-xs font-bold tracking-[0.2em]">
                         CONTINUE →
                     </button>
                 </div>
 
                 <!-- STEP 3: MODE SELECTION -->
                 <div id="flow-step-3" class="step-container hidden space-y-10">
-                    <button onclick="prevStep(2)" class="absolute top-0 left-0 m-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                    <button type="button" onclick="prevStep(2)" class="absolute top-0 left-0 m-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
                     
                     <div class="space-y-2 text-center text-white">
                         <p class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Final Step: Training</p>
@@ -311,11 +314,11 @@
                     <div class="max-w-md mx-auto space-y-6">
                         <div class="space-y-3">
                             <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Recognition & Memory</p>
-                            <button class="mode-item" data-mode="quiz">
+                            <button type="button" class="mode-item" data-mode="quiz">
                                 <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🎯</div>
                                 <div><h4 class="font-bold text-sm text-white">QUIZ</h4><p class="text-[10px] text-gray-500">Multiple choice assessment</p></div>
                             </button>
-                            <button class="mode-item" data-mode="flashcards">
+                            <button type="button" class="mode-item" data-mode="flashcards">
                                 <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🃏</div>
                                 <div><h4 class="font-bold text-sm text-white">CARDS</h4><p class="text-[10px] text-gray-500">Traditional study deck</p></div>
                             </button>
@@ -323,11 +326,11 @@
 
                         <div class="space-y-3">
                             <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Active Production</p>
-                            <button class="mode-item" data-mode="writing">
+                            <button type="button" class="mode-item" data-mode="writing">
                                 <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">✍️</div>
                                 <div><h4 class="font-bold text-sm text-white">WRITE</h4><p class="text-[10px] text-gray-500">Manual character tracing</p></div>
                             </button>
-                            <button class="mode-item" data-mode="typing">
+                            <button type="button" class="mode-item" data-mode="typing">
                                 <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⌨️</div>
                                 <div><h4 class="font-bold text-sm text-white">TYPE</h4><p class="text-[10px] text-gray-500">Keyboard input practice</p></div>
                             </button>
@@ -335,7 +338,7 @@
 
                         <div class="space-y-3">
                             <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Challenge Mode</p>
-                            <button class="mode-item" data-mode="speedMatch">
+                            <button type="button" class="mode-item" data-mode="speedMatch">
                                 <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⚡</div>
                                 <div><h4 class="font-bold text-sm text-white">SPEED</h4><p class="text-[10px] text-gray-500">Timed rapid-fire test</p></div>
                             </button>
@@ -355,7 +358,7 @@
                         </label>
                     </div>
 
-                    <button id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em]">
+                    <button type="button" id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em]">
                         START SESSION
                     </button>
                 </div>
@@ -364,10 +367,10 @@
             <section id="study-screen" class="hidden w-full">
                 <div class="glass-card p-10 md:p-14 text-center relative overflow-hidden">
                     <div class="flex justify-between items-center mb-10 text-xs font-mono tracking-widest text-[#94a3b8]">
-                        <button id="quit-button" class="hover:text-white uppercase font-bold">Exit Session</button>
+                        <button type="button" id="quit-button" class="hover:text-white uppercase font-bold">Exit Session</button>
                         <div class="flex gap-4 items-center">
                             <div id="timer-display" class="hidden bg-accent/20 text-accent p-2 px-4 rounded-lg font-bold">60s</div>
-                            <button id="audio-button" class="bg-white/10 p-2 px-4 rounded-lg hover:bg-white/20 font-bold">🔊 REPLAY</button>
+                            <button type="button" id="audio-button" class="bg-white/10 p-2 px-4 rounded-lg hover:bg-white/20 font-bold">🔊 REPLAY</button>
                             <div class="flex items-center gap-4 border-l border-white/10 pl-4 font-bold">
                                 <span>SCORE: <span id="score-counter" class="text-white">0</span></span>
                                 <span>STREAK: <span id="streak-counter" class="text-accent">0</span></span>
@@ -386,13 +389,13 @@
                         <div id="virtual-keyboard"></div>
                     </div>
                     <div id="writing-controls" class="hidden flex justify-center gap-6 pt-6">
-                        <button class="btn-outline p-4 px-8 rounded-2xl font-bold" id="clear-writing">CLEAR</button>
-                        <button class="btn-primary p-4 px-12 rounded-2xl font-bold" id="submit-writing">SUBMIT</button>
+                        <button type="button" class="btn-outline p-4 px-8 rounded-2xl font-bold" id="clear-writing">CLEAR</button>
+                        <button type="button" class="btn-primary p-4 px-12 rounded-2xl font-bold" id="submit-writing">SUBMIT</button>
                     </div>
                     <div id="fc-controls" class="hidden flex justify-center gap-6 pt-6">
-                        <button class="btn-outline p-4 rounded-full w-16 h-16" id="prev-fc">←</button>
-                        <button class="btn-primary p-4 rounded-full w-20 h-20 text-2xl" id="flip-fc">↻</button>
-                        <button class="btn-outline p-4 rounded-full w-16 h-16" id="next-fc">→</button>
+                        <button type="button" class="btn-outline p-4 rounded-full w-16 h-16" id="prev-fc">←</button>
+                        <button type="button" class="btn-primary p-4 rounded-full w-20 h-20 text-2xl" id="flip-fc">↻</button>
+                        <button type="button" class="btn-outline p-4 rounded-full w-16 h-16" id="next-fc">→</button>
                     </div>
                 </div>
             </section>
@@ -405,8 +408,8 @@
                     <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase text-center text-white">Streak</div><div id="final-streak" class="text-3xl font-bold text-[#d4af37]">0</div></div>
                 </div>
                 <div class="flex gap-4 justify-center">
-                    <button id="retry-btn" class="btn-primary py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Retry</button>
-                    <button id="home-btn" class="btn-outline py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Main Menu</button>
+                    <button type="button" id="retry-btn" class="btn-primary py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Retry</button>
+                    <button type="button" id="home-btn" class="btn-outline py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Main Menu</button>
                 </div>
             </section>
         </div>
@@ -445,7 +448,6 @@
             if (flow === 'chars') {
                 State.activeCats = ['consonants', 'vowels'];
             } else {
-                // Reset to curated tab when entering vocab flow
                 switchVocabTab('curated');
             }
             
@@ -497,8 +499,8 @@
         function switchVocabTab(tab, e) {
             document.querySelectorAll('.segment-btn').forEach(b => {
                 b.classList.remove('active');
-                if (tab === 'curated' && b.textContent === 'Curated') b.classList.add('active');
-                if (tab === 'library' && b.textContent === 'My Library') b.classList.add('active');
+                if (tab === 'curated' && (b.textContent === 'Curated' || b.innerText === 'Curated')) b.classList.add('active');
+                if (tab === 'library' && (b.textContent === 'My Library' || b.innerText === 'My Library')) b.classList.add('active');
             });
             if (e) e.target.classList.add('active');
             
@@ -532,7 +534,7 @@
                         <span class="kr-font text-white text-sm font-bold text-left">${kor}</span>
                         <span class="text-[9px] text-gray-500 uppercase tracking-tighter text-left">${words[kor].def}</span>
                     </div>
-                    <button onclick="deleteCustomWord('${kor}')" class="text-gray-500 hover:text-red-500 transition-colors px-2 text-xl">&times;</button>
+                    <button type="button" onclick="deleteCustomWord('${kor}')" class="text-gray-500 hover:text-red-500 transition-colors px-2 text-xl">&times;</button>
                 `;
                 container.appendChild(item);
             });
@@ -587,22 +589,23 @@
             document.getElementById('clear-writing').onclick = () => { ui.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height); State.writing.hasDrawn = false; };
             document.getElementById('submit-writing').onclick = () => submitAnswer(State.currentQ.answer);
             
-            const importer = document.getElementById('custom-importer');
-            const inputStep = document.getElementById('importer-input-step');
-            const previewStep = document.getElementById('importer-preview-step');
-            const status = document.getElementById('import-status');
-
             document.getElementById('custom-cat-btn').onclick = () => {
+                const importer = document.getElementById('custom-importer');
+                const isHidden = importer.classList.contains('hidden');
                 importer.classList.toggle('hidden');
-                inputStep.classList.remove('hidden');
-                previewStep.classList.add('hidden');
-                status.textContent = '';
+                document.getElementById('importer-input-step').classList.remove('hidden');
+                document.getElementById('importer-preview-step').classList.add('hidden');
+                document.getElementById('import-status').textContent = '';
+                if (isHidden) {
+                    setTimeout(() => importer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+                }
             };
 
             document.getElementById('translate-btn').onclick = async () => {
                 const input = document.getElementById('custom-input');
                 const words = input.value.split(/[,|\n]/).map(w => w.trim()).filter(w => w.length > 0);
                 const list = document.getElementById('preview-list');
+                const status = document.getElementById('import-status');
                 if (words.length === 0) return;
                 status.textContent = 'Translating...';
                 list.innerHTML = '';
@@ -620,8 +623,8 @@
                     row.innerHTML = `<span class="text-[9px] w-12 truncate text-gray-500 font-bold uppercase text-left">${word}</span><input type="text" value="${kor}" class="flex-grow bg-transparent text-xs kr-font outline-none text-white font-bold border-b border-white/5 focus:border-[#d4af37]" data-orig="${word}">`;
                     list.appendChild(row);
                 }
-                inputStep.classList.add('hidden');
-                previewStep.classList.remove('hidden');
+                document.getElementById('importer-input-step').classList.add('hidden');
+                document.getElementById('importer-preview-step').classList.remove('hidden');
                 status.textContent = 'Verify and click add.';
             };
 
@@ -631,8 +634,8 @@
                 HANGUL_DATA.custom = { ...(HANGUL_DATA.custom || {}), ...dict };
                 State.persistence.customList = HANGUL_DATA.custom;
                 saveStats(); renderCustomLibrary();
-                importer.classList.add('hidden');
-                status.textContent = '';
+                document.getElementById('custom-importer').classList.add('hidden');
+                document.getElementById('import-status').textContent = '';
                 document.getElementById('custom-input').value = '';
             };
 
