@@ -2,395 +2,393 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <link rel="icon" type="image/png" href="../logo.png">
     <title>QuickHangul - Master Korean</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+KR:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
     <style>
         :root {
-            /* Inherits variables from styles.css */
-            --accent-hangul: var(--accent);
-            --accent-glow-hangul: var(--accent-glow);
+            --accent-hangul: #d4af37;
+            --accent-glow-hangul: rgba(212, 175, 55, 0.4);
+            --bg-dark: #0b0b0b;
+            --bg-glass: rgba(20, 20, 25, 0.7);
+            --bg-glass-hover: rgba(40, 45, 60, 0.8);
             --error: #ef4444;
             --success: #10b981;
             --font-kr: 'Noto Sans KR', sans-serif;
             --font-serif: 'Playfair Display', serif;
         }
-
         body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+        }
+        
+        .step-container {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .step-container.exit-left { transform: translateX(-50px); opacity: 0; pointer-events: none; }
+        .step-container.exit-right { transform: translateX(50px); opacity: 0; pointer-events: none; }
+        .step-container.enter-right { transform: translateX(50px); opacity: 0; }
+        .step-container.enter-left { transform: translateX(-50px); opacity: 0; }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            overflow: hidden;
             position: relative;
         }
-
-        /* Nav override for full screen apps */
-        nav {
-            padding: 15px 30px !important;
-            border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        .hero-card:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--accent-hangul);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
-        .logo { font-size: 1.1rem !important; }
-        .nav-links a { font-size: 0.75rem !important; margin-left: 20px !important; }
-
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            pointer-events: none;
-            z-index: -1;
+        .hero-card.selected {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: var(--accent-hangul);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
         }
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.25;
-            animation: float 25s infinite ease-in-out;
-        }
-        .orb-1 { top: -10%; left: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, var(--accent-hangul), transparent); }
-        .orb-2 { bottom: -10%; right: -10%; width: 70vw; height: 70vw; background: radial-gradient(circle, #3b82f6, transparent); animation-delay: -12s; }
 
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, 60px) scale(1.1); }
+        .mode-item {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            text-align: left;
+            width: 100%;
+        }
+        .mode-item:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
+        .mode-item.selected {
+            border-color: var(--accent-hangul);
+            background: rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .segmented-control {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 4px;
+            border-radius: 12px;
+            display: inline-flex;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .segment-btn {
+            padding: 8px 24px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            color: #64748b;
+        }
+        .segment-btn.active {
+            background: var(--accent-hangul);
+            color: black;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
         }
 
         .glass-card {
             background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
-
-        h1, h2, .serif-font { font-family: var(--font-serif); }
-        .kr-font { font-family: var(--font-kr); }
-
         .btn-primary {
-            background: var(--accent-hangul);
-            color: var(--bg-dark);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px var(--accent-glow-hangul);
-            font-weight: 600;
+            background: transparent;
+            border: 1px solid var(--accent-hangul);
+            color: var(--accent-hangul);
+            transition: all 0.3s ease;
         }
         .btn-primary:hover:not(:disabled) {
+            background: var(--accent-hangul);
+            color: black;
+            box-shadow: 0 0 20px var(--accent-glow-hangul);
             transform: translateY(-2px);
-            filter: brightness(1.1);
-            box-shadow: 0 6px 20px var(--accent-glow-hangul);
         }
-
         .btn-outline {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
+            color: #94a3b8;
             transition: all 0.2s ease;
         }
         .btn-outline.selected {
-            background: rgba(212, 175, 55, 0.15);
             border-color: var(--accent-hangul);
+            background: rgba(212, 175, 55, 0.12);
             color: white;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
         }
 
-        .btn-option {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-option:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.08);
-            transform: scale(1.02);
-        }
+        nav { padding: 15px 30px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+        .logo { font-size: 1.1rem !important; }
+        footer .social-links a { font-size: 10px !important; text-transform: uppercase; color: #94a3b8 !important; opacity: 0.6; }
+        .hidden { display: none !important; }
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--accent-hangul); z-index: 100; box-shadow: 0 0 10px var(--accent-hangul); transition: width 0.4s ease; }
+        .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite ease-in-out; }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-hangul), transparent); opacity: 0.15; }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); animation-delay: -10s; opacity: 0.2; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 40px); } }
+        
+        .btn-option { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s; color: white; }
         .btn-option.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: var(--success); }
         .btn-option.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--error); color: var(--error); }
-
-        #progress-bar {
-            position: fixed;
-            top: 0; left: 0; width: 0%; height: 6px;
-            background: linear-gradient(to right, #3b82f6, var(--accent-hangul));
-            transition: width 0.4s ease;
-            z-index: 100;
-            box-shadow: 0 0 15px var(--accent-hangul);
-        }
-
-        .hidden { display: none !important; }
-        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Syllable Builder Styles */
-        .builder-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .builder-column {
-            background: rgba(255,255,255,0.03);
-            padding: 10px;
-            border-radius: 16px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        .builder-item {
-            padding: 8px;
-            margin-bottom: 6px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 1px solid transparent;
-            background: rgba(255,255,255,0.05);
+        
+        /* Keyboard Styles */
+        #virtual-keyboard { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+        .keyboard-row { display: flex; gap: 0.5rem; }
+        .key { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 8px; 
+            width: 36px; 
+            height: 44px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
             transition: all 0.2s;
         }
-        .builder-item:hover { background: rgba(255,255,255,0.1); }
-        .builder-item.selected { border-color: var(--accent-hangul); background: rgba(212, 175, 55, 0.2); }
+        .key:hover { background: rgba(212, 175, 55, 0.2); border-color: var(--accent-hangul); transform: translateY(-2px); }
+        .key:active { transform: translateY(0); }
+        .typing-input-display {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2em;
+        }
 
-        /* Custom Toggle Switch */
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255,255,255,0.1);
-            transition: .4s;
-            border-radius: 24px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px; width: 18px;
-            left: 3px; bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider { background-color: var(--accent-hangul); }
-        input:checked + .slider:before { transform: translateX(26px); }
-
-        /* Visualization Grid */
-        .viz-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 2px;
-            width: 60px;
-            height: 60px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 2px;
-        }
-        .viz-block { background: rgba(255,255,255,0.05); border-radius: 2px; transition: background 0.3s; }
-        .viz-block.active { background: var(--accent-hangul); box-shadow: 0 0 8px var(--accent-hangul); }
-
-        /* Writing Mode */
-        #writing-canvas {
-            cursor: crosshair;
-            touch-action: none;
+        .kr-font { font-family: var(--font-kr); }
+        .serif-font { font-family: var(--font-serif); }
+        
+        #custom-word-bank .word-item {
             background: rgba(255,255,255,0.03);
-            border-radius: 24px;
-            border: 2px dashed rgba(255,255,255,0.1);
-        }
-
-        /* Mastery Dots */
-        .mastery-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-        }
-
-        /* Virtual Keyboard */
-        .keyboard-container {
-            margin-top: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            justify-content: space-between;
             align-items: center;
+            padding: 10px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
         }
-        .keyboard-row {
-            display: flex;
-            gap: 6px;
-        }
-        .key {
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.1s;
-            user-select: none;
-        }
-        .key:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
-        .key:active, .key.active { background: var(--accent-hangul); border-color: var(--accent-hangul); color: var(--bg-dark); transform: translateY(0); box-shadow: 0 0 15px var(--accent-glow-hangul); }
-        .key .eng { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-        .key .kor { font-weight: bold; font-family: var(--font-kr); }
+        #quiz-area { height: 320px; }
+        #writing-area { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+        #writing-canvas { background: rgba(0,0,0,0.2); border-radius: 20px; touch-action: none; max-width: 100%; max-height: 100%; }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(212, 175, 55, 0.4); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
     <header><nav></nav></header>
 
-    <div id="progress-bar"></div>
     <div class="ambient-light">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
     </div>
 
+    <div id="progress-container" class="hidden"><div id="progress-bar"></div></div>
+    
     <main class="flex-grow flex items-center justify-center p-4 w-full relative z-10">
         <div class="w-full max-w-3xl">
-
-            <!-- Start Screen -->
-            <section id="start-screen" class="glass-card p-10 md:p-14 text-center fade-in">
-                <h1 class="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-br from-white to-gray-500">
-                    QuickHangul
-                </h1>
-                <p class="text-[#94a3b8] mb-12">Master Korean characters with ease</p>
-
-                <div class="max-w-xl mx-auto space-y-10 mb-12 text-left">
-                    <!-- Content Selection -->
-                    <div>
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 text-center">What to practice?</h3>
-                        <div class="flex flex-wrap justify-center gap-2" id="cat-selectors">
-                            <button class="btn-outline selected px-4 py-2 rounded-xl text-xs" data-cat="consonants">Consonants</button>
-                            <button class="btn-outline selected px-4 py-2 rounded-xl text-xs" data-cat="vowels">Vowels</button>
-                            <button class="btn-outline px-4 py-2 rounded-xl text-xs" data-cat="doubleConsonants">Double Cons.</button>
-                            <button class="btn-outline px-4 py-2 rounded-xl text-xs" data-cat="diphthongs">Diphthongs</button>
-                            <button class="btn-outline px-4 py-2 rounded-xl text-xs" data-cat="vocabulary">Vocabulary</button>
-                        </div>
+            <section id="start-screen" class="glass-card p-8 md:p-12 text-center relative min-h-[620px] flex flex-col justify-center text-white">
+                
+                <!-- STEP 1: PRE-SELECTOR -->
+                <div id="flow-step-1" class="step-container space-y-10">
+                    <div class="space-y-2">
+                        <p class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Step 1: Choose Path</p>
+                        <h1 class="text-4xl md:text-5xl font-bold text-white serif-font italic">What are we learning today?</h1>
                     </div>
-
-                    <!-- Mode Selection -->
-                    <div>
-                        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 text-center">How to practice?</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-                            <button class="btn-outline selected p-3 rounded-xl text-xs text-center" data-mode="quiz">Quiz</button>
-                            <button class="btn-outline p-3 rounded-xl text-xs text-center" data-mode="flashcards">Flashcards</button>
-                            <button class="btn-outline p-3 rounded-xl text-xs text-center" data-mode="writing">Writing</button>
-                            <button class="btn-outline p-3 rounded-xl text-xs text-center" data-mode="speedMatch">Speed</button>
-                            <button class="btn-outline p-3 rounded-xl text-xs text-center" data-mode="builder">Builder</button>
-                            <button class="btn-outline p-3 rounded-xl text-xs text-center" data-mode="typing">Typing</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                        <div class="hero-card p-10 rounded-3xl group" onclick="selectFlow('chars', event)">
+                            <div class="text-5xl mb-6 opacity-40 group-hover:opacity-100 transition-opacity">ㄱㄴ</div>
+                            <h3 class="text-xl font-bold mb-2">Characters</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">The Fundamentals</p>
                         </div>
-                    </div>
-
-                    <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl max-w-xs mx-auto">
-                        <span class="text-sm font-medium">Reverse Mode</span>
-                        <label class="switch">
-                            <input type="checkbox" id="reverse-toggle">
-                            <span class="slider"></span>
-                        </label>
+                        <div class="hero-card p-10 rounded-3xl group" onclick="selectFlow('vocab', event)">
+                            <div class="text-5xl mb-6 opacity-40 group-hover:opacity-100 transition-opacity">사과</div>
+                            <h3 class="text-xl font-bold mb-2">Vocabulary</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Applied Language</p>
+                        </div>
                     </div>
                 </div>
 
-                <button id="start-button" class="btn-primary w-full max-sm py-5 px-8 rounded-2xl text-2xl font-bold transition-all hover:scale-105 active:scale-95">
-                    START
-                </button>
-
-                <!-- Mastery Dashboard -->
-                <div id="mastery-dashboard" class="border-t border-white/10 pt-10">
-                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-6">Your Mastery</h3>
-                    <div id="mastery-grid" class="flex flex-wrap justify-center gap-2 max-h-40 overflow-y-auto p-4 bg-white/5 rounded-2xl">
-                        <!-- Mastery dots will be injected here -->
+                <!-- STEP 2: SUB-CATEGORY -->
+                <div id="flow-step-2" class="step-container hidden space-y-8 pt-10 md:pt-0">
+                    <button onclick="prevStep(1)" class="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                    
+                    <div class="space-y-2">
+                        <p id="step-2-label" class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Step 2</p>
+                        <h2 class="text-3xl font-bold serif-font italic">Refine your focus</h2>
                     </div>
+
+                    <!-- Characters Path -->
+                    <div id="filter-chars" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <button class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="consonants">Consonants</button>
+                        <button class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vowels">Vowels</button>
+                        <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="doubleConsonants">Double</button>
+                        <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="diphthongs">Diphthongs</button>
+                    </div>
+
+                    <!-- Vocabulary Path -->
+                    <div id="filter-vocab" class="hidden space-y-8">
+                        <div class="segmented-control">
+                            <button class="segment-btn active" onclick="switchVocabTab('curated', event)">Curated</button>
+                            <button class="segment-btn" onclick="switchVocabTab('library', event)">My Library</button>
+                        </div>
+
+                        <div id="vocab-curated" class="grid grid-cols-3 gap-3">
+                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="travel">Travel</button>
+                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="school">School</button>
+                            <button class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vocabulary">General</button>
+                        </div>
+
+                        <div id="vocab-library" class="hidden space-y-4">
+                            <div class="flex justify-between items-center px-1">
+                                <span class="text-[9px] uppercase tracking-widest font-bold opacity-40">Saved Words</span>
+                                <button onclick="clearLibrary()" class="text-[9px] text-red-500/60 hover:text-red-500 uppercase font-bold transition-colors">Clear All</button>
+                            </div>
+                            <div id="custom-word-bank" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
+                            <button class="btn-outline w-full p-4 rounded-xl border-dashed border-[#d4af37]/30 text-[10px] uppercase tracking-widest font-bold" id="custom-cat-btn">
+                                + Add More Words
+                            </button>
+                            <div id="custom-importer" class="hidden p-6 bg-white/5 rounded-2xl border border-[#d4af37]/20 text-left fade-in">
+                                <div id="importer-input-step">
+                                    <textarea id="custom-input" placeholder="apple, water, cat..." class="w-full h-32 bg-black/60 border-2 border-white/10 rounded-xl p-4 text-sm mb-4 focus:border-[#d4af37] outline-none text-white transition-all shadow-inner"></textarea>
+                                    <button id="translate-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Translate</button>
+                                </div>
+                                <div id="importer-preview-step" class="hidden space-y-4">
+                                    <div id="preview-list" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
+                                    <button id="add-to-list-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Add All to Library</button>
+                                </div>
+                                <div id="import-status" class="mt-3 text-[9px] uppercase opacity-50 font-bold text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="nextStep(3)" class="btn-primary w-full max-w-xs mx-auto py-4 rounded-xl text-xs font-bold tracking-[0.2em]">
+                        CONTINUE →
+                    </button>
+                </div>
+
+                <!-- STEP 3: MODE SELECTION -->
+                <div id="flow-step-3" class="step-container hidden space-y-10">
+                    <button onclick="prevStep(2)" class="absolute top-0 left-0 m-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                    
+                    <div class="space-y-2 text-center text-white">
+                        <p class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Final Step: Training</p>
+                        <h2 class="text-3xl font-bold serif-font italic text-white text-center">Select training mode</h2>
+                    </div>
+
+                    <div class="max-w-md mx-auto space-y-6">
+                        <div class="space-y-3">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Recognition & Memory</p>
+                            <button class="mode-item" data-mode="quiz">
+                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🎯</div>
+                                <div><h4 class="font-bold text-sm text-white">QUIZ</h4><p class="text-[10px] text-gray-500">Multiple choice assessment</p></div>
+                            </button>
+                            <button class="mode-item" data-mode="flashcards">
+                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🃏</div>
+                                <div><h4 class="font-bold text-sm text-white">CARDS</h4><p class="text-[10px] text-gray-500">Traditional study deck</p></div>
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Active Production</p>
+                            <button class="mode-item" data-mode="writing">
+                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">✍️</div>
+                                <div><h4 class="font-bold text-sm text-white">WRITE</h4><p class="text-[10px] text-gray-500">Manual character tracing</p></div>
+                            </button>
+                            <button class="mode-item" data-mode="typing">
+                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⌨️</div>
+                                <div><h4 class="font-bold text-sm text-white">TYPE</h4><p class="text-[10px] text-gray-500">Keyboard input practice</p></div>
+                            </button>
+                        </div>
+
+                        <div class="space-y-3">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Challenge Mode</p>
+                            <button class="mode-item" data-mode="speedMatch">
+                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⚡</div>
+                                <div><h4 class="font-bold text-sm text-white">SPEED</h4><p class="text-[10px] text-gray-500">Timed rapid-fire test</p></div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center gap-8 py-4 border-t border-white/5">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="reverse-toggle" class="hidden peer">
+                            <div class="w-5 h-5 rounded-lg border border-white/10 peer-checked:bg-[#d4af37] peer-checked:border-[#d4af37] transition-all"></div>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gray-300 font-bold">Reverse Mode</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" id="test-all-toggle" class="hidden peer">
+                            <div class="w-5 h-5 rounded-lg border border-white/10 peer-checked:bg-[#d4af37] peer-checked:border-[#d4af37] transition-all"></div>
+                            <span class="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gray-300 font-bold">Test All Items</span>
+                        </label>
+                    </div>
+
+                    <button id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em]">
+                        START SESSION
+                    </button>
                 </div>
             </section>
 
-            <!-- Main Study Screen -->
             <section id="study-screen" class="hidden w-full">
                 <div class="glass-card p-10 md:p-14 text-center relative overflow-hidden">
                     <div class="flex justify-between items-center mb-10 text-xs font-mono tracking-widest text-[#94a3b8]">
-                        <button id="quit-button" class="hover:text-white">EXIT SESSION</button>
+                        <button id="quit-button" class="hover:text-white uppercase font-bold">Exit Session</button>
                         <div class="flex gap-4 items-center">
                             <div id="timer-display" class="hidden bg-accent/20 text-accent p-2 px-4 rounded-lg font-bold">60s</div>
-                            <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg text-[10px]">
-                                <span>SPEED</span>
-                                <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.1" value="0.9" class="w-16 accent-accent">
-                            </div>
-                            <button id="audio-button" class="bg-white/10 p-2 rounded-lg hover:bg-white/20 transition-all">
-                                🔊 REPLAY
-                            </button>
-                            <div class="flex items-center gap-4 border-l border-white/10 pl-4">
+                            <button id="audio-button" class="bg-white/10 p-2 px-4 rounded-lg hover:bg-white/20 font-bold">🔊 REPLAY</button>
+                            <div class="flex items-center gap-4 border-l border-white/10 pl-4 font-bold">
                                 <span>SCORE: <span id="score-counter" class="text-white">0</span></span>
                                 <span>STREAK: <span id="streak-counter" class="text-accent">0</span></span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Question Area -->
-                    <div id="quiz-area" class="h-64 flex flex-col items-center justify-center mb-10 relative cursor-pointer group" id="main-display-area">
-                        <div id="question-display" class="kr-font text-8xl md:text-9xl font-bold drop-shadow-xl transition-all duration-300">
-                            ㄱ
-                        </div>
+                    <div id="quiz-area" class="h-64 flex flex-col items-center justify-center mb-10 relative cursor-pointer group">
+                        <div id="question-display" class="kr-font text-8xl md:text-9xl font-bold drop-shadow-xl transition-all duration-300 text-white">ㄱ</div>
                         <div id="writing-area" class="hidden absolute inset-0 flex items-center justify-center pointer-events-none">
                             <canvas id="writing-canvas" width="400" height="400" class="pointer-events-auto"></canvas>
                         </div>
-                        <div id="writing-instruction" class="hidden absolute bottom-0 text-[10px] text-gray-500 uppercase tracking-widest animate-pulse">
-                            Trace the character above
-                        </div>
-                        <div id="fc-instruction" class="hidden absolute bottom-0 text-[10px] text-gray-400 uppercase tracking-widest group-hover:text-accent transition-colors">
-                            Click card to flip
-                        </div>
                     </div>
-
-                    <!-- Syllable Builder Area -->
-                    <div id="builder-area" class="hidden space-y-8">
-                        <div class="flex flex-col items-center gap-6">
-                            <div class="w-48 h-48 bg-white/5 rounded-3xl border-2 border-dashed border-white/20 flex items-center justify-center relative group">
-                                <span id="built-syllable" class="kr-font text-8xl font-bold">?</span>
-                                <div class="absolute top-4 right-4 viz-grid" id="syllable-viz">
-                                    <div class="viz-block" data-part="i"></div><div class="viz-block" data-part="i"></div><div class="viz-block"></div>
-                                    <div class="viz-block" data-part="m"></div><div class="viz-block" data-part="m"></div><div class="viz-block" data-part="m"></div>
-                                    <div class="viz-block" data-part="f"></div><div class="viz-block" data-part="f"></div><div class="viz-block" data-part="f"></div>
-                                </div>
-                                <button id="play-built" class="absolute bottom-2 right-2 bg-accent/20 p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">🔊</button>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div id="built-info" class="text-sm font-mono text-gray-400 uppercase tracking-widest">g + a + ...</div>
-                                <button id="dict-check" class="bg-white/10 p-2 px-4 rounded-xl text-[10px] font-bold hover:bg-white/20">DICTIONARY CHECK</button>
-                            </div>
-                        </div>
-
-                        <div class="builder-grid">
-                            <div class="builder-column" id="col-initial"></div>
-                            <div class="builder-column" id="col-medial"></div>
-                            <div class="builder-column" id="col-final"></div>
-                        </div>
+                    <div id="options-grid" class="grid grid-cols-2 gap-4"></div>
+                    <div id="typing-controls" class="hidden flex flex-col items-center pt-6">
+                        <div id="typing-display" class="typing-input-display"></div>
+                        <div id="virtual-keyboard"></div>
                     </div>
-
-                    <!-- Virtual Keyboard Area -->
-                    <div id="keyboard-area" class="hidden">
-                        <div class="keyboard-container" id="virtual-keyboard">
-                            <!-- Rows injected by JS -->
-                        </div>
-                    </div>
-
-                    <!-- Options Grid -->
-                    <div id="options-grid" class="grid grid-cols-2 gap-4">
-                        <!-- Buttons -->
-                    </div>
-
-                    <!-- Writing Controls -->
                     <div id="writing-controls" class="hidden flex justify-center gap-6 pt-6">
                         <button class="btn-outline p-4 px-8 rounded-2xl font-bold" id="clear-writing">CLEAR</button>
-                        <button class="btn-outline p-4 px-8 rounded-2xl font-bold flex items-center gap-2" id="play-stroke">
-                            <span>▶</span> STROKE GUIDE
-                        </button>
                         <button class="btn-primary p-4 px-12 rounded-2xl font-bold" id="submit-writing">SUBMIT</button>
                     </div>
-
-                    <!-- Flashcard Controls -->
                     <div id="fc-controls" class="hidden flex justify-center gap-6 pt-6">
                         <button class="btn-outline p-4 rounded-full w-16 h-16" id="prev-fc">←</button>
                         <button class="btn-primary p-4 rounded-full w-20 h-20 text-2xl" id="flip-fc">↻</button>
@@ -399,852 +397,437 @@
                 </div>
             </section>
 
-            <!-- Results Screen -->
-            <section id="results-screen" class="hidden glass-card p-12 text-center fade-in">
-                <h2 class="text-4xl font-bold mb-8">Session Complete</h2>
+            <section id="results-screen" class="hidden glass-card p-12 text-center fade-in text-white">
+                <h2 class="text-4xl font-bold mb-8 serif-font italic text-white text-center">Session Complete</h2>
                 <div class="grid grid-cols-3 gap-4 mb-10">
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <div class="text-[10px] text-gray-400 mb-2">SCORE</div>
-                        <div id="final-score" class="text-3xl font-bold">0</div>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <div class="text-[10px] text-gray-400 mb-2">ACCURACY</div>
-                        <div id="final-acc" class="text-3xl font-bold">0%</div>
-                    </div>
-                    <div class="p-6 bg-white/5 rounded-2xl">
-                        <div class="text-[10px] text-gray-400 mb-2">BEST STREAK</div>
-                        <div id="final-streak" class="text-3xl font-bold text-accent">0</div>
-                    </div>
+                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase">Score</div><div id="final-score" class="text-3xl font-bold text-white">0</div></div>
+                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase">Accuracy</div><div id="final-acc" class="text-3xl font-bold text-white">0%</div></div>
+                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase text-center text-white">Streak</div><div id="final-streak" class="text-3xl font-bold text-[#d4af37]">0</div></div>
                 </div>
                 <div class="flex gap-4 justify-center">
-                    <button id="retry-btn" class="btn-primary py-4 px-10 rounded-2xl font-bold">RETRY</button>
-                    <button id="home-btn" class="btn-outline py-4 px-10 rounded-2xl font-bold">MAIN MENU</button>
+                    <button id="retry-btn" class="btn-primary py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Retry</button>
+                    <button id="home-btn" class="btn-outline py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Main Menu</button>
                 </div>
             </section>
-
         </div>
     </main>
 
+    <footer class="fixed bottom-4 text-center w-full">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/jamie-sessions-15b646281" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/cijamie" target="_blank">Instagram</a>
+        </div>
+        <p class="text-[10px] text-[#94a3b8] opacity-50 uppercase tracking-widest font-bold">&copy; <span id="year"></span> Jamie Sessions</p>
+    </footer>
+
     <script src="../components.js"></script>
     <script>
-        // --- Data Definitions ---
-        const JAMO = {
-            initials: ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'],
-            medials: ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'],
-            finals: ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ', 'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ', 'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
-        };
-
         const HANGUL_DATA = {
             consonants: { 'ㄱ': 'g', 'ㄴ': 'n', 'ㄷ': 'd', 'ㄹ': 'r', 'ㅁ': 'm', 'ㅂ': 'b', 'ㅅ': 's', 'ㅇ': 'ng', 'ㅈ': 'j', 'ㅊ': 'ch', 'ㅋ': 'k', 'ㅌ': 't', 'ㅍ': 'p', 'ㅎ': 'h' },
             doubleConsonants: { 'ㄲ': 'kk', 'ㄸ': 'tt', 'ㅃ': 'pp', 'ㅆ': 'ss', 'ㅉ': 'jj' },
             vowels: { 'ㅏ': 'a', 'ㅑ': 'ya', 'ㅓ': 'eo', 'ㅕ': 'yeo', 'ㅗ': 'o', 'ㅛ': 'yo', 'ㅜ': 'u', 'ㅠ': 'yu', 'ㅡ': 'eu', 'ㅣ': 'i' },
             diphthongs: { 'ㅐ': 'ae', 'ㅒ': 'yae', 'ㅔ': 'e', 'ㅖ': 'ye', 'ㅘ': 'wa', 'ㅙ': 'wae', 'ㅚ': 'oe', 'ㅝ': 'wo', 'ㅞ': 'we', 'ㅟ': 'wi', 'ㅢ': 'ui' },
-            vocabulary: {
-                '사과': 'sagwa', '우유': 'uyu', '고기': 'gogi', '나라': 'nara', '도시': 'dosi', '아이': 'ai', '오이': 'oi', '모자': 'moja',
-                '학교': 'hakgyo', '바다': 'bada', '하늘': 'haneul', '커피': 'keopi', '빵': 'ppang', '물': 'mul', '노래': 'norae'
-            }
+            vocabulary: { '사과': { rom: 'sagwa', def: 'Apple' }, '우유': { rom: 'uyu', def: 'Milk' }, '고기': { rom: 'gogi', def: 'Meat' }, '나라': { rom: 'nara', def: 'Country' }, '도시': { rom: 'dosi', def: 'City' }, '아이': { rom: 'ai', def: 'Child' }, '오이': { rom: 'oi', def: 'Cucumber' }, '모자': { rom: 'moja', def: 'Hat' }, '학교': { rom: 'hakgyo', def: 'School' }, '바다': { rom: 'bada', def: 'Sea' }, '하늘': { rom: 'haneul', def: 'Sky' }, '물': { rom: 'mul', def: 'Water' }, '사랑': { rom: 'sarang', def: 'Love' } },
+            travel: { '안녕하세요': { rom: 'annyeonghaseyo', def: 'Hello' }, '감사합니다': { rom: 'gamsahamnida', def: 'Thank you' }, '화장실': { rom: 'hwajangsil', def: 'Restroom' }, '여권': { rom: 'yeogwon', def: 'Passport' }, '비행기': { rom: 'bihaenggi', def: 'Airplane' }, '택시': { rom: 'taeksi', def: 'Taxi' }, '한국': { rom: 'hanguk', def: 'Korea' } },
+            school: { '선생님': { rom: 'seonsaengnim', def: 'Teacher' }, '학생': { rom: 'haksaeng', def: 'Student' }, '교실': { rom: 'gyosil', def: 'Classroom' }, '책': { rom: 'chaek', def: 'Book' }, '대학교': { rom: 'daehakgyo', def: 'University' }, '친구': { rom: 'chingu', def: 'Friend' } }
         };
-
         const ROMAN_MAP = { ...HANGUL_DATA.consonants, ...HANGUL_DATA.doubleConsonants, ...HANGUL_DATA.vowels, ...HANGUL_DATA.diphthongs };
-
-        const STROKE_PATHS = {
-            'ㄱ': [[50,100, 350,100], [350,100, 350,350]],
-            'ㄴ': [[100,50, 100,300], [100,300, 350,300]],
-            'ㄷ': [[100,100, 300,100], [100,100, 100,300], [100,300, 300,300]],
-            'ㄹ': [[100,80, 300,80], [300,80, 300,180], [100,180, 300,180], [100,180, 100,280], [100,280, 300,280]],
-            'ㅁ': [[100,100, 100,300], [100,100, 300,100], [300,100, 300,300], [100,300, 300,300]],
-            'ㅂ': [[100,100, 100,300], [300,100, 300,300], [100,200, 300,200], [100,300, 300,300]],
-            'ㅅ': [[200,100, 100,300], [200,100, 300,300]],
-            'ㅇ': [[200,100, 300,200, 200,300, 100,200, 200,100]], // Simple circle
-            'ㅈ': [[100,100, 300,100], [200,100, 100,300], [200,150, 300,300]],
-            'ㅊ': [[200,50, 200,100], [100,100, 300,100], [200,100, 100,300], [200,150, 300,300]],
-            'ㅋ': [[50,100, 350,100], [350,100, 350,350], [50,220, 250,220]],
-            'ㅌ': [[100,100, 300,100], [100,200, 300,200], [100,300, 300,300], [100,100, 100,300]],
-            'ㅍ': [[100,100, 300,100], [100,300, 300,300], [150,100, 150,300], [250,100, 250,300]],
-            'ㅎ': [[180,50, 220,50], [100,120, 300,120], [200,170, 300,270, 200,370, 100,270, 200,170]],
-            'ㅏ': [[200,50, 200,350], [200,200, 300,200]],
-            'ㅑ': [[200,50, 200,350], [200,150, 300,150], [200,250, 300,250]],
-            'ㅓ': [[200,50, 200,350], [100,200, 200,200]],
-            'ㅕ': [[200,50, 200,350], [100,150, 200,150], [100,250, 200,250]],
-            'ㅗ': [[200,150, 200,250], [50,250, 350,250]],
-            'ㅛ': [[150,150, 150,250], [250,150, 250,250], [50,250, 350,250]],
-            'ㅜ': [[50,150, 350,150], [200,150, 200,350]],
-            'ㅠ': [[50,150, 350,150], [150,150, 150,350], [250,150, 250,350]],
-            'ㅡ': [[50,200, 350,200]],
-            'ㅣ': [[200,50, 200,350]]
-        };
-
-        const KEYBOARD_MAP = {
-            'q': 'ㅂ', 'w': 'ㅈ', 'e': 'ㄷ', 'r': 'ㄱ', 't': 'ㅅ', 'y': 'ㅛ', 'u': 'ㅕ', 'i': 'ㅑ', 'o': 'ㅐ', 'p': 'ㅔ',
-            'a': 'ㅁ', 's': 'ㄴ', 'd': 'ㅇ', 'f': 'ㄹ', 'g': 'ㅎ', 'h': 'ㅗ', 'j': 'ㅓ', 'k': 'ㅏ', 'l': 'ㅣ',
-            'z': 'ㅋ', 'x': 'ㅌ', 'c': 'ㅊ', 'v': 'ㅍ', 'b': 'ㅠ', 'n': 'ㅜ', 'm': 'ㅡ',
-            'Q': 'ㅃ', 'W': 'ㅉ', 'E': 'ㄸ', 'R': 'ㄲ', 'T': 'ㅆ', 'O': 'ㅒ', 'P': 'ㅖ'
-        };
-
-        const KEYBOARD_ROWS = [
-            ['q','w','e','r','t','y','u','i','o','p'],
-            ['a','s','d','f','g','h','j','k','l'],
-            ['z','x','c','v','b','n','m']
-        ];
-
-        // --- State Management ---
+        const BASIC_WORDS = { "hello": "안녕하세요", "hi": "안녕", "water": "물", "apple": "사과", "love": "사랑", "school": "학교" };
         const State = {
-            mode: 'quiz',
-            activeCats: ['consonants', 'vowels'],
-            isReverse: false,
-            currentDict: {},
-            currentKeys: [],
-            score: 0,
-            streak: 0,
-            maxStreak: 0,
-            qCount: 0,
-            maxQ: 15,
-            currentQ: null,
-            isProcessing: false,
-            builder: { i: 0, m: 0, f: 0 },
-            flashcards: { index: 0, isFlipped: false, pool: [] },
-            timer: { count: 60, interval: null },
-            writing: { isDrawing: false, lastX: 0, lastY: 0, hasDrawn: false },
-            settings: { audioSpeed: 0.9, theme: 'modern' },
-            persistence: {
-                totalScore: 0,
-                bestStreak: 0,
-                mastery: {} // char -> { correct: 0, total: 0 }
-            }
+            step: 1, topCategory: 'chars', mode: 'quiz', activeCats: ['consonants', 'vowels'], isReverse: false, isTestAll: false, testPool: [], currentDict: {}, currentKeys: [], score: 0, streak: 0, maxStreak: 0, qCount: 0, maxQ: 15, currentQ: null, isProcessing: false, flashcards: { index: 0, pool: [] }, typingInput: '', timer: { count: 60, interval: null }, writing: { isDrawing: false, lastX: 0, lastY: 0, hasDrawn: false }, persistence: { mastery: {}, customList: {} }
         };
+        const ui = {};
 
-        function saveStats() {
-            localStorage.setItem('quickhangul_stats', JSON.stringify(State.persistence));
-            localStorage.setItem('quickhangul_settings', JSON.stringify(State.settings));
+        function clearAnimations() { document.querySelectorAll('.step-container').forEach(s => s.classList.remove('exit-left', 'exit-right', 'enter-left', 'enter-right')); }
+
+        function selectFlow(flow, e) {
+            State.topCategory = flow;
+            if (flow === 'chars') {
+                State.activeCats = ['consonants', 'vowels'];
+            } else {
+                // Reset to curated tab when entering vocab flow
+                switchVocabTab('curated');
+            }
+            
+            document.querySelectorAll('[data-cat]').forEach(b => {
+                b.classList.toggle('selected', State.activeCats.includes(b.dataset.cat));
+            });
+
+            const s1 = document.getElementById('flow-step-1');
+            const s2 = document.getElementById('flow-step-2');
+            document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('selected'));
+            if (e) e.currentTarget.classList.add('selected');
+            document.getElementById('filter-chars').classList.toggle('hidden', flow !== 'chars');
+            document.getElementById('filter-vocab').classList.toggle('hidden', flow !== 'vocab');
+            document.getElementById('step-2-label').textContent = flow === 'chars' ? 'Step 2: Fundamentals' : 'Step 2: Applied';
+            clearAnimations();
+            s1.classList.add('exit-left');
+            setTimeout(() => { s1.classList.add('hidden'); s2.classList.remove('hidden'); s2.classList.add('enter-right'); setTimeout(() => s2.classList.remove('enter-right'), 10); }, 500);
         }
 
-        function loadStats() {
-            const stats = localStorage.getItem('quickhangul_stats');
-            if (stats) State.persistence = JSON.parse(stats);
-            const settings = localStorage.getItem('quickhangul_settings');
-            if (settings) State.settings = JSON.parse(settings);
-        }
-
-        function renderMastery() {
-            const grid = document.getElementById('mastery-grid');
-            grid.innerHTML = '';
+        function nextStep(n) {
+            const current = document.getElementById(`flow-step-${n-1}`);
+            const next = document.getElementById(`flow-step-${n}`);
             
-            // All possible jamo/vocab in currently active categories
-            const allItems = { ...HANGUL_DATA.consonants, ...HANGUL_DATA.vowels, ...HANGUL_DATA.doubleConsonants, ...HANGUL_DATA.diphthongs };
-            
-            Object.keys(allItems).forEach(char => {
-                const data = State.persistence.mastery[char] || { correct: 0, total: 0 };
-                const ratio = data.total > 0 ? data.correct / data.total : 0;
-                
-                const dot = document.createElement('div');
-                dot.className = "mastery-dot";
-                dot.title = `${char}: ${data.correct}/${data.total}`;
-                
-                if (data.total > 0) {
-                    if (ratio > 0.8) dot.style.background = "var(--success)";
-                    else if (ratio > 0.5) dot.style.background = "#fbbf24"; // yellow
-                    else dot.style.background = "var(--accent)";
+            if (n === 3) {
+                let count = 0;
+                State.activeCats.forEach(c => {
+                    if (c === 'custom') count += Object.keys(HANGUL_DATA.custom || {}).length;
+                    else if (HANGUL_DATA[c]) count += Object.keys(HANGUL_DATA[c]).length;
+                });
+                if (count === 0) {
+                    alert(State.activeCats.includes('custom') ? 'Your library is empty. Add some words first!' : 'Please select at least one category');
+                    return;
                 }
-                grid.appendChild(dot);
+            }
+
+            clearAnimations();
+            current.classList.add('exit-left');
+            setTimeout(() => { current.classList.add('hidden'); next.classList.remove('hidden'); next.classList.add('enter-right'); setTimeout(() => next.classList.remove('enter-right'), 10); }, 500);
+        }
+
+        function prevStep(n) {
+            const current = document.getElementById(`flow-step-${n+1}`);
+            const prev = document.getElementById(`flow-step-${n}`);
+            clearAnimations();
+            current.classList.add('exit-right');
+            setTimeout(() => { current.classList.add('hidden'); prev.classList.remove('hidden'); prev.classList.add('enter-left'); setTimeout(() => prev.classList.remove('enter-left'), 10); }, 500);
+        }
+
+        function switchVocabTab(tab, e) {
+            document.querySelectorAll('.segment-btn').forEach(b => {
+                b.classList.remove('active');
+                if (tab === 'curated' && b.textContent === 'Curated') b.classList.add('active');
+                if (tab === 'library' && b.textContent === 'My Library') b.classList.add('active');
+            });
+            if (e) e.target.classList.add('active');
+            
+            document.getElementById('vocab-curated').classList.toggle('hidden', tab !== 'curated');
+            document.getElementById('vocab-library').classList.toggle('hidden', tab !== 'library');
+            
+            if (tab === 'library') {
+                State.activeCats = ['custom'];
+                renderCustomLibrary();
+            } else {
+                const selected = Array.from(document.querySelectorAll('#vocab-curated .btn-outline.selected')).map(b => b.dataset.cat);
+                State.activeCats = selected.length > 0 ? selected : ['vocabulary'];
+            }
+        }
+
+        function renderCustomLibrary() {
+            const container = document.getElementById('custom-word-bank');
+            if (!container) return;
+            container.innerHTML = '';
+            const words = HANGUL_DATA.custom || {};
+            const keys = Object.keys(words);
+            if (keys.length === 0) { 
+                container.innerHTML = '<p class="text-[10px] opacity-40 italic py-6 text-center border border-dashed border-white/10 rounded-xl">Your word bank is currently empty.</p>'; 
+                return; 
+            }
+            keys.forEach(kor => {
+                const item = document.createElement('div');
+                item.className = 'word-item mb-2';
+                item.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="kr-font text-white text-sm font-bold text-left">${kor}</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-tighter text-left">${words[kor].def}</span>
+                    </div>
+                    <button onclick="deleteCustomWord('${kor}')" class="text-gray-500 hover:text-red-500 transition-colors px-2 text-xl">&times;</button>
+                `;
+                container.appendChild(item);
             });
         }
 
-        // --- DOM Cache ---
-        const ui = {
-            screens: { start: document.getElementById('start-screen'), study: document.getElementById('study-screen'), results: document.getElementById('results-screen') },
-            progressBar: document.getElementById('progress-bar'),
-            question: document.getElementById('question-display'),
-            options: document.getElementById('options-grid'),
-            score: document.getElementById('score-counter'),
-            streak: document.getElementById('streak-counter'),
-            areas: { 
-                quiz: document.getElementById('quiz-area'), 
-                builder: document.getElementById('builder-area'),
-                writing: document.getElementById('writing-area'),
-                keyboard: document.getElementById('keyboard-area')
-            },
-            built: document.getElementById('built-syllable'),
-            builtInfo: document.getElementById('built-info'),
-            canvas: document.getElementById('writing-canvas'),
-            ctx: document.getElementById('writing-canvas').getContext('2d'),
-            timer: document.getElementById('timer-display')
-        };
+        function deleteCustomWord(kor) {
+            if (HANGUL_DATA.custom) delete HANGUL_DATA.custom[kor];
+            State.persistence.customList = HANGUL_DATA.custom;
+            saveStats();
+            renderCustomLibrary();
+        }
 
-        // --- Core Functions ---
+        function saveStats() { localStorage.setItem('quickhangul_stats', JSON.stringify(State.persistence)); }
+        function loadStats() {
+            try {
+                const s = localStorage.getItem('quickhangul_stats');
+                if (s) {
+                    const p = JSON.parse(s);
+                    State.persistence = { ...State.persistence, ...p };
+                    if (State.persistence.customList) HANGUL_DATA.custom = State.persistence.customList;
+                }
+            } catch (e) { console.error(e); }
+        }
+
         function init() {
             loadStats();
-            renderMastery();
-            if (State.settings.audioSpeed) {
-                document.getElementById('speed-slider').value = State.settings.audioSpeed;
-            }
-
-            // Category setup
-            document.querySelectorAll('[data-cat]').forEach(btn => {
-                btn.onclick = () => {
-                    const cat = btn.dataset.cat;
-                    if (State.activeCats.includes(cat)) {
-                        if (State.activeCats.length > 1) {
-                            State.activeCats = State.activeCats.filter(c => c !== cat);
-                            btn.classList.remove('selected');
-                        }
-                    } else {
-                        State.activeCats.push(cat);
-                        btn.classList.add('selected');
-                    }
-                    renderMastery();
-                };
+            document.getElementById('year').textContent = new Date().getFullYear();
+            ui.screens = { start: document.getElementById('start-screen'), study: document.getElementById('study-screen'), results: document.getElementById('results-screen') };
+            ui.progressBar = document.getElementById('progress-bar'); ui.question = document.getElementById('question-display'); ui.options = document.getElementById('options-grid');
+            ui.score = document.getElementById('score-counter'); ui.streak = document.getElementById('streak-counter');
+            ui.canvas = document.getElementById('writing-canvas'); ui.ctx = ui.canvas.getContext('2d'); ui.timer = document.getElementById('timer-display');
+            
+            document.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => {
+                const c = b.dataset.cat;
+                if (State.activeCats.includes(c)) { if (State.activeCats.length > 1) { State.activeCats = State.activeCats.filter(x => x !== c); b.classList.remove('selected'); } }
+                else { State.activeCats.push(c); b.classList.add('selected'); }
             });
 
-            // Mode setup
-            document.querySelectorAll('[data-mode]').forEach(btn => {
-                btn.onclick = () => {
-                    document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('selected'));
-                    btn.classList.add('selected');
-                    State.mode = btn.dataset.mode;
-                };
+            document.querySelectorAll('[data-mode]').forEach(b => {
+                if (b.dataset.mode === State.mode) b.classList.add('selected');
+                b.onclick = () => { document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); State.mode = b.dataset.mode; };
             });
 
-            // Interactive Question Area
-            document.getElementById('quiz-area').onclick = () => {
-                if (State.mode === 'flashcards') flipFlashcard();
-            };
-
-            // Navigation
             document.getElementById('start-button').onclick = startSession;
-            document.getElementById('quit-button').onclick = () => {
-                clearInterval(State.timer.interval);
-                showScreen('start');
-            };
+            document.getElementById('quit-button').onclick = () => { clearInterval(State.timer.interval); showScreen('start'); };
             document.getElementById('audio-button').onclick = () => speak(State.currentQ.char);
-            document.getElementById('play-built').onclick = () => speak(ui.built.textContent);
             document.getElementById('home-btn').onclick = () => showScreen('start');
             document.getElementById('retry-btn').onclick = startSession;
-
-            // Flashcard Controls
-            document.getElementById('flip-fc').onclick = flipFlashcard;
+            document.getElementById('flip-fc').onclick = () => { ui.question.textContent = (ui.question.textContent === State.currentQ.char) ? State.currentQ.def : State.currentQ.char; };
             document.getElementById('next-fc').onclick = () => moveFlashcard(1);
             document.getElementById('prev-fc').onclick = () => moveFlashcard(-1);
-
-            // Writing Controls
-            document.getElementById('clear-writing').onclick = clearCanvas;
-            document.getElementById('play-stroke').onclick = playStrokeGuide;
+            document.getElementById('clear-writing').onclick = () => { ui.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height); State.writing.hasDrawn = false; };
             document.getElementById('submit-writing').onclick = () => submitAnswer(State.currentQ.answer);
+            
+            const importer = document.getElementById('custom-importer');
+            const inputStep = document.getElementById('importer-input-step');
+            const previewStep = document.getElementById('importer-preview-step');
+            const status = document.getElementById('import-status');
 
-            // Builder
-            document.getElementById('dict-check').onclick = checkDictionary;
-            // Canvas logic setup
-            ui.canvas.addEventListener('mousedown', startDrawing);
-            ui.canvas.addEventListener('mousemove', draw);
-            ui.canvas.addEventListener('mouseup', stopDrawing);
-            ui.canvas.addEventListener('mouseout', stopDrawing);
-            ui.canvas.addEventListener('touchstart', (e) => { e.preventDefault(); startDrawing(e.touches[0]); });
-            ui.canvas.addEventListener('touchmove', (e) => { e.preventDefault(); draw(e.touches[0]); });
-            ui.canvas.addEventListener('touchend', (e) => { e.preventDefault(); stopDrawing(); });
-        }
+            document.getElementById('custom-cat-btn').onclick = () => {
+                importer.classList.toggle('hidden');
+                inputStep.classList.remove('hidden');
+                previewStep.classList.add('hidden');
+                status.textContent = '';
+            };
 
-        async function playStrokeGuide() {
-            const char = State.currentQ.char;
-            const strokes = STROKE_PATHS[char];
-            if (!strokes) return;
-
-            const btn = document.getElementById('play-stroke');
-            btn.disabled = true;
-            btn.classList.add('opacity-50');
-
-            // Clear canvas temporarily for guide
-            clearCanvas();
-
-            for (const stroke of strokes) {
-                for (let i = 0; i < stroke.length - 2; i += 2) {
-                    await animatePath(stroke[i], stroke[i+1], stroke[i+2], stroke[i+3]);
-                }
-                await new Promise(r => setTimeout(r, 300)); // Pause between strokes
-            }
-
-            btn.disabled = false;
-            btn.classList.remove('opacity-50');
-        }
-
-        function animatePath(x1, y1, x2, y2) {
-            return new Promise(resolve => {
-                const steps = 20;
-                let currentStep = 0;
-                
-                function frame() {
-                    const x = x1 + (x2 - x1) * (currentStep / steps);
-                    const y = y1 + (y2 - y1) * (currentStep / steps);
-                    
-                    // Draw guide dot
-                    ui.ctx.beginPath();
-                    ui.ctx.arc(x, y, 6, 0, Math.PI * 2);
-                    ui.ctx.fillStyle = 'var(--accent)';
-                    ui.ctx.fill();
-                    
-                    currentStep++;
-                    if (currentStep <= steps) {
-                        requestAnimationFrame(frame);
-                    } else {
-                        resolve();
+            document.getElementById('translate-btn').onclick = async () => {
+                const input = document.getElementById('custom-input');
+                const words = input.value.split(/[,|\n]/).map(w => w.trim()).filter(w => w.length > 0);
+                const list = document.getElementById('preview-list');
+                if (words.length === 0) return;
+                status.textContent = 'Translating...';
+                list.innerHTML = '';
+                for (const word of words) {
+                    let kor = BASIC_WORDS[word.toLowerCase()] || '';
+                    if (!kor) {
+                        try {
+                            const res = await fetch(`https://api.mymemory.translated.net/get?q=${word}&langpair=en|ko&mt=1`);
+                            const data = await res.json();
+                            kor = (data.matches || []).filter(m => !m.translation.includes('Azlan'))[0]?.translation || data.responseData.translatedText;
+                        } catch(e) { kor = word; }
                     }
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center gap-2 p-3 bg-black/40 rounded-xl border border-white/10 mb-2';
+                    row.innerHTML = `<span class="text-[9px] w-12 truncate text-gray-500 font-bold uppercase text-left">${word}</span><input type="text" value="${kor}" class="flex-grow bg-transparent text-xs kr-font outline-none text-white font-bold border-b border-white/5 focus:border-[#d4af37]" data-orig="${word}">`;
+                    list.appendChild(row);
                 }
-                frame();
+                inputStep.classList.add('hidden');
+                previewStep.classList.remove('hidden');
+                status.textContent = 'Verify and click add.';
+            };
+
+            document.getElementById('add-to-list-btn').onclick = () => {
+                const dict = {};
+                document.querySelectorAll('#preview-list input').forEach(i => { if (i.value) dict[i.value] = { rom: i.dataset.orig, def: i.dataset.orig }; });
+                HANGUL_DATA.custom = { ...(HANGUL_DATA.custom || {}), ...dict };
+                State.persistence.customList = HANGUL_DATA.custom;
+                saveStats(); renderCustomLibrary();
+                importer.classList.add('hidden');
+                status.textContent = '';
+                document.getElementById('custom-input').value = '';
+            };
+
+            ui.canvas.onmousedown = (e) => startDrawing(e); ui.canvas.onmousemove = (e) => draw(e); ui.canvas.onmouseup = () => State.writing.isDrawing = false;
+            ui.canvas.ontouchstart = (e) => { e.preventDefault(); startDrawing(e.touches[0]); };
+            ui.canvas.ontouchmove = (e) => { e.preventDefault(); draw(e.touches[0]); };
+            ui.canvas.ontouchend = () => State.writing.isDrawing = false;
+            
+            window.addEventListener('keydown', (e) => {
+                if (State.mode === 'typing' && ui.screens.study.classList.contains('hidden') === false) {
+                    if (e.key === 'Backspace') { State.typingInput = State.typingInput.slice(0, -1); updateTypingDisplay(); }
+                    else if (e.key === 'Enter') { submitAnswer(State.typingInput); }
+                    else if (e.key.length === 1 && /[a-zA-Zㄱ-ㅎㅏ-ㅣ]/.test(e.key)) { State.typingInput += e.key; updateTypingDisplay(); }
+                }
             });
         }
 
-        function startDrawing(e) {
-            State.writing.isDrawing = true;
-            State.writing.hasDrawn = true;
-            const rect = ui.canvas.getBoundingClientRect();
-            State.writing.lastX = e.clientX - rect.left;
-            State.writing.lastY = e.clientY - rect.top;
-        }
-
-        function draw(e) {
-            if (!State.writing.isDrawing) return;
-            const rect = ui.canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            ui.ctx.beginPath();
-            ui.ctx.moveTo(State.writing.lastX, State.writing.lastY);
-            ui.ctx.lineTo(x, y);
-            ui.ctx.strokeStyle = getComputedStyle(document.body).getPropertyValue('--accent');
-            ui.ctx.lineWidth = 12;
-            ui.ctx.lineCap = 'round';
-            ui.ctx.stroke();
-
-            State.writing.lastX = x;
-            State.writing.lastY = y;
-        }
-
-        function stopDrawing() { State.writing.isDrawing = false; }
-        function clearCanvas() {
-            ui.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
-            State.writing.hasDrawn = false;
-        }
-
-        function checkDictionary() {
-            const char = ui.built.textContent;
-            const commonSyllables = ['가', '나', '다', '라', '마', '바', '사', '아', '자', '차', '카', '타', '파', '하', '한', '국', '말', '사', '랑', '물', '밥'];
-            if (commonSyllables.includes(char)) {
-                ui.built.style.color = "var(--success)";
-                setTimeout(() => ui.built.style.color = "white", 1000);
-            } else {
-                ui.built.style.color = "var(--error)";
-                setTimeout(() => ui.built.style.color = "white", 1000);
-            }
-        }
-
-        function showScreen(name) {
+        function showScreen(n) {
             Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
-            ui.screens[name].classList.remove('hidden');
-            ui.progressBar.style.width = '0%';
-            if (name === 'start') renderMastery();
+            ui.screens[n].classList.remove('hidden');
+            if (n === 'start') {
+                document.querySelectorAll('.step-container').forEach(s => s.classList.add('hidden'));
+                clearAnimations();
+                document.getElementById('flow-step-1').classList.remove('hidden');
+                document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('selected'));
+            }
         }
 
         function startSession() {
             State.isReverse = document.getElementById('reverse-toggle').checked;
+            State.isTestAll = document.getElementById('test-all-toggle').checked;
             State.currentDict = {};
-            State.activeCats.forEach(c => Object.assign(State.currentDict, HANGUL_DATA[c]));
+            State.activeCats.forEach(c => { 
+                if (c === 'custom') {
+                    if (HANGUL_DATA.custom) Object.assign(State.currentDict, HANGUL_DATA.custom);
+                } else if (HANGUL_DATA[c]) {
+                    Object.assign(State.currentDict, HANGUL_DATA[c]);
+                }
+            });
             State.currentKeys = Object.keys(State.currentDict);
+            if (State.currentKeys.length === 0) { alert('Select at least one category'); return; }
+            State.score = 0; State.streak = 0; State.qCount = 0;
+            if (State.isTestAll) { State.maxQ = State.currentKeys.length; State.testPool = [...State.currentKeys]; for(let i=State.testPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.testPool[i],State.testPool[j]]=[State.testPool[j],State.testPool[i]]} }
+            else { State.maxQ = 15; }
             
-            State.score = 0; State.streak = 0; State.maxStreak = 0; State.qCount = 0;
-            updateStats();
+            State.flashcards.pool = [...State.currentKeys];
+            for(let i=State.flashcards.pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.flashcards.pool[i],State.flashcards.pool[j]]=[State.flashcards.pool[j],State.flashcards.pool[i]]}
+            State.flashcards.index = 0;
 
-            // Reset UI
-            ui.areas.quiz.classList.remove('hidden');
-            ui.options.classList.remove('hidden');
-            ui.areas.builder.classList.add('hidden');
-            ui.areas.writing.classList.add('hidden');
-            ui.areas.keyboard.classList.add('hidden');
-            ui.timer.classList.add('hidden');
-            document.getElementById('fc-controls').classList.add('hidden');
-            document.getElementById('writing-controls').classList.add('hidden');
-            document.getElementById('writing-instruction').classList.add('hidden');
-            document.getElementById('fc-instruction').classList.add('hidden');
-
-            if (State.mode === 'builder') {
-                setupBuilder();
-                renderKeyboard();
-                ui.areas.quiz.classList.add('hidden');
-                ui.options.classList.add('hidden');
-                ui.areas.builder.classList.remove('hidden');
-                ui.areas.keyboard.classList.remove('hidden');
-            } else if (State.mode === 'typing') {
-                renderKeyboard();
-                ui.options.classList.add('hidden');
-                ui.areas.keyboard.classList.remove('hidden');
-                nextQuestion();
-            } else if (State.mode === 'flashcards') {
-                document.getElementById('fc-instruction').classList.remove('hidden');
-                startFlashcards();
-            } else if (State.mode === 'speedMatch') {
-                startSpeedMatch();
-            } else if (State.mode === 'writing') {
-                ui.options.classList.add('hidden');
-                ui.areas.writing.classList.remove('hidden');
-                document.getElementById('writing-controls').classList.remove('hidden');
-                document.getElementById('writing-instruction').classList.remove('hidden');
-                nextQuestion();
-            } else {
-                nextQuestion();
-            }
-
+            ui.options.classList.toggle('hidden', ['flashcards', 'typing'].includes(State.mode));
+            document.getElementById('fc-controls').classList.toggle('hidden', State.mode !== 'flashcards');
+            document.getElementById('writing-controls').classList.toggle('hidden', State.mode !== 'writing');
+            document.getElementById('typing-controls').classList.toggle('hidden', State.mode !== 'typing');
+            
+            if (State.mode === 'typing') renderKeyboard();
+            if (State.mode === 'speedMatch') startSpeedMatch();
+            else nextQuestion();
             showScreen('study');
         }
 
-        function startSpeedMatch() {
-            State.timer.count = 60;
-            ui.timer.classList.remove('hidden');
-            ui.timer.textContent = "60s";
-            State.timer.interval = setInterval(() => {
-                State.timer.count--;
-                ui.timer.textContent = State.timer.count + "s";
-                if (State.timer.count <= 0) {
-                    clearInterval(State.timer.interval);
-                    endSession();
-                }
-            }, 1000);
-            nextQuestion();
-        }
-
-        function startFlashcards() {
-            State.flashcards.pool = [...State.currentKeys];
-            shuffle(State.flashcards.pool);
-            State.flashcards.index = 0;
-            State.flashcards.isFlipped = false;
-            
-            ui.options.classList.add('hidden');
-            document.getElementById('fc-controls').classList.remove('hidden');
-            renderFlashcard();
-        }
-
-        function renderFlashcard() {
-            const qChar = State.flashcards.pool[State.flashcards.index];
-            const qAns = State.currentDict[qChar];
-            
-            State.currentQ = { char: qChar, rom: qAns };
-            State.flashcards.isFlipped = false;
-            
-            ui.question.textContent = qChar;
-            ui.question.classList.add('kr-font');
-            ui.question.style.color = "white";
-            ui.question.style.transform = "scale(1)";
-            
-            speak(qChar);
-            
-            ui.progressBar.style.width = `${((State.flashcards.index + 1) / State.flashcards.pool.length) * 100}%`;
-        }
-
-        function flipFlashcard() {
-            State.flashcards.isFlipped = !State.flashcards.isFlipped;
-            if (State.flashcards.isFlipped) {
-                ui.question.textContent = State.currentQ.rom;
-                ui.question.classList.remove('kr-font');
-                ui.question.style.color = "var(--accent)";
-            } else {
-                ui.question.textContent = State.currentQ.char;
-                ui.question.classList.add('kr-font');
-                ui.question.style.color = "white";
-                speak(State.currentQ.char);
-            }
-            ui.question.style.transform = "scale(1.1)";
-            setTimeout(() => ui.question.style.transform = "scale(1)", 200);
-        }
-
-        function moveFlashcard(dir) {
-            State.flashcards.index += dir;
-            if (State.flashcards.index < 0) State.flashcards.index = State.flashcards.pool.length - 1;
-            if (State.flashcards.index >= State.flashcards.pool.length) {
-                endSession();
-                return;
-            }
-            renderFlashcard();
-        }
-
         function nextQuestion() {
-            if (State.mode !== 'speedMatch' && State.qCount >= State.maxQ && State.mode !== 'syllableGuesser' && State.mode !== 'builder') {
-                endSession();
-                return;
-            }
-
-            State.isProcessing = false;
-            ui.question.style.color = "white";
-            ui.question.style.transform = "scale(1)";
-            if (State.mode === 'writing') clearCanvas();
-
-            let qChar, qAns; // qChar is Korean, qAns is Romanization
-
-            if (State.mode === 'syllableGuesser') {
-                qChar = generateRandomSyllable();
-                qAns = romanizeSyllable(qChar);
-            } else if (State.mode === 'typing') {
-                // For typing mode, we only want single jamo
-                const pool = [...Object.keys(HANGUL_DATA.consonants), ...Object.keys(HANGUL_DATA.vowels)];
-                // Filter by active cats if they include consonants/vowels
-                let activePool = [];
-                if (State.activeCats.includes('consonants')) activePool.push(...Object.keys(HANGUL_DATA.consonants));
-                if (State.activeCats.includes('vowels')) activePool.push(...Object.keys(HANGUL_DATA.vowels));
-                if (State.activeCats.includes('doubleConsonants')) activePool.push(...Object.keys(HANGUL_DATA.doubleConsonants));
-                if (State.activeCats.includes('diphthongs')) activePool.push(...Object.keys(HANGUL_DATA.diphthongs));
-                
-                const finalPool = activePool.length > 0 ? activePool : pool;
-                qChar = finalPool[Math.floor(Math.random() * finalPool.length)];
-                qAns = ROMAN_MAP[qChar];
+            if (State.qCount >= State.maxQ && State.mode !== 'speedMatch' && State.mode !== 'flashcards') { endSession(); return; }
+            State.isProcessing = false; ui.question.style.color = "white"; 
+            if (State.mode === 'writing') ui.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
+            if (State.mode === 'typing') { State.typingInput = ''; updateTypingDisplay(); }
+            
+            let c;
+            if (State.mode === 'flashcards') {
+                c = State.flashcards.pool[State.flashcards.index];
             } else {
-                // Weighted SRS selection
-                const pool = [...State.currentKeys];
-                const weights = pool.map(k => {
-                    const m = State.persistence.mastery[k] || { correct: 0, total: 0 };
-                    if (m.total === 0) return 5; // Priority for new
-                    const ratio = m.correct / m.total;
-                    return Math.max(1, 5 * (1 - ratio)); // Higher weight for lower accuracy
-                });
-                
-                const totalWeight = weights.reduce((a, b) => a + b, 0);
-                let r = Math.random() * totalWeight;
-                for (let i = 0; i < pool.length; i++) {
-                    r -= weights[i];
-                    if (r <= 0) {
-                        qChar = pool[i];
-                        break;
-                    }
-                }
-                qAns = State.currentDict[qChar];
+                c = State.isTestAll ? State.testPool[State.qCount] : State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
             }
-
-            // Determine what the user sees vs what they must pick
-            const displayVal = State.isReverse ? qAns : qChar;
-            const correctVal = State.isReverse ? qChar : qAns;
-            State.currentQ = { display: displayVal, answer: correctVal, char: qChar, rom: qAns };
-
-            ui.question.textContent = displayVal;
-            if (State.isReverse) {
-                ui.question.classList.remove('kr-font');
-                ui.question.style.opacity = "1";
-            } else {
-                ui.question.classList.add('kr-font');
-                if (State.mode === 'writing') {
-                    ui.question.style.opacity = "0.15"; // Trace guide
-                } else {
-                    ui.question.style.opacity = "1";
-                }
-                speak(qChar);
+            
+            let a = State.currentDict[c];
+            const def = typeof a === 'object' ? a.def : a; 
+            const rom = typeof a === 'object' ? a.rom : a;
+            
+            State.currentQ = { char: c, answer: State.isReverse ? c : def, display: State.isReverse ? def : c, rom: rom, def: def };
+            ui.question.innerHTML = State.currentQ.display;
+            
+            if (!['quiz', 'speedMatch', 'typing'].includes(State.mode) && !State.isReverse && c.length > 1) {
+                ui.question.innerHTML += `<div class="text-xs opacity-50 mt-2">${rom}</div>`;
             }
-
-            // --- Distractor Generation ---
-            if (State.mode === 'typing' || State.mode === 'builder') {
-                ui.options.innerHTML = ''; // No options grid
-            } else {
-                const options = [correctVal];
-                
-                if (State.mode === 'syllableGuesser') {
-                    const code = qChar.charCodeAt(0) - 44032;
-                    const i = Math.floor(code / 588);
-                    const m = Math.floor((code % 588) / 28);
-                    const f = code % 28;
-
-                    while (options.length < 4) {
-                        let dChar;
-                        const r = Math.random();
-                        if (r < 0.33) dChar = combineHangul(Math.floor(Math.random() * 19), m, f);
-                        else if (r < 0.66) dChar = combineHangul(i, Math.floor(Math.random() * 21), f);
-                        else dChar = combineHangul(i, m, Math.floor(Math.random() * 28));
-                        
-                        const dAns = State.isReverse ? dChar : romanizeSyllable(dChar);
-                        if (!options.includes(dAns)) options.push(dAns);
-                    }
-                } else if (State.activeCats.includes('vocabulary')) {
-                    const targetLen = qChar.length;
-                    const pool = Object.keys(HANGUL_DATA.vocabulary).filter(k => k.length === targetLen);
-                    
-                    while (options.length < 4 && pool.length >= 4) {
-                        const k = pool[Math.floor(Math.random() * pool.length)];
-                        const dVal = State.isReverse ? k : HANGUL_DATA.vocabulary[k];
-                        if (!options.includes(dVal)) options.push(dVal);
-                    }
-                    // Fallback
-                    while (options.length < 4) {
-                        const k = State.currentKeys[Math.floor(Math.random() * State.currentKeys.length)];
-                        const dVal = State.isReverse ? k : State.currentDict[k];
-                        if (!options.includes(dVal)) options.push(dVal);
-                    }
-                } else {
-                    let catPool = [];
-                    for (const cat in HANGUL_DATA) {
-                        if (HANGUL_DATA[cat][qChar]) {
-                            catPool = State.isReverse ? Object.keys(HANGUL_DATA[cat]) : Object.values(HANGUL_DATA[cat]);
-                            break;
-                        }
-                    }
-
-                    while (options.length < 4 && catPool.length >= 4) {
-                        const dVal = catPool[Math.floor(Math.random() * catPool.length)];
-                        if (!options.includes(dVal)) options.push(dVal);
-                    }
-                    // Fallback
-                    while (options.length < 4) {
-                        const k = State.currentKeys[Math.floor(Math.random() * State.currentKeys.length)];
-                        const dVal = State.isReverse ? k : State.currentDict[k];
-                        if (!options.includes(dVal)) options.push(dVal);
-                    }
+            
+            if (State.mode !== 'typing' && State.mode !== 'flashcards') {
+                const ops = [State.currentQ.answer];
+                while (ops.length < Math.min(4, State.currentKeys.length)) {
+                    const k = State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
+                    const v = State.isReverse ? k : (typeof State.currentDict[k] === 'object' ? State.currentDict[k].def : State.currentDict[k]);
+                    if (!ops.includes(v)) ops.push(v);
                 }
-
-                shuffle(options);
-
+                for(let i=ops.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ops[i],ops[j]]=[ops[j],ops[i]]}
                 ui.options.innerHTML = '';
-                options.forEach((opt, i) => {
-                    const btn = document.createElement('button');
-                    btn.className = "btn-option p-6 rounded-2xl text-xl font-bold relative group";
-                    if (State.isReverse) btn.classList.add('kr-font', 'text-3xl');
-                    
-                    // Store answer in a data attribute to avoid substring matching issues
-                    btn.dataset.value = opt;
-                    btn.innerHTML = `<span class="absolute top-2 left-3 text-[10px] text-gray-500 opacity-50 group-hover:opacity-100">${i+1}</span>${opt}`;
-                    btn.onclick = () => submitAnswer(opt, btn);
-                    ui.options.appendChild(btn);
-                });
+                ops.forEach(o => { const b = document.createElement('button'); b.className = "btn-option p-6 rounded-2xl font-bold"; b.textContent = o; b.onclick = () => submitAnswer(o, b); ui.options.appendChild(b); });
             }
-
-            ui.progressBar.style.width = `${(State.qCount / (State.mode === 'speedMatch' ? 1 : State.maxQ)) * 100}%`;
+            ui.progressBar.style.width = `${(State.qCount/State.maxQ)*100}%`;
         }
 
-        function submitAnswer(selected, btn) {
-            if (State.isProcessing) return;
-            
-            // Writing mode check
-            if (State.mode === 'writing' && !State.writing.hasDrawn) return;
+        function updateTypingDisplay() {
+            const display = document.getElementById('typing-display');
+            display.textContent = State.typingInput || ' ';
+        }
 
-            State.isProcessing = true;
-            State.qCount++;
+        function submitAnswer(s, b) {
+            if (State.isProcessing) return; 
+            const ans = s.toLowerCase().trim();
+            const target = State.currentQ.answer.toLowerCase().trim();
+            const isCharMatch = (ROMAN_MAP[s] === State.currentQ.char || ROMAN_MAP[ans] === State.currentQ.char || State.currentQ.char === s);
+            const correct = ans === target || isCharMatch;
 
-            const correct = selected === State.currentQ.answer || (State.mode === 'typing' && selected === State.currentQ.char);
-            
-            // Persistence update
-            const char = State.currentQ.char;
-            if (!State.persistence.mastery[char]) State.persistence.mastery[char] = { correct: 0, total: 0 };
-            State.persistence.mastery[char].total++;
-            if (correct) State.persistence.mastery[char].correct++;
-            saveStats();
-
-            if (correct) {
-                State.score++; State.streak++;
-                if (State.streak > State.maxStreak) State.maxStreak = State.streak;
-                if (btn) btn.classList.add('correct');
-                ui.question.style.color = "var(--success)";
-                ui.question.style.opacity = "1";
-            } else {
-                State.streak = 0;
-                if (btn) btn.classList.add('wrong');
-                ui.question.style.color = "var(--error)";
-                ui.question.style.opacity = "1";
-                // Highlight correct one precisely using data-value
-                if (State.mode !== 'typing' && State.mode !== 'builder') {
-                    document.querySelectorAll('.btn-option').forEach(b => {
-                        if (b.dataset.value === State.currentQ.answer) b.classList.add('correct');
-                    });
+            if (State.mode !== 'flashcards') {
+                State.isProcessing = true; 
+                State.qCount++;
+                if (correct) { 
+                    State.score++; 
+                    State.streak++; 
+                    if (State.streak > State.maxStreak) State.maxStreak = State.streak;
+                    if (b) b.classList.add('correct'); 
+                    ui.question.style.color = "#10b981"; 
                 }
-            }
-            
-            updateStats();
-            setTimeout(nextQuestion, State.mode === 'speedMatch' ? 600 : 1200);
-        }
-
-        // --- Syllable Logic ---
-        function combineHangul(i, m, f) {
-            const code = (i * 588) + (m * 28) + f + 44032;
-            return String.fromCharCode(code);
-        }
-
-        function generateRandomSyllable() {
-            const i = Math.floor(Math.random() * 19);
-            const m = Math.floor(Math.random() * 21);
-            const f = Math.floor(Math.random() * 28);
-            return combineHangul(i, m, f);
-        }
-
-        function romanizeSyllable(char) {
-            const code = char.charCodeAt(0) - 44032;
-            const i = Math.floor(code / 588);
-            const m = Math.floor((code % 588) / 28);
-            const f = code % 28;
-            
-            const iR = ROMAN_MAP[JAMO.initials[i]] || '';
-            const mR = ROMAN_MAP[JAMO.medials[m]] || '';
-            const fR = ROMAN_MAP[JAMO.finals[f]] || '';
-            return iR + mR + fR;
-        }
-
-        // --- Builder Setup ---
-        function setupBuilder() {
-            renderBuilderCol('col-initial', JAMO.initials, 'i');
-            renderBuilderCol('col-medial', JAMO.medials, 'm');
-            renderBuilderCol('col-final', JAMO.finals.map(f => f === '' ? 'None' : f), 'f');
-            updateBuilt();
-        }
-
-        function renderBuilderCol(id, list, type) {
-            const container = document.getElementById(id);
-            container.innerHTML = `<h4 class="text-[10px] text-gray-500 mb-2 sticky top-0 bg-transparent uppercase">${id.split('-')[1]}</h4>`;
-            list.forEach((char, idx) => {
-                const el = document.createElement('div');
-                el.className = `builder-item kr-font text-xl ${State.builder[type] === idx ? 'selected' : ''}`;
-                el.textContent = char;
-                el.onclick = () => {
-                    State.builder[type] = idx;
-                    container.querySelectorAll('.builder-item').forEach(i => i.classList.remove('selected'));
-                    el.classList.add('selected');
-                    updateBuilt();
-                };
-                container.appendChild(el);
-            });
-        }
-
-        function updateBuilt() {
-            const char = combineHangul(State.builder.i, State.builder.m, State.builder.f);
-            ui.built.textContent = char;
-            ui.builtInfo.textContent = romanizeSyllable(char).split('').join(' + ');
-
-            // Visualization Grid Update
-            const blocks = document.querySelectorAll('#syllable-viz .viz-block');
-            blocks.forEach(b => b.classList.remove('active'));
-            
-            // i (top)
-            blocks[0].classList.add('active');
-            blocks[1].classList.add('active');
-            // m (middle)
-            blocks[3].classList.add('active');
-            blocks[4].classList.add('active');
-            blocks[5].classList.add('active');
-            // f (bottom)
-            if (State.builder.f > 0) {
-                blocks[6].classList.add('active');
-                blocks[7].classList.add('active');
-                blocks[8].classList.add('active');
+                else { State.streak = 0; if (b) b.classList.add('wrong'); ui.question.style.color = "#ef4444"; }
+                ui.score.textContent = State.score; ui.streak.textContent = State.streak;
+                setTimeout(nextQuestion, 1000);
             }
         }
 
-        // --- Keyboard Functions ---
-        function renderKeyboard() {
-            const container = document.getElementById('virtual-keyboard');
-            container.innerHTML = '';
-            KEYBOARD_ROWS.forEach(row => {
-                const rowEl = document.createElement('div');
-                rowEl.className = 'keyboard-row';
-                row.forEach(key => {
-                    const char = KEYBOARD_MAP[key];
-                    const keyEl = document.createElement('div');
-                    keyEl.className = 'key';
-                    keyEl.dataset.key = key;
-                    keyEl.innerHTML = `
-                        <span class="kor">${char}</span>
-                        <span class="eng">${key}</span>
-                    `;
-                    keyEl.onclick = () => handleKeyClick(char, key);
-                    rowEl.appendChild(keyEl);
-                });
-                container.appendChild(rowEl);
-            });
-        }
-
-        function handleKeyClick(korChar, engKey) {
-            if (State.isProcessing) return;
-
-            // Highlight key
-            const keyEl = document.querySelector(`.key[data-key="${engKey}"]`);
-            if (keyEl) {
-                keyEl.classList.add('active');
-                setTimeout(() => keyEl.classList.remove('active'), 150);
-            }
-
-            if (State.mode === 'typing') {
-                if (korChar === State.currentQ.char) {
-                    submitAnswer(korChar);
-                } else {
-                    // Visual feedback for wrong key
-                    ui.question.style.color = "var(--error)";
-                    setTimeout(() => {
-                        if (!State.isProcessing) ui.question.style.color = "white";
-                    }, 500);
-                }
-            } else if (State.mode === 'builder') {
-                // Auto-select in builder
-                const isVowel = JAMO.medials.includes(korChar);
-                if (isVowel) {
-                    const idx = JAMO.medials.indexOf(korChar);
-                    if (idx !== -1) {
-                        State.builder.m = idx;
-                        renderBuilderCol('col-medial', JAMO.medials, 'm');
-                        updateBuilt();
-                    }
-                } else {
-                    const iIdx = JAMO.initials.indexOf(korChar);
-                    const fIdx = JAMO.finals.indexOf(korChar);
-                    
-                    if (iIdx !== -1) {
-                        State.builder.i = iIdx;
-                        renderBuilderCol('col-initial', JAMO.initials, 'i');
-                    }
-                    if (fIdx !== -1) {
-                        State.builder.f = fIdx;
-                        renderBuilderCol('col-final', JAMO.finals.map(f => f === '' ? 'None' : f), 'f');
-                    }
-                    updateBuilt();
-                }
+        function clearLibrary() {
+            if (confirm('Are you sure you want to clear your entire library?')) {
+                HANGUL_DATA.custom = {};
+                State.persistence.customList = {};
+                saveStats();
+                renderCustomLibrary();
             }
         }
 
-        // --- Utilities ---
-        function speak(text) {
-            if (!window.speechSynthesis) return;
+        function endSession() { showScreen('results'); document.getElementById('final-score').textContent = State.score; document.getElementById('final-acc').textContent = Math.round((State.score/(State.qCount||1))*100) + '%'; document.getElementById('final-streak').textContent = State.maxStreak; }
+        function startSpeedMatch() { State.timer.count = 60; ui.timer.classList.remove('hidden'); State.timer.interval = setInterval(() => { State.timer.count--; ui.timer.textContent = State.timer.count + 's'; if (State.timer.count <= 0) { clearInterval(State.timer.interval); endSession(); } }, 1000); nextQuestion(); }
+        function startDrawing(e) { State.writing.isDrawing = true; State.writing.hasDrawn = true; const r = ui.canvas.getBoundingClientRect(); State.writing.lastX = (e.clientX || e.touches[0].clientX) - r.left; State.writing.lastY = (e.clientY || e.touches[0].clientY) - r.top; }
+        function draw(e) { if (!State.writing.isDrawing) return; const r = ui.canvas.getBoundingClientRect(); const x = (e.clientX || e.touches[0].clientX) - r.left; const y = (e.clientY || e.touches[0].clientY) - r.top; ui.ctx.beginPath(); ui.ctx.moveTo(State.writing.lastX, State.writing.lastY); ui.ctx.lineTo(x, y); ui.ctx.strokeStyle = "#d4af37"; ui.ctx.lineWidth = 10; ui.ctx.lineCap = 'round'; ui.ctx.stroke(); State.writing.lastX = x; State.writing.lastY = y; }
+        function speak(t) { 
+            if (!t) return;
             window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(text);
-            msg.lang = 'ko-KR';
-            msg.rate = State.settings.audioSpeed || 0.9;
-            window.speechSynthesis.speak(msg);
+            const m = new SpeechSynthesisUtterance(t); 
+            m.lang = 'ko-KR'; 
+            m.rate = 0.8; 
+            window.speechSynthesis.speak(m); 
         }
-
-        function shuffle(arr) {
-            for (let i = arr.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [arr[i], arr[j]] = [arr[j], arr[i]];
-            }
+        
+        function moveFlashcard(d) { 
+            if (State.flashcards.pool.length === 0) return;
+            State.flashcards.index = (State.flashcards.index + d + State.flashcards.pool.length) % State.flashcards.pool.length; 
+            nextQuestion();
+            speak(State.currentQ.char);
         }
-
-        function updateStats() {
-            ui.score.textContent = State.score;
-            ui.streak.textContent = State.streak;
-        }
-
-        function endSession() {
-            clearInterval(State.timer.interval);
-            showScreen('results');
-            document.getElementById('final-score').textContent = State.score;
-            document.getElementById('final-acc').textContent = State.qCount > 0 ? Math.round((State.score / State.qCount) * 100) + '%' : '0%';
-            document.getElementById('final-streak').textContent = State.maxStreak;
-        }
-
-        function handleInput(e) {
-            if (ui.screens.study.classList.contains('hidden') || State.isProcessing) return;
+        
+        function renderKeyboard() { 
+            const c = document.getElementById('virtual-keyboard'); 
+            c.innerHTML = ''; 
             
-            // Check for virtual keyboard mapping
-            if (KEYBOARD_MAP[e.key]) {
-                handleKeyClick(KEYBOARD_MAP[e.key], e.key);
-                return;
-            }
+            const isHangulTarget = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(State.currentQ.answer);
+            const layout = isHangulTarget ? 
+                [['ㅂ','ㅈ','ㄷ','ㄱ','ㅅ','ㅛ','ㅕ','ㅑ','ㅐ','ㅔ'], ['ㅁ','ㄴ','ㅇ','ㄹ','ㅎ','ㅗ','ㅓ','ㅏ','ㅣ'], ['ㅋ','ㅌ','ㅊ','ㅍ','ㅠ','ㅜ','ㅡ']] :
+                [['q','w','e','r','t','y','u','i','o','p'], ['a','s','d','f','g','h','j','k','l'], ['z','x','c','v','b','n','m']];
 
-            const key = parseInt(e.key);
-            if (key >= 1 && key <= 4) {
-                const btns = ui.options.querySelectorAll('button');
-                if (btns[key - 1]) btns[key - 1].click();
-            }
-            if (e.key === 'r') speak(State.currentQ.char);
-            if (e.key === 'Enter' && State.mode === 'writing') document.getElementById('submit-writing').click();
-            if (e.key === 'Escape') document.getElementById('clear-writing').click();
+            layout.forEach(r => { 
+                const row = document.createElement('div'); 
+                row.className = 'keyboard-row'; 
+                r.forEach(k => { 
+                    const key = document.createElement('div'); 
+                    key.className = 'key'; 
+                    key.innerHTML = `<span class="text-xs uppercase text-white font-bold">${k}</span>`; 
+                    key.onclick = () => { State.typingInput += k; updateTypingDisplay(); }; 
+                    row.appendChild(key); 
+                }); 
+                c.appendChild(row); 
+            }); 
+            
+            const controls = document.createElement('div');
+            controls.className = 'keyboard-row mt-2';
+            const backspace = document.createElement('div');
+            backspace.className = 'key w-20';
+            backspace.innerHTML = '<span class="text-[10px] font-bold">BKSP</span>';
+            backspace.onclick = () => { State.typingInput = State.typingInput.slice(0, -1); updateTypingDisplay(); };
+            
+            const enter = document.createElement('div');
+            enter.className = 'key w-20 !bg-[#d4af37] !text-black';
+            enter.innerHTML = '<span class="text-[10px] font-bold">ENTER</span>';
+            enter.onclick = () => { submitAnswer(State.typingInput); };
+            
+            controls.appendChild(backspace);
+            controls.appendChild(enter);
+            c.appendChild(controls);
         }
-
+        
         init();
-        window.addEventListener('keydown', handleInput);
     </script>
 </body>
 </html>
