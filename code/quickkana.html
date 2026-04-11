@@ -2,575 +2,983 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <link rel="icon" type="image/png" href="../logo.png">
-    <title>QuickKana</title>
+    <title>QuickKana - Master Japanese</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
     <style>
         :root {
-            /* Inherits some variables from styles.css */
-            --bg-glass-hover: rgba(40, 45, 60, 0.8);
+            --accent-kana: #ff4d4d;
+            --accent-glow-kana: rgba(255, 77, 77, 0.4);
+            --bg-dark: #0b0b0b;
+            --bg-glass: rgba(20, 20, 25, 0.85);
+            --bg-glass-hover: rgba(45, 50, 70, 0.9);
             --error: #ef4444;
             --success: #10b981;
             --font-jp: 'Noto Sans JP', sans-serif;
+            --font-serif: 'Playfair Display', serif;
         }
-
         body {
+            background-color: var(--bg-dark);
+            color: #e2e8f0;
+            overflow-x: hidden;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            position: relative;
         }
         
-        /* Nav override for full screen apps */
-        nav {
-            padding: 15px 30px !important;
-            border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        .step-container {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(0);
+            opacity: 1;
         }
-        .logo { font-size: 1.1rem !important; }
-        .nav-links a { font-size: 0.75rem !important; margin-left: 20px !important; }
+        .step-container.exit-left { transform: translateX(-50px); opacity: 0; pointer-events: none; }
+        .step-container.exit-right { transform: translateX(50px); opacity: 0; pointer-events: none; }
+        .step-container.enter-right { transform: translateX(50px); opacity: 0; }
+        .step-container.enter-left { transform: translateX(-50px); opacity: 0; }
 
-        /* Ambient Background */
-        .ambient-light {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-            overflow: hidden;
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
         }
-        .orb {
-            position: absolute;
+        .step-dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            animation: float 20s infinite ease-in-out;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
         }
-        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-dim), transparent); }
-        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); animation-delay: -10s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0); }
-            50% { transform: translate(20px, 40px); }
+        .step-dot.active {
+            background: var(--accent-kana);
+            box-shadow: 0 0 10px var(--accent-glow-kana);
+            transform: scale(1.2);
         }
 
-        /* Glassmorphism Card */
+        .hero-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            overflow: hidden;
+            position: relative;
+        }
+        .hero-card:hover {
+            background: rgba(255, 77, 77, 0.08);
+            border-color: var(--accent-kana);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+        }
+        .hero-card.selected {
+            background: rgba(255, 77, 77, 0.15);
+            border-color: var(--accent-kana);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 30px rgba(255, 77, 77, 0.25);
+        }
+
+        .mode-item, .option-card {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding: 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: left;
+            width: 100%;
+        }
+        .mode-item:hover, .option-card:hover { 
+            background: rgba(255, 255, 255, 0.06); 
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .mode-item.selected, .option-card.selected {
+            border-color: var(--accent-kana);
+            background: rgba(255, 77, 77, 0.12);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 0 25px rgba(255, 77, 77, 0.15);
+        }
+        .option-card {
+            padding: 1rem;
+            gap: 1rem;
+        }
+
+        .segmented-control {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5px;
+            border-radius: 14px;
+            display: inline-flex;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .segment-btn {
+            padding: 10px 28px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+        }
+        .segment-btn.active {
+            background: var(--accent-kana);
+            color: black;
+            box-shadow: 0 5px 15px rgba(255, 77, 77, 0.35);
+        }
+
         .glass-card {
             background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
-
-        /* Typography */
-        h1, h2, .serif-font { font-family: var(--font-serif); }
-        .jp-font { font-family: var(--font-jp); }
-
-        /* Buttons */
-        .btn-gold {
+        .btn-primary {
             background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-family: var(--font-sans);
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            border: 1.5px solid var(--accent-kana);
+            color: var(--accent-kana);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 0 rgba(255, 77, 77, 0);
         }
-        .btn-gold:hover:not(:disabled) {
-            background: var(--accent);
-            color: var(--bg-dark);
-            box-shadow: 0 0 15px var(--accent-glow);
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-kana);
+            color: black;
+            box-shadow: 0 0 25px var(--accent-glow-kana);
+            transform: translateY(-3px);
         }
-        .btn-gold:active:not(:disabled) { transform: scale(0.98); }
-        .btn-gold:disabled {
-            border-color: var(--text-muted);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            opacity: 0.5;
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
-        .btn-option {
-            background: rgba(255, 255, 255, 0.03);
+        .btn-outline.selected {
+            border-color: var(--accent-kana);
+            background: rgba(255, 77, 77, 0.15);
+            color: white;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.15);
+        }
+        .btn-back {
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            transition: all 0.2s ease;
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .btn-option:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-        }
-        .btn-option.correct {
-            background: rgba(16, 185, 129, 0.2);
-            border-color: var(--success);
-            color: var(--success);
-        }
-        .btn-option.wrong {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: var(--error);
-            color: var(--error);
-        }
-
-        /* Progress Bar */
-        #progress-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: rgba(255,255,255,0.05);
-            z-index: 50;
-        }
-        #progress-bar {
-            height: 100%;
-            background: var(--accent);
-            width: 0%;
-            box-shadow: 0 0 10px var(--accent);
-            transition: width 0.4s ease;
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* Animations */
+        .pill-stat {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        nav { padding: 15px 30px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+        .logo { font-size: 1.1rem !important; }
+        footer .social-links a { font-size: 10px !important; text-transform: uppercase; color: #94a3b8 !important; opacity: 0.6; }
+        .hidden { display: none !important; }
+        #progress-bar { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: var(--accent-kana); z-index: 100; box-shadow: 0 0 10px var(--accent-kana); transition: width 0.4s ease; }
+        .ambient-light { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; pointer-events: none; z-index: -1; overflow: hidden; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite ease-in-out; }
+        .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--accent-kana), transparent); opacity: 0.15; }
+        .orb-2 { bottom: -10%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, #2d3748, transparent); animation-delay: -10s; opacity: 0.2; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(20px, 40px); } }
+        
+        .btn-option { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.2s; color: white; }
+        .btn-option.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success); color: var(--success); }
+        .btn-option.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--error); color: var(--error); }
+        
+        /* Keyboard Styles */
+        #virtual-keyboard { margin-top: 2rem; display: flex; flex-direction: column; gap: 0.5rem; align-items: center; }
+        .keyboard-row { display: flex; gap: 0.5rem; }
+        .key { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 8px; 
+            width: 36px; 
+            height: 44px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            transition: all 0.2s;
+        }
+        .key:hover { background: rgba(255, 77, 77, 0.2); border-color: var(--accent-kana); transform: translateY(-2px); }
+        .key:active { transform: translateY(0); }
+        .typing-input-display {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 0.2em;
+        }
+
+        .jp-font { font-family: var(--font-jp); }
+        .serif-font { font-family: var(--font-serif); }
+        
+        #custom-word-bank .word-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        #quiz-area { height: 320px; }
+
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(255, 77, 77, 0.2); border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 77, 77, 0.4); }
+
         .fade-in { animation: fadeIn 0.5s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .hidden { display: none !important; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
     <header><nav></nav></header>
 
-    <!-- Ambient Background -->
     <div class="ambient-light">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
     </div>
 
-    <!-- Progress Bar (Visible only during Quiz) -->
     <div id="progress-container" class="hidden"><div id="progress-bar"></div></div>
-
-    <!-- Main Container -->
+    
     <main class="flex-grow flex items-center justify-center p-4 w-full relative z-10">
-        <div class="w-full max-w-2xl">
-        
-        <!-- Start Screen -->
-        <section id="start-screen" class="glass-card p-8 md:p-12 text-center fade-in">
-            <p class="text-xs tracking-[0.2em] text-[#d4af37] uppercase mb-4">Japanese Literacy Tool</p>
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-                QuickKana
-            </h1>
-            <p class="text-[#94a3b8] mb-10 text-lg leading-relaxed max-w-md mx-auto">
-                Master Hiragana and Katakana through focused, high-speed recognition sessions. Select a mode to begin.
-            </p>
+        <div class="w-full max-w-3xl">
+            <section id="start-screen" class="glass-card p-8 md:p-12 text-center relative min-h-[620px] flex flex-col justify-start text-white">
+                
+                <div class="step-indicator">
+                    <div class="step-dot active" data-step="0"></div>
+                    <div class="step-dot" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
+                </div>
 
-            <div class="grid grid-cols-2 gap-4 mb-8">
-                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="Hiragana">
-                    <span class="block text-sm opacity-70 mb-1">Standard</span>
-                    Hiragana
-                </button>
-                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="Katakana">
-                    <span class="block text-sm opacity-70 mb-1">Standard</span>
-                    Katakana
-                </button>
-                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="HiraganaPlus">
-                    <span class="block text-sm opacity-70 mb-1">Advanced</span>
-                    Hiragana +
-                </button>
-                <button class="btn-gold py-4 px-6 rounded-lg text-lg font-medium" data-mode="KatakanaPlus">
-                    <span class="block text-sm opacity-70 mb-1">Advanced</span>
-                    Katakana +
-                </button>
-            </div>
-
-            <div class="text-[#94a3b8] text-sm border-t border-white/10 pt-6 mt-6 flex justify-between items-center">
-                <span>Press 1-4 to answer on keyboard</span>
-                <span id="global-best-score">Best Streak: 0</span>
-            </div>
-        </section>
-
-        <!-- Quiz Screen -->
-        <section id="quiz-screen" class="hidden w-full">
-            <div class="glass-card p-8 md:p-12 text-center relative">
-                <!-- Header Stats -->
-                <div class="flex justify-between items-center mb-8 text-sm text-[#94a3b8] font-mono">
-                    <button id="quit-button" class="hover:text-white transition-colors">← QUIT</button>
-                    <div class="flex gap-6">
-                        <span>STREAK: <span id="streak-counter" class="text-[#d4af37]">0</span></span>
-                        <span>SCORE: <span id="score-counter" class="text-white">0</span>/10</span>
+                <!-- STEP 0: INTRO -->
+                <div id="flow-step-0" class="step-container space-y-12 pt-12 flex flex-col items-center justify-center flex-grow">
+                    <div class="space-y-4">
+                        <div class="text-6xl md:text-8xl mb-4 animate-bounce">⛩️</div>
+                        <h1 class="text-5xl md:text-7xl font-bold text-white serif-font italic tracking-tight">QuickKana</h1>
+                        <p class="text-[10px] tracking-[0.4em] text-[#ff4d4d] uppercase font-bold opacity-80">Master the Art of Japanese</p>
+                    </div>
+                    
+                    <button type="button" onclick="nextStep(1)" class="btn-primary w-full max-w-xs py-6 rounded-2xl text-sm font-bold tracking-[0.4em] mt-8 group">
+                        GET STARTED <span class="inline-block transition-transform group-hover:translate-x-2">→</span>
+                    </button>
+                    
+                    <div class="pt-8 opacity-30 text-[9px] uppercase tracking-widest font-medium">
+                        Hiragana • Katakana • Vocabulary
                     </div>
                 </div>
 
-                <!-- Question -->
-                <div class="mb-12 relative h-48 flex items-center justify-center">
-                    <div id="question-display" class="jp-font text-8xl md:text-9xl font-bold text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)] transition-all duration-300">
-                        あ
+                <!-- STEP 1: PRE-SELECTOR -->
+                <div id="flow-step-1" class="step-container hidden space-y-10 pt-4">
+                    <div class="flex justify-start md:block mb-4 md:mb-0">
+                        <button type="button" onclick="prevStep(0)" class="btn-back md:absolute md:top-8 md:left-8">
+                            <span>←</span> Back
+                        </button>
                     </div>
-                    <!-- Feedback Overlay -->
-                    <div id="feedback-overlay" class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
-                        <span id="feedback-text" class="serif-font text-4xl font-bold tracking-widest">CORRECT</span>
+                    <div class="space-y-2">
+                        <p class="text-[10px] tracking-[0.3em] text-[#ff4d4d] uppercase font-bold">Step 1: Choose Path</p>
+                        <h2 class="text-4xl md:text-5xl font-bold text-white serif-font italic">What are we learning today?</h2>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+                        <div class="hero-card p-10 rounded-3xl group" onclick="selectFlow('chars', event)">
+                            <div class="text-5xl mb-6 opacity-40 group-hover:opacity-100 transition-opacity">あア</div>
+                            <h3 class="text-xl font-bold mb-2">Characters</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">The Fundamentals</p>
+                        </div>
+                        <div class="hero-card p-10 rounded-3xl group" onclick="selectFlow('vocab', event)">
+                            <div class="text-5xl mb-6 opacity-40 group-hover:opacity-100 transition-opacity">りんご</div>
+                            <h3 class="text-xl font-bold mb-2">Vocabulary</h3>
+                            <p class="text-xs text-gray-500 uppercase tracking-widest font-medium">Applied Language</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Options -->
-                <div id="options-grid" class="grid grid-cols-2 gap-4 md:gap-6">
-                    <!-- Buttons generated by JS -->
+                <!-- STEP 2: SUB-CATEGORY -->
+                <div id="flow-step-2" class="step-container hidden space-y-8 pt-4">
+                    <div class="flex justify-start md:block mb-4 md:mb-0">
+                        <button type="button" onclick="prevStep(1)" class="btn-back md:absolute md:top-8 md:left-8">
+                            <span>←</span> Back
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <p id="step-2-label" class="text-[10px] tracking-[0.3em] text-[#ff4d4d] uppercase font-bold">Step 2</p>
+                        <h2 class="text-3xl font-bold serif-font italic">Refine your focus</h2>
+                    </div>
+
+                    <!-- Characters Path -->
+                    <div id="filter-chars" class="hidden grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <button type="button" class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="hiragana">Hiragana</button>
+                        <button type="button" class="btn-outline selected p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="katakana">Katakana</button>
+                        <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="dakuten">Dakuten</button>
+                        <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="combos">Combos</button>
+                    </div>
+
+                    <!-- Vocabulary Path -->
+                    <div id="filter-vocab" class="hidden space-y-8">
+                        <div class="segmented-control">
+                            <button type="button" class="segment-btn active" onclick="switchVocabTab('curated', event)">Curated</button>
+                            <button type="button" class="segment-btn" onclick="switchVocabTab('library', event)">My Library</button>
+                        </div>
+
+                        <div id="vocab-curated" class="grid grid-cols-3 gap-3">
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="travel">Travel</button>
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="school">School</button>
+                            <button type="button" class="btn-outline p-4 rounded-xl text-[10px] uppercase tracking-widest font-bold" data-cat="vocabulary">General</button>
+                        </div>
+
+                        <div id="vocab-library" class="hidden space-y-4">
+                            <div class="flex justify-between items-center px-1">
+                                <span class="text-[9px] uppercase tracking-widest font-bold opacity-40">Saved Words</span>
+                                <button type="button" onclick="clearLibrary()" class="text-[9px] text-red-500/60 hover:text-red-500 uppercase font-bold transition-colors">Clear All</button>
+                            </div>
+                            <div id="custom-word-bank" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
+                            <button type="button" class="btn-outline w-full p-4 rounded-xl border-dashed border-[#ff4d4d]/30 text-[10px] uppercase tracking-widest font-bold" id="custom-cat-btn">
+                                + Add More Words
+                            </button>
+                            <div id="custom-importer" class="hidden p-6 bg-white/5 rounded-2xl border border-[#ff4d4d]/20 text-left fade-in">
+                                <div id="importer-input-step">
+                                    <textarea id="custom-input" placeholder="apple, water, cat..." class="w-full h-32 bg-black/60 border-2 border-white/10 rounded-xl p-4 text-sm mb-4 focus:border-[#ff4d4d] outline-none text-white transition-all shadow-inner"></textarea>
+                                    <button type="button" id="translate-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Translate</button>
+                                </div>
+                                <div id="importer-preview-step" class="hidden space-y-4">
+                                    <div id="preview-list" class="max-h-48 overflow-y-auto space-y-2 pr-2 custom-scrollbar"></div>
+                                    <button type="button" id="add-to-list-btn" class="btn-primary w-full py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest">Add All to Library</button>
+                                </div>
+                                <div id="import-status" class="mt-3 text-[9px] uppercase opacity-50 font-bold text-center"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="nextStep(3)" class="btn-primary w-full max-w-xs mx-auto py-4 rounded-xl text-xs font-bold tracking-[0.2em]">
+                        CONTINUE →
+                    </button>
                 </div>
-            </div>
-        </section>
 
-        <!-- Results Screen -->
-        <section id="results-screen" class="hidden glass-card p-8 md:p-12 text-center fade-in">
-            <h2 class="text-3xl font-bold text-[#d4af37] mb-2">Session Complete</h2>
-            <p class="text-[#94a3b8] mb-8">Performance Summary</p>
+                <!-- STEP 3: MODE SELECTION -->
+                <div id="flow-step-3" class="step-container hidden space-y-8 pt-4">
+                    <button type="button" onclick="prevStep(2)" class="btn-back absolute top-8 left-8">
+                        <span>←</span> Back
+                    </button>
+                    
+                    <div class="space-y-2 text-center text-white">
+                        <p class="text-[10px] tracking-[0.3em] text-[#ff4d4d] uppercase font-bold">Final Step: Training</p>
+                        <h2 class="text-3xl font-bold serif-font italic text-white text-center">Select training mode</h2>
+                    </div>
 
-            <div class="grid grid-cols-3 gap-4 mb-10">
-                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
-                    <div class="text-sm text-[#94a3b8] mb-1">Score</div>
-                    <div id="final-score" class="text-3xl font-bold text-white">0/10</div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">1. Choose Activity</p>
+                            <div class="space-y-2">
+                                <button type="button" class="mode-item" data-mode="quiz">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🎯</div>
+                                    <div><h4 class="font-bold text-sm text-white">QUIZ</h4><p class="text-[10px] text-gray-500">Multiple choice</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="flashcards">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🃏</div>
+                                    <div><h4 class="font-bold text-sm text-white">CARDS</h4><p class="text-[10px] text-gray-500">Traditional study deck</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="typing">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⌨️</div>
+                                    <div><h4 class="font-bold text-sm text-white">TYPE</h4><p class="text-[10px] text-gray-500">Keyboard practice</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="speedMatch">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⚡</div>
+                                    <div><h4 class="font-bold text-sm text-white">SPEED</h4><p class="text-[10px] text-gray-500">Timed rapid-fire</p></div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">2. Customize Session</p>
+                            <div class="space-y-2">
+                                <div class="option-card cursor-pointer" id="opt-reverse">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🔄</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">REVERSE MODE</h4>
+                                        <p class="text-[10px] text-gray-500">Guess Japanese from English</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                                <div class="option-card cursor-pointer" id="opt-test-all">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">♾️</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">TEST ALL</h4>
+                                        <p class="text-[10px] text-gray-500">Practice every item at once</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                                <div class="option-card cursor-pointer" id="opt-teach">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">👨‍🏫</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">TEACH MODE</h4>
+                                        <p class="text-[10px] text-gray-500">Repeat missed items until mastered</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em] mt-4">
+                        START SESSION
+                    </button>
                 </div>
-                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
-                    <div class="text-sm text-[#94a3b8] mb-1">Accuracy</div>
-                    <div id="final-accuracy" class="text-3xl font-bold text-white">0%</div>
+            </section>
+
+            <section id="study-screen" class="hidden w-full">
+                <div class="glass-card p-10 md:p-14 text-center relative overflow-hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 text-[10px] font-bold tracking-widest text-[#94a3b8]">
+                        <button type="button" id="quit-button" class="btn-back !bg-red-500/10 !border-red-500/20 hover:!bg-red-500/20 !text-red-500">
+                            🚪 Leave Session
+                        </button>
+                        
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div id="timer-display" class="hidden pill-stat bg-[#ff4d4d]/10 !border-[#ff4d4d]/20 text-[#ff4d4d]">
+                                <span>⚡</span> <span id="timer-val">60s</span>
+                            </div>
+                            <button type="button" id="audio-button" class="pill-stat hover:bg-white/10 transition-colors">
+                                <span>🔊</span> REPLAY
+                            </button>
+                            <div class="pill-stat">
+                                <span class="opacity-50">SCORE</span> <span id="score-counter" class="text-white">0</span>
+                            </div>
+                            <div class="pill-stat">
+                                <span class="opacity-50">STREAK</span> <span id="streak-counter" class="text-[#ff4d4d]">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="quiz-area" class="h-64 flex flex-col items-center justify-center mb-10 relative cursor-pointer group">
+                        <div id="question-display" class="jp-font text-8xl md:text-9xl font-bold drop-shadow-xl transition-all duration-300 text-white">あ</div>
+                    </div>
+                    <div id="options-grid" class="grid grid-cols-2 gap-4"></div>
+                    <div id="typing-controls" class="hidden flex flex-col items-center pt-6">
+                        <div id="typing-display" class="typing-input-display"></div>
+                        <div id="virtual-keyboard"></div>
+                    </div>
+                    <div id="fc-controls" class="hidden flex justify-center gap-6 pt-6">
+                        <button type="button" class="btn-outline p-4 rounded-full w-16 h-16" id="prev-fc">←</button>
+                        <button type="button" class="btn-primary p-4 rounded-full w-20 h-20 text-2xl" id="flip-fc">↻</button>
+                        <button type="button" class="btn-outline p-4 rounded-full w-16 h-16" id="next-fc">→</button>
+                    </div>
                 </div>
-                <div class="p-4 bg-white/5 rounded-lg border border-white/10">
-                    <div class="text-sm text-[#94a3b8] mb-1">Best Streak</div>
-                    <div id="final-streak" class="text-3xl font-bold text-[#d4af37]">0</div>
+            </section>
+
+            <section id="results-screen" class="hidden glass-card p-12 text-center fade-in text-white">
+                <div class="mb-10">
+                    <div class="text-[50px] mb-4">🏆</div>
+                    <h2 class="text-4xl font-bold serif-font italic text-white text-center">Session Complete</h2>
+                    <p class="text-[10px] uppercase tracking-[0.3em] text-[#ff4d4d] font-bold mt-2">Outstanding Effort!</p>
                 </div>
-            </div>
+                
+                <div class="grid grid-cols-3 gap-6 mb-12">
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Score</div>
+                        <div id="final-score" class="text-4xl font-bold text-white">0</div>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Accuracy</div>
+                        <div id="final-acc" class="text-4xl font-bold text-white">0%</div>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Max Streak</div>
+                        <div id="final-streak" class="text-4xl font-bold text-[#ff4d4d]">0</div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button type="button" id="retry-btn" class="btn-primary py-5 px-12 rounded-2xl font-bold tracking-[0.2em] uppercase text-xs">Retry Session</button>
+                    <button type="button" id="home-btn" class="btn-outline py-5 px-12 rounded-2xl font-bold tracking-[0.2em] uppercase text-xs">Main Menu</button>
+                </div>
+            </section>
+        </div>
+    </main>
 
-            <p id="high-score-msg" class="text-[#94a3b8] mb-8 italic hidden">
-                ✨ New Personal Best for this mode!
-            </p>
-
-            <div class="flex flex-col md:flex-row gap-4 justify-center">
-                <button id="retry-button" class="btn-gold py-3 px-8 rounded-lg text-lg font-bold">Play Again</button>
-                <button id="menu-button" class="btn-option py-3 px-8 rounded-lg text-lg">Main Menu</button>
-            </div>
-        </section>
-
-    </div></main>
-
-    <footer class="fixed bottom-4 text-center w-full pointer-events-none">
-        <p class="text-[10px] text-[#94a3b8] opacity-50 uppercase tracking-widest">&copy; <span id="year"></span> Jamie Sessions</p>
+    <footer class="fixed bottom-4 text-center w-full">
+        <div class="social-links">
+            <a href="https://www.linkedin.com/in/jamie-sessions-15b646281" target="_blank">LinkedIn</a>
+            <a href="https://instagram.com/cijamie" target="_blank">Instagram</a>
+        </div>
+        <p class="text-[10px] text-[#94a3b8] opacity-50 uppercase tracking-widest font-bold">&copy; <span id="year"></span> Jamie Sessions</p>
     </footer>
 
     <script src="../components.js"></script>
     <script>
-        // --- Data ---
-        const DICTIONARIES = {
-            'Hiragana': {
-                'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o',
-                'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko',
-                'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so',
-                'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to',
-                'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no',
-                'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho',
-                'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo',
-                'や': 'ya', 'ゆ': 'yu', 'よ': 'yo',
-                'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro',
-                'わ': 'wa', 'を': 'wo', 'ん': 'n'
-            },
-            'Katakana': {
-                'ア': 'a', 'イ': 'i', 'ウ': 'u', 'エ': 'e', 'オ': 'o',
-                'カ': 'ka', 'キ': 'ki', 'ク': 'ku', 'ケ': 'ke', 'コ': 'ko',
-                'サ': 'sa', 'シ': 'shi', 'ス': 'su', 'セ': 'se', 'ソ': 'so',
-                'タ': 'ta', 'チ': 'chi', 'ツ': 'tsu', 'テ': 'te', 'ト': 'to',
-                'ナ': 'na', 'ニ': 'ni', 'ヌ': 'nu', 'ネ': 'ne', 'ノ': 'no',
-                'ハ': 'ha', 'ヒ': 'hi', 'フ': 'fu', 'ヘ': 'he', 'ホ': 'ho',
-                'マ': 'ma', 'ミ': 'mi', 'ム': 'mu', 'メ': 'me', 'モ': 'mo',
-                'ヤ': 'ya', 'ユ': 'yu', 'ヨ': 'yo', 'ラ': 'ra', 'リ': 'ri',
-                'ル': 'ru', 'レ': 're', 'ロ': 'ro', 'ワ': 'wa', 'ヲ': 'wo', 'ン': 'n'
+        const KANA_DATA = {
+            hiragana: { 'あ': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o', 'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko', 'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so', 'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to', 'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no', 'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho', 'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo', 'や': 'ya', 'ゆ': 'yu', 'よ': 'yo', 'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro', 'わ': 'wa', 'を': 'wo', 'ん': 'n' },
+            katakana: { 'ア': 'a', 'い': 'i', 'う': 'u', 'え': 'e', 'お': 'o', 'か': 'ka', 'き': 'ki', 'く': 'ku', 'け': 'ke', 'こ': 'ko', 'さ': 'sa', 'し': 'shi', 'す': 'su', 'せ': 'se', 'そ': 'so', 'た': 'ta', 'ち': 'chi', 'つ': 'tsu', 'て': 'te', 'と': 'to', 'な': 'na', 'に': 'ni', 'ぬ': 'nu', 'ね': 'ne', 'の': 'no', 'は': 'ha', 'ひ': 'hi', 'ふ': 'fu', 'へ': 'he', 'ほ': 'ho', 'ま': 'ma', 'み': 'mi', 'む': 'mu', 'め': 'me', 'も': 'mo', 'や': 'ya', 'ゆ': 'yu', 'よ': 'yo', 'ら': 'ra', 'り': 'ri', 'る': 'ru', 'れ': 're', 'ろ': 'ro', 'わ': 'wa', 'を': 'wo', 'ん': 'n' },
+            dakuten: { 'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go', 'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo', 'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do', '바': 'ba', '비': 'bi', '부': 'bu', 'べ': 'be', '보': 'bo', 'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po', 'ガ': 'ga', 'ギ': 'gi', 'グ': 'gu', 'ゲ': 'ge', 'ゴ': 'go', 'ザ': 'za', 'ジ': 'ji', 'ズ': 'zu', 'ゼ': 'ze', 'ゾ': 'zo', '다': 'da', 'ヂ': 'ji', 'ヅ': 'zu', 'デ': 'de', 'ド': 'do', '바': 'ba', '비': 'bi', '부': 'bu', 'べ': 'be', '보': 'bo', 'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po' },
+            combos: { 'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo', 'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho', 'ちゃ': 'cha', 'ちゅ': 'chu', 'ちょ': 'cho', 'にゃ': 'nya', 'にゅ': 'nyu', 'にょ': 'nyo', 'ひゃ': 'hya', 'ひゅ': 'hyu', 'ひょ': 'hyo', 'みゃ': 'mya', 'みゅ': 'myu', 'みょ': 'myo', 'りゃ': 'rya', 'りゅ': 'ryu', 'りょ': 'ryo', 'ぎゃ': 'gya', 'ぎゅ': 'gyu', 'ぎょ': 'gyo', 'じゃ': 'ja', 'じゅ': 'ju', 'じょ': 'jo', 'びゃ': 'bya', 'びゅ': 'byu', 'びょ': 'byo', 'ぴゃ': 'pya', 'ぴゅ': 'pyu', 'ぴょ': 'pyo' },
+            vocabulary: { 'りんご': { rom: 'ringo', def: 'Apple' }, 'ねこ': { rom: 'neko', def: 'Cat' }, 'いぬ': { rom: 'inu', def: 'Dog' }, 'みず': { rom: 'mizu', def: 'Water' }, 'おちゃ': { rom: 'ocha', def: 'Tea' }, 'さかな': { rom: 'sakana', def: 'Fish' }, 'とり': { rom: 'tori', def: 'Bird' }, 'いえ': { rom: 'ie', def: 'House' }, 'くるま': { rom: 'kuruma', def: 'Car' }, 'ほん': { rom: 'hon', def: 'Book' } },
+            travel: { 'こんにちは': { rom: 'konnichiwa', def: 'Hello' }, 'ありがとう': { rom: 'arigatou', def: 'Thank you' }, 'すみません': { rom: 'sumimasen', def: 'Excuse me' }, 'はい': { rom: 'hai', def: 'Yes' }, 'いいえ': { rom: 'iie', def: 'No' }, 'トイレ': { rom: 'toire', def: 'Toilet' }, 'えき': { rom: 'eki', def: 'Station' }, 'ホテル': { rom: 'hoteru', def: 'Hotel' } },
+            school: { 'せんせい': { rom: 'sensei', def: 'Teacher' }, '가학생': { rom: 'gakusei', def: 'Student' }, 'きょうしつ': { rom: 'kyoushitsu', def: 'Classroom' }, 'つくえ': { rom: 'tsukue', def: 'Desk' }, 'いす': { rom: 'isu', def: 'Chair' }, 'ともだち': { rom: 'tomodachi', def: 'Friend' } }
+        };
+        const ROMAN_MAP = { ...KANA_DATA.hiragana, ...KANA_DATA.katakana, ...KANA_DATA.dakuten, ...KANA_DATA.combos };
+        const BASIC_WORDS = { "hello": "こんにちは", "hi": "どうも", "water": "みず", "apple": "りんご", "love": "あい", "school": "がっこう" };
+        const State = {
+            step: 1, topCategory: 'chars', mode: 'quiz', activeCats: ['hiragana', 'katakana'], isReverse: false, isTestAll: false, isTeachMode: false, wrongQueue: [], testPool: [], currentDict: {}, currentKeys: [], score: 0, sessionAttempts: 0, streak: 0, maxStreak: 0, qCount: 0, maxQ: 15, currentQ: null, isProcessing: false, flashcards: { index: 0, pool: [] }, typingInput: '', timer: { count: 60, interval: null }, persistence: { mastery: {}, customList: {} }
+        };
+        const ui = {};
+
+        function clearAnimations() { document.querySelectorAll('.step-container').forEach(s => s.classList.remove('exit-left', 'exit-right', 'enter-left', 'enter-right')); }
+
+        function updateStepIndicator(n) {
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', parseInt(dot.dataset.step) === n);
+            });
+        }
+
+        function selectFlow(flow, e) {
+            State.topCategory = flow;
+            if (flow === 'chars') {
+                State.activeCats = ['hiragana', 'katakana'];
+            } else {
+                switchVocabTab('curated');
             }
-        };
-
-        // Add "Plus" (Dakuten/Combo) versions
-        const plusAdditions = (base) => {
-            const additions = {};
-            // Simplified generation for demonstration logic, manually adding common combos
-            // In a real app, this might be more algorithmic.
-            const combos = {
-                 'Hiragana': {
-                    'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
-                    'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
-                    'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
-                    'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
-                    'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
-                    'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo', 'しゃ': 'sha', 'しゅ': 'shu', 'しょ': 'sho'
-                 },
-                 'Katakana': {
-                    'ガ': 'ga', 'ギ': 'gi', 'グ': 'gu', 'ゲ': 'ge', 'ゴ': 'go',
-                    'ザ': 'za', 'ジ': 'ji', 'ズ': 'zu', 'ゼ': 'ze', 'ゾ': 'zo',
-                    'ダ': 'da', 'ヂ': 'ji', 'ヅ': 'zu', 'デ': 'de', 'ド': 'do',
-                    'バ': 'ba', 'ビ': 'bi', 'ブ': 'bu', 'ベ': 'be', 'ボ': 'bo',
-                    'パ': 'pa', 'ピ': 'pi', 'プ': 'pu', 'ペ': 'pe', 'ポ': 'po',
-                    'キャ': 'kya', 'キュ': 'kyu', 'キョ': 'kyo', 'シャ': 'sha', 'シュ': 'shu', 'ショ': 'sho'
-                 }
-            };
-            return { ...base, ...combos[base === DICTIONARIES.Hiragana ? 'Hiragana' : 'Katakana'] };
-        };
-
-        DICTIONARIES.HiraganaPlus = { ...DICTIONARIES.Hiragana, ...plusAdditions(DICTIONARIES.Hiragana).additions }; 
-        // Note: The helper above wasn't perfectly clean for merging, let's just hardcode the merging logic here for safety
-        const hAdd = {
-            'が': 'ga', 'ぎ': 'gi', 'ぐ': 'gu', 'げ': 'ge', 'ご': 'go',
-            'ざ': 'za', 'じ': 'ji', 'ず': 'zu', 'ぜ': 'ze', 'ぞ': 'zo',
-            'だ': 'da', 'ぢ': 'ji', 'づ': 'zu', 'で': 'de', 'ど': 'do',
-            'ば': 'ba', 'び': 'bi', 'ぶ': 'bu', 'べ': 'be', 'ぼ': 'bo',
-            'ぱ': 'pa', 'ぴ': 'pi', 'ぷ': 'pu', 'ぺ': 'pe', 'ぽ': 'po',
-            'きゃ': 'kya', 'きゅ': 'kyu', 'きょ': 'kyo'
-        };
-        const kAdd = {
-            'ガ': 'ga', 'ギ': 'gi', 'グ': 'gu', 'ゲ': 'ge', 'ゴ': 'go',
-            'ザ': 'za', 'ジ': 'ji', 'ズ': 'zu', 'ゼ': 'ze', 'ゾ': 'zo',
-            'ダ': 'da', 'ヂ': 'ji', 'ヅ': 'zu', 'デ': 'de', 'ド': 'do',
-            'バ': 'ba', 'ビ': 'bi', 'ブ': 'bu', 'ベ': 'be', 'ボ': 'bo',
-            'パ': 'pa', 'ピ': 'pi', 'プ': 'pu', 'ペ': 'pe', 'ポ': 'po',
-            'キャ': 'kya', 'キュ': 'kyu', 'キョ': 'kyo'
-        };
-        DICTIONARIES.HiraganaPlus = { ...DICTIONARIES.Hiragana, ...hAdd };
-        DICTIONARIES.KatakanaPlus = { ...DICTIONARIES.Katakana, ...kAdd };
-
-
-        // --- State ---
-        const GameState = {
-            mode: null,
-            dict: {},
-            keys: [],
-            questionCount: 0,
-            maxQuestions: 10,
-            score: 0,
-            streak: 0,
-            maxStreak: 0,
-            currentQ: { char: '', answer: '' },
-            isProcessing: false
-        };
-
-        // --- DOM Elements ---
-        const screens = {
-            start: document.getElementById('start-screen'),
-            quiz: document.getElementById('quiz-screen'),
-            results: document.getElementById('results-screen')
-        };
-        const ui = {
-            progress: document.getElementById('progress-container'),
-            progressBar: document.getElementById('progress-bar'),
-            question: document.getElementById('question-display'),
-            options: document.getElementById('options-grid'),
-            streak: document.getElementById('streak-counter'),
-            score: document.getElementById('score-counter'),
-            feedback: document.getElementById('feedback-overlay'),
-            feedbackText: document.getElementById('feedback-text'),
-            globalBest: document.getElementById('global-best-score')
-        };
-
-        // --- Core Functions ---
-
-        function init() {
-            document.getElementById('year').textContent = new Date().getFullYear();
-            loadGlobalBest();
             
-            // Mode Selectors
-            document.querySelectorAll('[data-mode]').forEach(btn => {
-                btn.addEventListener('click', () => startGame(btn.dataset.mode));
+            document.querySelectorAll('[data-cat]').forEach(b => {
+                b.classList.toggle('selected', State.activeCats.includes(b.dataset.cat));
             });
 
-            // Navigation
-            document.getElementById('quit-button').addEventListener('click', showStartScreen);
-            document.getElementById('retry-button').addEventListener('click', () => startGame(GameState.mode));
-            document.getElementById('menu-button').addEventListener('click', showStartScreen);
-
-            // Keyboard
-            document.addEventListener('keydown', handleInput);
+            const s1 = document.getElementById('flow-step-1');
+            const s2 = document.getElementById('flow-step-2');
+            document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('selected'));
+            if (e) e.currentTarget.classList.add('selected');
+            document.getElementById('filter-chars').classList.toggle('hidden', flow !== 'chars');
+            document.getElementById('filter-vocab').classList.toggle('hidden', flow !== 'vocab');
+            document.getElementById('step-2-label').textContent = flow === 'chars' ? 'Step 2: Fundamentals' : 'Step 2: Applied';
+            clearAnimations();
+            s1.classList.add('exit-left');
+            updateStepIndicator(2);
+            setTimeout(() => { s1.classList.add('hidden'); s2.classList.remove('hidden'); s2.classList.add('enter-right'); setTimeout(() => s2.classList.remove('enter-right'), 10); }, 500);
         }
 
-        function loadGlobalBest() {
-            const best = localStorage.getItem('qk_best_streak') || 0;
-            ui.globalBest.textContent = `Global Best Streak: ${best}`;
-        }
-
-        function showScreen(screenName) {
-            Object.values(screens).forEach(s => s.classList.add('hidden'));
-            screens[screenName].classList.remove('hidden');
+        function nextStep(n) {
+            const current = document.getElementById(`flow-step-${n-1}`);
+            const next = document.getElementById(`flow-step-${n}`);
             
-            if (screenName === 'quiz') {
-                ui.progress.classList.remove('hidden');
+            if (n === 3) {
+                let count = 0;
+                State.activeCats.forEach(c => {
+                    if (c === 'custom') count += Object.keys(KANA_DATA.custom || {}).length;
+                    else if (KANA_DATA[c]) count += Object.keys(KANA_DATA[c]).length;
+                });
+                if (count === 0) {
+                    alert(State.activeCats.includes('custom') ? 'Your library is empty. Add some words first!' : 'Please select at least one category');
+                    return;
+                }
+            }
+
+            clearAnimations();
+            current.classList.add('exit-left');
+            updateStepIndicator(n);
+            setTimeout(() => { current.classList.add('hidden'); next.classList.remove('hidden'); next.classList.add('enter-right'); setTimeout(() => next.classList.remove('enter-right'), 10); }, 500);
+        }
+
+        function prevStep(n) {
+            const current = document.getElementById(`flow-step-${n+1}`);
+            const prev = document.getElementById(`flow-step-${n}`);
+            clearAnimations();
+            current.classList.add('exit-right');
+            updateStepIndicator(n);
+            setTimeout(() => { current.classList.add('hidden'); prev.classList.remove('hidden'); prev.classList.add('enter-left'); setTimeout(() => prev.classList.remove('enter-left'), 10); }, 500);
+        }
+
+        function switchVocabTab(tab, e) {
+            document.querySelectorAll('.segment-btn').forEach(b => {
+                b.classList.remove('active');
+                if (tab === 'curated' && (b.textContent === 'Curated' || b.innerText === 'Curated')) b.classList.add('active');
+                if (tab === 'library' && (b.textContent === 'My Library' || b.innerText === 'My Library')) b.classList.add('active');
+            });
+            if (e) e.target.classList.add('active');
+            
+            document.getElementById('vocab-curated').classList.toggle('hidden', tab !== 'curated');
+            document.getElementById('vocab-library').classList.toggle('hidden', tab !== 'library');
+            
+            if (tab === 'library') {
+                State.activeCats = ['custom'];
+                renderCustomLibrary();
             } else {
-                ui.progress.classList.add('hidden');
+                const selected = Array.from(document.querySelectorAll('#vocab-curated .btn-outline.selected')).map(b => b.dataset.cat);
+                State.activeCats = selected.length > 0 ? selected : ['vocabulary'];
             }
         }
 
-        function startGame(mode) {
-            GameState.mode = mode;
-            GameState.dict = DICTIONARIES[mode];
-            GameState.keys = Object.keys(GameState.dict);
-            GameState.questionCount = 0;
-            GameState.score = 0;
-            GameState.streak = 0;
-            GameState.maxStreak = 0;
-            GameState.isProcessing = false;
-
-            updateStats();
-            updateProgressBar();
-            showScreen('quiz');
-            nextQuestion();
+        function renderCustomLibrary() {
+            const container = document.getElementById('custom-word-bank');
+            if (!container) return;
+            container.innerHTML = '';
+            const words = KANA_DATA.custom || {};
+            const keys = Object.keys(words);
+            if (keys.length === 0) { 
+                container.innerHTML = '<p class="text-[10px] opacity-40 italic py-6 text-center border border-dashed border-white/10 rounded-xl">Your word bank is currently empty.</p>'; 
+                return; 
+            }
+            keys.forEach(jap => {
+                const item = document.createElement('div');
+                item.className = 'word-item mb-2';
+                item.innerHTML = `
+                    <div class="flex flex-col">
+                        <span class="jp-font text-white text-sm font-bold text-left">${jap}</span>
+                        <span class="text-[9px] text-gray-500 uppercase tracking-tighter text-left">${words[jap].def}</span>
+                    </div>
+                    <button type="button" onclick="deleteCustomWord('${jap}')" class="text-gray-500 hover:text-red-500 transition-colors px-2 text-xl">&times;</button>
+                `;
+                container.appendChild(item);
+            });
         }
 
-        function updateStats() {
-            ui.streak.textContent = GameState.streak;
-            ui.score.textContent = GameState.score;
+        function deleteCustomWord(jap) {
+            if (KANA_DATA.custom) delete KANA_DATA.custom[jap];
+            State.persistence.customList = KANA_DATA.custom;
+            saveStats();
+            renderCustomLibrary();
         }
 
-        function updateProgressBar() {
-            const pct = (GameState.questionCount / GameState.maxQuestions) * 100;
-            ui.progressBar.style.width = `${pct}%`;
+        function saveStats() { localStorage.setItem('quickkana_stats', JSON.stringify(State.persistence)); }
+        function loadStats() {
+            try {
+                const s = localStorage.getItem('quickkana_stats');
+                if (s) {
+                    const p = JSON.parse(s);
+                    State.persistence = { ...State.persistence, ...p };
+                    if (State.persistence.customList) KANA_DATA.custom = State.persistence.customList;
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        function toggleOption(id, key) {
+            const el = document.getElementById(id);
+            State[key] = !State[key];
+            el.classList.toggle('selected', State[key]);
+            el.querySelector('.status-dot').style.backgroundColor = State[key] ? 'var(--accent-kana)' : 'rgba(255, 255, 255, 0.1)';
+            if (State[key]) el.querySelector('.status-dot').style.boxShadow = '0 0 8px var(--accent-kana)';
+            else el.querySelector('.status-dot').style.boxShadow = 'none';
+        }
+
+        function init() {
+            loadStats();
+            document.getElementById('year').textContent = new Date().getFullYear();
+            ui.screens = { start: document.getElementById('start-screen'), study: document.getElementById('study-screen'), results: document.getElementById('results-screen') };
+            ui.progressBar = document.getElementById('progress-bar'); ui.question = document.getElementById('question-display'); ui.options = document.getElementById('options-grid');
+            ui.score = document.getElementById('score-counter'); ui.streak = document.getElementById('streak-counter');
+            ui.timer = document.getElementById('timer-display');
+            
+            document.querySelectorAll('[data-cat]').forEach(b => b.onclick = () => {
+                const c = b.dataset.cat;
+                if (State.activeCats.includes(c)) { if (State.activeCats.length > 1) { State.activeCats = State.activeCats.filter(x => x !== c); b.classList.remove('selected'); } }
+                else { State.activeCats.push(c); b.classList.add('selected'); }
+            });
+
+            document.querySelectorAll('[data-mode]').forEach(b => {
+                if (b.dataset.mode === State.mode) b.classList.add('selected');
+                b.onclick = () => { document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); State.mode = b.dataset.mode; };
+            });
+
+            document.getElementById('opt-reverse').onclick = () => toggleOption('opt-reverse', 'isReverse');
+            document.getElementById('opt-test-all').onclick = () => toggleOption('opt-test-all', 'isTestAll');
+            document.getElementById('opt-teach').onclick = () => toggleOption('opt-teach', 'isTeachMode');
+
+            document.getElementById('start-button').onclick = startSession;
+            document.getElementById('quit-button').onclick = () => { clearInterval(State.timer.interval); showScreen('start'); };
+            document.getElementById('audio-button').onclick = () => speak(State.currentQ.char);
+            document.getElementById('home-btn').onclick = () => showScreen('start');
+            document.getElementById('retry-btn').onclick = startSession;
+            document.getElementById('flip-fc').onclick = () => { ui.question.textContent = (ui.question.textContent === State.currentQ.char) ? State.currentQ.def : State.currentQ.char; };
+            document.getElementById('next-fc').onclick = () => moveFlashcard(1);
+            document.getElementById('prev-fc').onclick = () => moveFlashcard(-1);
+            
+            document.getElementById('custom-cat-btn').onclick = () => {
+                const importer = document.getElementById('custom-importer');
+                const isHidden = importer.classList.contains('hidden');
+                importer.classList.toggle('hidden');
+                document.getElementById('importer-input-step').classList.remove('hidden');
+                document.getElementById('importer-preview-step').classList.add('hidden');
+                document.getElementById('import-status').textContent = '';
+                if (isHidden) {
+                    setTimeout(() => importer.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+                }
+            };
+
+            document.getElementById('translate-btn').onclick = async () => {
+                const input = document.getElementById('custom-input');
+                const words = input.value.split(/[,|\n]/).map(w => w.trim()).filter(w => w.length > 0);
+                const list = document.getElementById('preview-list');
+                const status = document.getElementById('import-status');
+                if (words.length === 0) return;
+                status.textContent = 'Translating...';
+                list.innerHTML = '';
+                for (const word of words) {
+                    let jap = BASIC_WORDS[word.toLowerCase()] || '';
+                    if (!jap) {
+                        try {
+                            const res = await fetch(`https://api.mymemory.translated.net/get?q=${word}&langpair=en|ja&mt=1`);
+                            const data = await res.json();
+                            jap = data.responseData.translatedText;
+                        } catch(e) { jap = word; }
+                    }
+                    const row = document.createElement('div');
+                    row.className = 'flex items-center gap-2 p-3 bg-black/40 rounded-xl border border-white/10 mb-2';
+                    row.innerHTML = `<span class="text-[9px] w-12 truncate text-gray-500 font-bold uppercase text-left">${word}</span><input type="text" value="${jap}" class="flex-grow bg-transparent text-xs jp-font outline-none text-white font-bold border-b border-white/5 focus:border-[#ff4d4d]" data-orig="${word}">`;
+                    list.appendChild(row);
+                }
+                document.getElementById('importer-input-step').classList.add('hidden');
+                document.getElementById('importer-preview-step').classList.remove('hidden');
+                status.textContent = 'Verify and click add.';
+            };
+
+            document.getElementById('add-to-list-btn').onclick = () => {
+                const dict = {};
+                document.querySelectorAll('#preview-list input').forEach(i => { if (i.value) dict[i.value] = { rom: i.dataset.orig, def: i.dataset.orig }; });
+                KANA_DATA.custom = { ...(KANA_DATA.custom || {}), ...dict };
+                State.persistence.customList = KANA_DATA.custom;
+                saveStats(); renderCustomLibrary();
+                document.getElementById('custom-importer').classList.add('hidden');
+                document.getElementById('import-status').textContent = '';
+                document.getElementById('custom-input').value = '';
+            };
+
+            window.addEventListener('keydown', (e) => {
+                if (State.mode === 'typing' && ui.screens.study.classList.contains('hidden') === false) {
+                    if (e.key === 'Backspace') { State.typingInput = State.typingInput.slice(0, -1); updateTypingDisplay(); }
+                    else if (e.key === 'Enter') { submitAnswer(State.typingInput); }
+                    else if (e.key.length === 1 && /[a-zA-Zあ-んア-ン]/.test(e.key)) { State.typingInput += e.key; updateTypingDisplay(); }
+                }
+            });
+        }
+
+        function showScreen(n) {
+            Object.values(ui.screens).forEach(s => s.classList.add('hidden'));
+            ui.screens[n].classList.remove('hidden');
+            if (n === 'start') {
+                document.querySelectorAll('.step-container').forEach(s => s.classList.add('hidden'));
+                clearAnimations();
+                document.getElementById('flow-step-0').classList.remove('hidden');
+                updateStepIndicator(0);
+                document.querySelectorAll('.hero-card').forEach(c => c.classList.remove('selected'));
+            }
+        }
+
+        function startSession() {
+            State.wrongQueue = [];
+            State.currentDict = {};
+            State.activeCats.forEach(c => { 
+                if (c === 'custom') {
+                    if (KANA_DATA.custom) Object.assign(State.currentDict, KANA_DATA.custom);
+                } else if (KANA_DATA[c]) {
+                    Object.assign(State.currentDict, KANA_DATA[c]);
+                }
+            });
+            State.currentKeys = Object.keys(State.currentDict);
+            if (State.currentKeys.length === 0) { alert('Select at least one category'); return; }
+            State.score = 0; State.streak = 0; State.qCount = 0; State.sessionAttempts = 0;
+            if (State.isTestAll || State.isTeachMode) { 
+                State.maxQ = State.isTeachMode && !State.isTestAll ? Math.min(15, State.currentKeys.length) : State.currentKeys.length;
+                State.testPool = [...State.currentKeys]; 
+                for(let i=State.testPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.testPool[i],State.testPool[j]]=[State.testPool[j],State.testPool[i]]}
+                if (State.isTeachMode && !State.isTestAll) State.testPool = State.testPool.slice(0, 15);
+                State.maxQ = State.testPool.length;
+            }
+            else { State.maxQ = 15; }
+            
+            State.flashcards.pool = [...State.currentKeys];
+            for(let i=State.flashcards.pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.flashcards.pool[i],State.flashcards.pool[j]]=[State.flashcards.pool[j],State.flashcards.pool[i]]}
+            State.flashcards.index = 0;
+
+            ui.options.classList.toggle('hidden', ['flashcards', 'typing'].includes(State.mode));
+            document.getElementById('fc-controls').classList.toggle('hidden', State.mode !== 'flashcards');
+            document.getElementById('typing-controls').classList.toggle('hidden', State.mode !== 'typing');
+            
+            if (State.mode === 'typing') renderKeyboard();
+            if (State.mode === 'speedMatch') startSpeedMatch();
+            else nextQuestion();
+            showScreen('study');
         }
 
         function nextQuestion() {
-            if (GameState.questionCount >= GameState.maxQuestions) {
-                endGame();
-                return;
-            }
-
-            GameState.isProcessing = false;
-            ui.question.style.transform = "scale(1)";
-            ui.question.style.color = "white";
-            ui.feedback.style.opacity = "0";
-
-            // Pick random character
-            const char = GameState.keys[Math.floor(Math.random() * GameState.keys.length)];
-            const answer = GameState.dict[char];
-            GameState.currentQ = { char, answer };
-
-            ui.question.textContent = char;
-
-            // Generate Options
-            const options = [answer];
-            const allAnswers = [...new Set(Object.values(GameState.dict))];
-            
-            while (options.length < 4) {
-                const r = allAnswers[Math.floor(Math.random() * allAnswers.length)];
-                if (!options.includes(r)) options.push(r);
-            }
-            
-            // Shuffle
-            for (let i = options.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [options[i], options[j]] = [options[j], options[i]];
-            }
-
-            renderOptions(options);
-        }
-
-        function renderOptions(options) {
-            ui.options.innerHTML = '';
-            options.forEach((opt, idx) => {
-                const btn = document.createElement('button');
-                btn.className = "btn-option p-4 rounded-lg text-xl font-bold font-sans relative overflow-hidden group";
-                
-                // Add Number Key Hint
-                const hint = document.createElement('span');
-                hint.className = "absolute top-2 left-3 text-[10px] text-[#94a3b8] opacity-30 group-hover:opacity-100 transition-opacity";
-                hint.textContent = idx + 1;
-                btn.appendChild(hint);
-
-                const text = document.createElement('span');
-                text.textContent = opt;
-                btn.appendChild(text);
-
-                btn.onclick = () => submitAnswer(opt, btn);
-                ui.options.appendChild(btn);
-            });
-        }
-
-        function handleInput(e) {
-            if (screens.quiz.classList.contains('hidden') || GameState.isProcessing) return;
-            
-            const key = parseInt(e.key);
-            if (key >= 1 && key <= 4) {
-                const buttons = ui.options.querySelectorAll('button');
-                if (buttons[key - 1]) {
-                    buttons[key - 1].click();
+            if (State.qCount >= State.maxQ && State.mode !== 'speedMatch' && State.mode !== 'flashcards') { 
+                if (State.isTeachMode && State.wrongQueue.length > 0) {
+                    State.testPool = [...State.wrongQueue];
+                    State.wrongQueue = [];
+                    State.qCount = 0;
+                    State.maxQ = State.testPool.length;
+                } else {
+                    endSession(); 
+                    return; 
                 }
             }
-        }
-
-        function submitAnswer(selected, btnElement) {
-            if (GameState.isProcessing) return;
-            GameState.isProcessing = true;
-            GameState.questionCount++;
-
-            const isCorrect = selected === GameState.currentQ.answer;
+            State.isProcessing = false; ui.question.style.color = "white"; 
+            if (State.mode === 'typing') { State.typingInput = ''; updateTypingDisplay(); }
             
-            // Visual Feedback
-            if (isCorrect) {
-                GameState.score++;
-                GameState.streak++;
-                if (GameState.streak > GameState.maxStreak) GameState.maxStreak = GameState.streak;
-                
-                btnElement.classList.add('correct');
-                ui.feedbackText.textContent = "CORRECT";
-                ui.feedbackText.style.color = "#10b981";
-                ui.question.style.color = "#10b981";
+            let c;
+            if (State.mode === 'flashcards') {
+                c = State.flashcards.pool[State.flashcards.index];
             } else {
-                GameState.streak = 0;
-                btnElement.classList.add('wrong');
-                
-                // Highlight correct one
-                const buttons = ui.options.querySelectorAll('button');
-                buttons.forEach(b => {
-                    if (b.innerText.includes(GameState.currentQ.answer)) b.classList.add('correct');
-                });
-
-                ui.feedbackText.textContent = `WRONG (${GameState.currentQ.answer})`;
-                ui.feedbackText.style.color = "#ef4444";
-                ui.question.style.color = "#ef4444";
+                c = (State.isTestAll || State.isTeachMode) ? State.testPool[State.qCount] : State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
             }
-
-            ui.feedback.style.opacity = "1";
-            ui.question.style.transform = "scale(1.1)";
             
-            updateStats();
-            updateProgressBar();
-
-            setTimeout(() => {
-                nextQuestion();
-            }, 1200);
+            let a = State.currentDict[c];
+            const def = typeof a === 'object' ? a.def : a; 
+            const rom = typeof a === 'object' ? a.rom : a;
+            
+            State.currentQ = { char: c, answer: State.isReverse ? c : def, display: State.isReverse ? def : c, rom: rom, def: def };
+            ui.question.innerHTML = State.currentQ.display;
+            
+            if (!['quiz', 'speedMatch', 'typing'].includes(State.mode) && !State.isReverse && c.length > 1) {
+                ui.question.innerHTML += `<div class="text-xs opacity-50 mt-2">${rom}</div>`;
+            }
+            
+            if (State.mode !== 'typing' && State.mode !== 'flashcards') {
+                const ops = [State.currentQ.answer];
+                while (ops.length < Math.min(4, State.currentKeys.length)) {
+                    const k = State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
+                    const v = State.isReverse ? k : (typeof State.currentDict[k] === 'object' ? State.currentDict[k].def : State.currentDict[k]);
+                    if (!ops.includes(v)) ops.push(v);
+                }
+                for(let i=ops.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ops[i],ops[j]]=[ops[j],ops[i]]}
+                ui.options.innerHTML = '';
+                ops.forEach(o => { const b = document.createElement('button'); b.className = "btn-option p-6 rounded-2xl font-bold"; b.textContent = o; b.onclick = () => submitAnswer(o, b); ui.options.appendChild(b); });
+            }
+            ui.progressBar.style.width = `${(State.qCount/State.maxQ)*100}%`;
         }
 
-        function endGame() {
-            showScreen('results');
-            
-            document.getElementById('final-score').textContent = `${GameState.score}/${GameState.maxQuestions}`;
-            document.getElementById('final-accuracy').textContent = `${Math.round((GameState.score / GameState.maxQuestions) * 100)}%`;
-            document.getElementById('final-streak').textContent = GameState.maxStreak;
+        function updateTypingDisplay() {
+            const display = document.getElementById('typing-display');
+            display.textContent = State.typingInput || ' ';
+        }
 
-            // Save High Score
-            const prevBest = parseInt(localStorage.getItem('qk_best_streak') || 0);
-            const msg = document.getElementById('high-score-msg');
-            
-            if (GameState.maxStreak > prevBest) {
-                localStorage.setItem('qk_best_streak', GameState.maxStreak);
-                msg.classList.remove('hidden');
-                ui.globalBest.textContent = `Global Best Streak: ${GameState.maxStreak}`;
-            } else {
-                msg.classList.add('hidden');
+        function submitAnswer(s, b) {
+            if (State.isProcessing) return; 
+            const ans = s.toLowerCase().trim();
+            const target = State.currentQ.answer.toLowerCase().trim();
+            const isCharMatch = (ROMAN_MAP[s] === State.currentQ.char || ROMAN_MAP[ans] === State.currentQ.char || State.currentQ.char === s);
+            const correct = ans === target || isCharMatch;
+
+            if (State.mode !== 'flashcards') {
+                State.isProcessing = true; 
+                State.qCount++;
+                State.sessionAttempts++;
+                if (correct) { 
+                    State.score++; 
+                    State.streak++; 
+                    if (State.streak > State.maxStreak) State.maxStreak = State.streak;
+                    if (b) b.classList.add('correct'); 
+                    ui.question.style.color = "#10b981"; 
+                }
+                else { 
+                    State.streak = 0; 
+                    if (b) b.classList.add('wrong'); 
+                    ui.question.style.color = "#ef4444"; 
+                    Array.from(ui.options.children).forEach(btn => {
+                        if (btn.textContent.toLowerCase().trim() === target) {
+                            btn.classList.add('correct');
+                        }
+                    });
+                    if (State.isTeachMode && !State.wrongQueue.includes(State.currentQ.char)) {
+                        State.wrongQueue.push(State.currentQ.char);
+                    }
+                }
+                ui.score.textContent = State.score; ui.streak.textContent = State.streak;
+                setTimeout(nextQuestion, 1500);
             }
         }
 
-        function showStartScreen() {
-            showScreen('start');
-            loadGlobalBest();
+        function clearLibrary() {
+            if (confirm('Are you sure you want to clear your entire library?')) {
+                KANA_DATA.custom = {};
+                State.persistence.customList = {};
+                saveStats();
+                renderCustomLibrary();
+            }
         }
 
-        // Boot
+        function endSession() { showScreen('results'); document.getElementById('final-score').textContent = State.score; document.getElementById('final-acc').textContent = Math.round((State.score/(State.sessionAttempts||1))*100) + '%'; document.getElementById('final-streak').textContent = State.maxStreak; }
+        function startSpeedMatch() { State.timer.count = 60; ui.timer.classList.remove('hidden'); State.timer.interval = setInterval(() => { State.timer.count--; ui.timer.textContent = State.timer.count + 's'; if (State.timer.count <= 0) { clearInterval(State.timer.interval); endSession(); } }, 1000); nextQuestion(); }
+        function speak(t) { 
+            if (!t) return;
+            window.speechSynthesis.cancel();
+            const m = new SpeechSynthesisUtterance(t); 
+            m.lang = 'ja-JP'; 
+            m.rate = 0.8; 
+            window.speechSynthesis.speak(m); 
+        }
+        
+        function moveFlashcard(d) { 
+            if (State.flashcards.pool.length === 0) return;
+            State.flashcards.index = (State.flashcards.index + d + State.flashcards.pool.length) % State.flashcards.pool.length; 
+            nextQuestion();
+            speak(State.currentQ.char);
+        }
+        
+        function renderKeyboard() { 
+            const c = document.getElementById('virtual-keyboard'); 
+            c.innerHTML = ''; 
+            const layout = [['q','w','e','r','t','y','u','i','o','p'], ['a','s','d','f','g','h','j','k','l'], ['z','x','c','v','b','n','m']];
+            layout.forEach(r => { 
+                const row = document.createElement('div'); 
+                row.className = 'keyboard-row'; 
+                r.forEach(k => { 
+                    const key = document.createElement('div'); 
+                    key.className = 'key'; 
+                    key.innerHTML = `<span class="text-xs uppercase text-white font-bold">${k}</span>`; 
+                    key.onclick = () => { State.typingInput += k; updateTypingDisplay(); }; 
+                    row.appendChild(key); 
+                }); 
+                c.appendChild(row); 
+            }); 
+            const controls = document.createElement('div');
+            controls.className = 'keyboard-row mt-2';
+            const backspace = document.createElement('div');
+            backspace.className = 'key w-20';
+            backspace.innerHTML = '<span class="text-[10px] font-bold">BKSP</span>';
+            backspace.onclick = () => { State.typingInput = State.typingInput.slice(0, -1); updateTypingDisplay(); };
+            const enter = document.createElement('div');
+            enter.className = 'key w-20 !bg-[#ff4d4d] !text-black';
+            enter.innerHTML = '<span class="text-[10px] font-bold">ENTER</span>';
+            enter.onclick = () => { submitAnswer(State.typingInput); };
+            controls.appendChild(backspace);
+            controls.appendChild(enter);
+            c.appendChild(controls);
+        }
+        
         init();
-
     </script>
 </body>
-
 </html>
-
