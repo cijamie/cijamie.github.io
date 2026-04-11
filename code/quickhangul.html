@@ -15,8 +15,8 @@
             --accent-hangul: #d4af37;
             --accent-glow-hangul: rgba(212, 175, 55, 0.4);
             --bg-dark: #0b0b0b;
-            --bg-glass: rgba(20, 20, 25, 0.7);
-            --bg-glass-hover: rgba(40, 45, 60, 0.8);
+            --bg-glass: rgba(20, 20, 25, 0.85);
+            --bg-glass-hover: rgba(45, 50, 70, 0.9);
             --error: #ef4444;
             --success: #10b981;
             --font-kr: 'Noto Sans KR', sans-serif;
@@ -41,102 +41,160 @@
         .step-container.enter-right { transform: translateX(50px); opacity: 0; }
         .step-container.enter-left { transform: translateX(-50px); opacity: 0; }
 
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+        .step-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .step-dot.active {
+            background: var(--accent-hangul);
+            box-shadow: 0 0 10px var(--accent-glow-hangul);
+            transform: scale(1.2);
+        }
+
         .hero-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             cursor: pointer;
             overflow: hidden;
             position: relative;
         }
         .hero-card:hover {
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(212, 175, 55, 0.08);
             border-color: var(--accent-hangul);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
         }
         .hero-card.selected {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.15);
             border-color: var(--accent-hangul);
             backdrop-filter: blur(12px);
-            box-shadow: 0 0 25px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
         }
 
-        .mode-item {
+        .mode-item, .option-card {
             display: flex;
             align-items: center;
             gap: 1.25rem;
             padding: 1.25rem;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 1rem;
-            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 1.25rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: left;
             width: 100%;
         }
-        .mode-item:hover { background: rgba(255, 255, 255, 0.05); border-color: rgba(255, 255, 255, 0.2); }
-        .mode-item.selected {
+        .mode-item:hover, .option-card:hover { 
+            background: rgba(255, 255, 255, 0.06); 
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+        .mode-item.selected, .option-card.selected {
             border-color: var(--accent-hangul);
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.12);
             backdrop-filter: blur(12px);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.15);
+        }
+        .option-card {
+            padding: 1rem;
+            gap: 1rem;
         }
 
         .segmented-control {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 4px;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5px;
+            border-radius: 14px;
             display: inline-flex;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         .segment-btn {
-            padding: 8px 24px;
+            padding: 10px 28px;
             border-radius: 10px;
             font-size: 10px;
             font-weight: 700;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             transition: all 0.3s ease;
-            color: #64748b;
+            color: #94a3b8;
         }
         .segment-btn.active {
             background: var(--accent-hangul);
             color: black;
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.35);
         }
 
         .glass-card {
             background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
         .btn-primary {
             background: transparent;
-            border: 1px solid var(--accent-hangul);
+            border: 1.5px solid var(--accent-hangul);
             color: var(--accent-hangul);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 0 rgba(212, 175, 55, 0);
         }
         .btn-primary:hover:not(:disabled) {
             background: var(--accent-hangul);
             color: black;
-            box-shadow: 0 0 20px var(--accent-glow-hangul);
-            transform: translateY(-2px);
+            box-shadow: 0 0 25px var(--accent-glow-hangul);
+            transform: translateY(-3px);
         }
         .btn-outline {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
             color: #94a3b8;
-            transition: all 0.2s ease;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .btn-outline.selected {
             border-color: var(--accent-hangul);
-            background: rgba(212, 175, 55, 0.12);
+            background: rgba(212, 175, 55, 0.15);
             color: white;
             backdrop-filter: blur(8px);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+        .btn-back {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .pill-stat {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 6px 14px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         nav { padding: 15px 30px !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
@@ -222,10 +280,16 @@
     
     <main class="flex-grow flex items-center justify-center p-4 w-full relative z-10">
         <div class="w-full max-w-3xl">
-            <section id="start-screen" class="glass-card p-8 md:p-12 text-center relative min-h-[620px] flex flex-col justify-center text-white">
+            <section id="start-screen" class="glass-card p-8 md:p-12 text-center relative min-h-[620px] flex flex-col justify-start text-white">
                 
+                <div class="step-indicator">
+                    <div class="step-dot active" data-step="1"></div>
+                    <div class="step-dot" data-step="2"></div>
+                    <div class="step-dot" data-step="3"></div>
+                </div>
+
                 <!-- STEP 1: PRE-SELECTOR -->
-                <div id="flow-step-1" class="step-container space-y-10">
+                <div id="flow-step-1" class="step-container space-y-10 pt-4">
                     <div class="space-y-2">
                         <p class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Step 1: Choose Path</p>
                         <h1 class="text-4xl md:text-5xl font-bold text-white serif-font italic">What are we learning today?</h1>
@@ -245,8 +309,12 @@
                 </div>
 
                 <!-- STEP 2: SUB-CATEGORY -->
-                <div id="flow-step-2" class="step-container hidden space-y-8 pt-10 md:pt-0">
-                    <button type="button" onclick="prevStep(1)" class="absolute top-4 left-4 md:top-8 md:left-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                <div id="flow-step-2" class="step-container hidden space-y-8 pt-4">
+                    <div class="flex justify-start md:block mb-4 md:mb-0">
+                        <button type="button" onclick="prevStep(1)" class="btn-back md:absolute md:top-8 md:left-8">
+                            <span>←</span> Back
+                        </button>
+                    </div>
                     
                     <div class="space-y-2">
                         <p id="step-2-label" class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Step 2</p>
@@ -303,62 +371,75 @@
                 </div>
 
                 <!-- STEP 3: MODE SELECTION -->
-                <div id="flow-step-3" class="step-container hidden space-y-10">
-                    <button type="button" onclick="prevStep(2)" class="absolute top-0 left-0 m-8 text-[10px] text-gray-500 hover:text-white uppercase tracking-[0.2em] font-bold">← Back</button>
+                <div id="flow-step-3" class="step-container hidden space-y-8 pt-4">
+                    <button type="button" onclick="prevStep(2)" class="btn-back absolute top-8 left-8">
+                        <span>←</span> Back
+                    </button>
                     
                     <div class="space-y-2 text-center text-white">
                         <p class="text-[10px] tracking-[0.3em] text-[#d4af37] uppercase font-bold">Final Step: Training</p>
                         <h2 class="text-3xl font-bold serif-font italic text-white text-center">Select training mode</h2>
                     </div>
 
-                    <div class="max-w-md mx-auto space-y-6">
-                        <div class="space-y-3">
-                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Recognition & Memory</p>
-                            <button type="button" class="mode-item" data-mode="quiz">
-                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🎯</div>
-                                <div><h4 class="font-bold text-sm text-white">QUIZ</h4><p class="text-[10px] text-gray-500">Multiple choice assessment</p></div>
-                            </button>
-                            <button type="button" class="mode-item" data-mode="flashcards">
-                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🃏</div>
-                                <div><h4 class="font-bold text-sm text-white">CARDS</h4><p class="text-[10px] text-gray-500">Traditional study deck</p></div>
-                            </button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-4">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">1. Choose Activity</p>
+                            <div class="space-y-2">
+                                <button type="button" class="mode-item" data-mode="quiz">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🎯</div>
+                                    <div><h4 class="font-bold text-sm text-white">QUIZ</h4><p class="text-[10px] text-gray-500">Multiple choice</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="flashcards">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🃏</div>
+                                    <div><h4 class="font-bold text-sm text-white">CARDS</h4><p class="text-[10px] text-gray-500">Traditional study deck</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="writing">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">✍️</div>
+                                    <div><h4 class="font-bold text-sm text-white">WRITE</h4><p class="text-[10px] text-gray-500">Trace characters</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="typing">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⌨️</div>
+                                    <div><h4 class="font-bold text-sm text-white">TYPE</h4><p class="text-[10px] text-gray-500">Keyboard practice</p></div>
+                                </button>
+                                <button type="button" class="mode-item" data-mode="speedMatch">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⚡</div>
+                                    <div><h4 class="font-bold text-sm text-white">SPEED</h4><p class="text-[10px] text-gray-500">Timed rapid-fire</p></div>
+                                </button>
+                            </div>
                         </div>
 
-                        <div class="space-y-3">
-                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Active Production</p>
-                            <button type="button" class="mode-item" data-mode="writing">
-                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">✍️</div>
-                                <div><h4 class="font-bold text-sm text-white">WRITE</h4><p class="text-[10px] text-gray-500">Manual character tracing</p></div>
-                            </button>
-                            <button type="button" class="mode-item" data-mode="typing">
-                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⌨️</div>
-                                <div><h4 class="font-bold text-sm text-white">TYPE</h4><p class="text-[10px] text-gray-500">Keyboard input practice</p></div>
-                            </button>
-                        </div>
-
-                        <div class="space-y-3">
-                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">Challenge Mode</p>
-                            <button type="button" class="mode-item" data-mode="speedMatch">
-                                <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">⚡</div>
-                                <div><h4 class="font-bold text-sm text-white">SPEED</h4><p class="text-[10px] text-gray-500">Timed rapid-fire test</p></div>
-                            </button>
+                        <div class="space-y-4">
+                            <p class="text-[9px] text-gray-500 uppercase tracking-widest text-left ml-2 font-bold opacity-60">2. Customize Session</p>
+                            <div class="space-y-2">
+                                <div class="option-card cursor-pointer" id="opt-reverse">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">🔄</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">REVERSE MODE</h4>
+                                        <p class="text-[10px] text-gray-500">Guess Korean from English</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                                <div class="option-card cursor-pointer" id="opt-test-all">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">♾️</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">TEST ALL</h4>
+                                        <p class="text-[10px] text-gray-500">Practice every item at once</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                                <div class="option-card cursor-pointer" id="opt-teach">
+                                    <div class="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-xl">👨‍🏫</div>
+                                    <div class="flex-grow">
+                                        <h4 class="font-bold text-sm text-white">TEACH MODE</h4>
+                                        <p class="text-[10px] text-gray-500">Repeat missed items until mastered</p>
+                                    </div>
+                                    <div class="w-2 h-2 rounded-full bg-white/10 transition-colors status-dot"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex justify-center gap-8 py-4 border-t border-white/5">
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" id="reverse-toggle" class="hidden peer">
-                            <div class="w-5 h-5 rounded-lg border border-white/10 peer-checked:bg-[#d4af37] peer-checked:border-[#d4af37] transition-all"></div>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gray-300 font-bold">Reverse Mode</span>
-                        </label>
-                        <label class="flex items-center gap-3 cursor-pointer group">
-                            <input type="checkbox" id="test-all-toggle" class="hidden peer">
-                            <div class="w-5 h-5 rounded-lg border border-white/10 peer-checked:bg-[#d4af37] peer-checked:border-[#d4af37] transition-all"></div>
-                            <span class="text-[10px] uppercase tracking-widest text-gray-500 group-hover:text-gray-300 font-bold">Test All Items</span>
-                        </label>
-                    </div>
-
-                    <button type="button" id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em]">
+                    <button type="button" id="start-button" class="btn-primary w-full py-5 rounded-2xl text-sm font-bold tracking-[0.3em] mt-4">
                         START SESSION
                     </button>
                 </div>
@@ -366,17 +447,27 @@
 
             <section id="study-screen" class="hidden w-full">
                 <div class="glass-card p-10 md:p-14 text-center relative overflow-hidden">
-                    <div class="flex justify-between items-center mb-10 text-xs font-mono tracking-widest text-[#94a3b8]">
-                        <button type="button" id="quit-button" class="hover:text-white uppercase font-bold">Exit Session</button>
-                        <div class="flex gap-4 items-center">
-                            <div id="timer-display" class="hidden bg-accent/20 text-accent p-2 px-4 rounded-lg font-bold">60s</div>
-                            <button type="button" id="audio-button" class="bg-white/10 p-2 px-4 rounded-lg hover:bg-white/20 font-bold">🔊 REPLAY</button>
-                            <div class="flex items-center gap-4 border-l border-white/10 pl-4 font-bold">
-                                <span>SCORE: <span id="score-counter" class="text-white">0</span></span>
-                                <span>STREAK: <span id="streak-counter" class="text-accent">0</span></span>
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 text-[10px] font-bold tracking-widest text-[#94a3b8]">
+                        <button type="button" id="quit-button" class="btn-back !bg-red-500/10 !border-red-500/20 hover:!bg-red-500/20 !text-red-500">
+                            🚪 Leave Session
+                        </button>
+                        
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <div id="timer-display" class="hidden pill-stat bg-[#d4af37]/10 !border-[#d4af37]/20 text-[#d4af37]">
+                                <span>⚡</span> <span id="timer-val">60s</span>
+                            </div>
+                            <button type="button" id="audio-button" class="pill-stat hover:bg-white/10 transition-colors">
+                                <span>🔊</span> REPLAY
+                            </button>
+                            <div class="pill-stat">
+                                <span class="opacity-50">SCORE</span> <span id="score-counter" class="text-white">0</span>
+                            </div>
+                            <div class="pill-stat">
+                                <span class="opacity-50">STREAK</span> <span id="streak-counter" class="text-[#d4af37]">0</span>
                             </div>
                         </div>
                     </div>
+                    
                     <div id="quiz-area" class="h-64 flex flex-col items-center justify-center mb-10 relative cursor-pointer group">
                         <div id="question-display" class="kr-font text-8xl md:text-9xl font-bold drop-shadow-xl transition-all duration-300 text-white">ㄱ</div>
                         <div id="writing-area" class="hidden absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -401,15 +492,30 @@
             </section>
 
             <section id="results-screen" class="hidden glass-card p-12 text-center fade-in text-white">
-                <h2 class="text-4xl font-bold mb-8 serif-font italic text-white text-center">Session Complete</h2>
-                <div class="grid grid-cols-3 gap-4 mb-10">
-                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase">Score</div><div id="final-score" class="text-3xl font-bold text-white">0</div></div>
-                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase">Accuracy</div><div id="final-acc" class="text-3xl font-bold text-white">0%</div></div>
-                    <div class="p-6 bg-white/5 rounded-2xl"><div class="text-[10px] text-gray-400 mb-2 font-bold uppercase text-center text-white">Streak</div><div id="final-streak" class="text-3xl font-bold text-[#d4af37]">0</div></div>
+                <div class="mb-10">
+                    <div class="text-[50px] mb-4">🏆</div>
+                    <h2 class="text-4xl font-bold serif-font italic text-white text-center">Session Complete</h2>
+                    <p class="text-[10px] uppercase tracking-[0.3em] text-[#d4af37] font-bold mt-2">Outstanding Effort!</p>
                 </div>
-                <div class="flex gap-4 justify-center">
-                    <button type="button" id="retry-btn" class="btn-primary py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Retry</button>
-                    <button type="button" id="home-btn" class="btn-outline py-4 px-10 rounded-2xl font-bold tracking-widest uppercase">Main Menu</button>
+                
+                <div class="grid grid-cols-3 gap-6 mb-12">
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Score</div>
+                        <div id="final-score" class="text-4xl font-bold text-white">0</div>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Accuracy</div>
+                        <div id="final-acc" class="text-4xl font-bold text-white">0%</div>
+                    </div>
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/5">
+                        <div class="text-[10px] text-gray-400 mb-3 font-bold uppercase tracking-widest">Max Streak</div>
+                        <div id="final-streak" class="text-4xl font-bold text-[#d4af37]">0</div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col md:flex-row gap-4 justify-center">
+                    <button type="button" id="retry-btn" class="btn-primary py-5 px-12 rounded-2xl font-bold tracking-[0.2em] uppercase text-xs">Retry Session</button>
+                    <button type="button" id="home-btn" class="btn-outline py-5 px-12 rounded-2xl font-bold tracking-[0.2em] uppercase text-xs">Main Menu</button>
                 </div>
             </section>
         </div>
@@ -437,11 +543,17 @@
         const ROMAN_MAP = { ...HANGUL_DATA.consonants, ...HANGUL_DATA.doubleConsonants, ...HANGUL_DATA.vowels, ...HANGUL_DATA.diphthongs };
         const BASIC_WORDS = { "hello": "안녕하세요", "hi": "안녕", "water": "물", "apple": "사과", "love": "사랑", "school": "학교" };
         const State = {
-            step: 1, topCategory: 'chars', mode: 'quiz', activeCats: ['consonants', 'vowels'], isReverse: false, isTestAll: false, testPool: [], currentDict: {}, currentKeys: [], score: 0, streak: 0, maxStreak: 0, qCount: 0, maxQ: 15, currentQ: null, isProcessing: false, flashcards: { index: 0, pool: [] }, typingInput: '', timer: { count: 60, interval: null }, writing: { isDrawing: false, lastX: 0, lastY: 0, hasDrawn: false }, persistence: { mastery: {}, customList: {} }
+            step: 1, topCategory: 'chars', mode: 'quiz', activeCats: ['consonants', 'vowels'], isReverse: false, isTestAll: false, isTeachMode: false, wrongQueue: [], testPool: [], currentDict: {}, currentKeys: [], score: 0, sessionAttempts: 0, streak: 0, maxStreak: 0, qCount: 0, maxQ: 15, currentQ: null, isProcessing: false, flashcards: { index: 0, pool: [] }, typingInput: '', timer: { count: 60, interval: null }, writing: { isDrawing: false, lastX: 0, lastY: 0, hasDrawn: false }, persistence: { mastery: {}, customList: {} }
         };
         const ui = {};
 
         function clearAnimations() { document.querySelectorAll('.step-container').forEach(s => s.classList.remove('exit-left', 'exit-right', 'enter-left', 'enter-right')); }
+
+        function updateStepIndicator(n) {
+            document.querySelectorAll('.step-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i + 1 === n);
+            });
+        }
 
         function selectFlow(flow, e) {
             State.topCategory = flow;
@@ -464,6 +576,7 @@
             document.getElementById('step-2-label').textContent = flow === 'chars' ? 'Step 2: Fundamentals' : 'Step 2: Applied';
             clearAnimations();
             s1.classList.add('exit-left');
+            updateStepIndicator(2);
             setTimeout(() => { s1.classList.add('hidden'); s2.classList.remove('hidden'); s2.classList.add('enter-right'); setTimeout(() => s2.classList.remove('enter-right'), 10); }, 500);
         }
 
@@ -485,6 +598,7 @@
 
             clearAnimations();
             current.classList.add('exit-left');
+            updateStepIndicator(n);
             setTimeout(() => { current.classList.add('hidden'); next.classList.remove('hidden'); next.classList.add('enter-right'); setTimeout(() => next.classList.remove('enter-right'), 10); }, 500);
         }
 
@@ -493,6 +607,7 @@
             const prev = document.getElementById(`flow-step-${n}`);
             clearAnimations();
             current.classList.add('exit-right');
+            updateStepIndicator(n);
             setTimeout(() => { current.classList.add('hidden'); prev.classList.remove('hidden'); prev.classList.add('enter-left'); setTimeout(() => prev.classList.remove('enter-left'), 10); }, 500);
         }
 
@@ -559,6 +674,15 @@
             } catch (e) { console.error(e); }
         }
 
+        function toggleOption(id, key) {
+            const el = document.getElementById(id);
+            State[key] = !State[key];
+            el.classList.toggle('selected', State[key]);
+            el.querySelector('.status-dot').style.backgroundColor = State[key] ? 'var(--accent-hangul)' : 'rgba(255, 255, 255, 0.1)';
+            if (State[key]) el.querySelector('.status-dot').style.boxShadow = '0 0 8px var(--accent-hangul)';
+            else el.querySelector('.status-dot').style.boxShadow = 'none';
+        }
+
         function init() {
             loadStats();
             document.getElementById('year').textContent = new Date().getFullYear();
@@ -577,6 +701,10 @@
                 if (b.dataset.mode === State.mode) b.classList.add('selected');
                 b.onclick = () => { document.querySelectorAll('[data-mode]').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); State.mode = b.dataset.mode; };
             });
+
+            document.getElementById('opt-reverse').onclick = () => toggleOption('opt-reverse', 'isReverse');
+            document.getElementById('opt-test-all').onclick = () => toggleOption('opt-test-all', 'isTestAll');
+            document.getElementById('opt-teach').onclick = () => toggleOption('opt-teach', 'isTeachMode');
 
             document.getElementById('start-button').onclick = startSession;
             document.getElementById('quit-button').onclick = () => { clearInterval(State.timer.interval); showScreen('start'); };
@@ -665,8 +793,8 @@
         }
 
         function startSession() {
-            State.isReverse = document.getElementById('reverse-toggle').checked;
-            State.isTestAll = document.getElementById('test-all-toggle').checked;
+            // State.isReverse, State.isTestAll, and State.isTeachMode are already updated by toggleOption
+            State.wrongQueue = [];
             State.currentDict = {};
             State.activeCats.forEach(c => { 
                 if (c === 'custom') {
@@ -677,8 +805,14 @@
             });
             State.currentKeys = Object.keys(State.currentDict);
             if (State.currentKeys.length === 0) { alert('Select at least one category'); return; }
-            State.score = 0; State.streak = 0; State.qCount = 0;
-            if (State.isTestAll) { State.maxQ = State.currentKeys.length; State.testPool = [...State.currentKeys]; for(let i=State.testPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.testPool[i],State.testPool[j]]=[State.testPool[j],State.testPool[i]]} }
+            State.score = 0; State.streak = 0; State.qCount = 0; State.sessionAttempts = 0;
+            if (State.isTestAll || State.isTeachMode) { 
+                State.maxQ = State.isTeachMode && !State.isTestAll ? Math.min(15, State.currentKeys.length) : State.currentKeys.length;
+                State.testPool = [...State.currentKeys]; 
+                for(let i=State.testPool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[State.testPool[i],State.testPool[j]]=[State.testPool[j],State.testPool[i]]}
+                if (State.isTeachMode && !State.isTestAll) State.testPool = State.testPool.slice(0, 15);
+                State.maxQ = State.testPool.length;
+            }
             else { State.maxQ = 15; }
             
             State.flashcards.pool = [...State.currentKeys];
@@ -697,7 +831,17 @@
         }
 
         function nextQuestion() {
-            if (State.qCount >= State.maxQ && State.mode !== 'speedMatch' && State.mode !== 'flashcards') { endSession(); return; }
+            if (State.qCount >= State.maxQ && State.mode !== 'speedMatch' && State.mode !== 'flashcards') { 
+                if (State.isTeachMode && State.wrongQueue.length > 0) {
+                    State.testPool = [...State.wrongQueue];
+                    State.wrongQueue = [];
+                    State.qCount = 0;
+                    State.maxQ = State.testPool.length;
+                } else {
+                    endSession(); 
+                    return; 
+                }
+            }
             State.isProcessing = false; ui.question.style.color = "white"; 
             if (State.mode === 'writing') ui.ctx.clearRect(0, 0, ui.canvas.width, ui.canvas.height);
             if (State.mode === 'typing') { State.typingInput = ''; updateTypingDisplay(); }
@@ -706,7 +850,7 @@
             if (State.mode === 'flashcards') {
                 c = State.flashcards.pool[State.flashcards.index];
             } else {
-                c = State.isTestAll ? State.testPool[State.qCount] : State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
+                c = (State.isTestAll || State.isTeachMode) ? State.testPool[State.qCount] : State.currentKeys[Math.floor(Math.random()*State.currentKeys.length)];
             }
             
             let a = State.currentDict[c];
@@ -749,6 +893,7 @@
             if (State.mode !== 'flashcards') {
                 State.isProcessing = true; 
                 State.qCount++;
+                State.sessionAttempts++;
                 if (correct) { 
                     State.score++; 
                     State.streak++; 
@@ -756,9 +901,24 @@
                     if (b) b.classList.add('correct'); 
                     ui.question.style.color = "#10b981"; 
                 }
-                else { State.streak = 0; if (b) b.classList.add('wrong'); ui.question.style.color = "#ef4444"; }
+                else { 
+                    State.streak = 0; 
+                    if (b) b.classList.add('wrong'); 
+                    ui.question.style.color = "#ef4444"; 
+                    
+                    // Show correct answer by highlighting the right button
+                    Array.from(ui.options.children).forEach(btn => {
+                        if (btn.textContent.toLowerCase().trim() === target) {
+                            btn.classList.add('correct');
+                        }
+                    });
+
+                    if (State.isTeachMode && !State.wrongQueue.includes(State.currentQ.char)) {
+                        State.wrongQueue.push(State.currentQ.char);
+                    }
+                }
                 ui.score.textContent = State.score; ui.streak.textContent = State.streak;
-                setTimeout(nextQuestion, 1000);
+                setTimeout(nextQuestion, 1500);
             }
         }
 
@@ -771,7 +931,7 @@
             }
         }
 
-        function endSession() { showScreen('results'); document.getElementById('final-score').textContent = State.score; document.getElementById('final-acc').textContent = Math.round((State.score/(State.qCount||1))*100) + '%'; document.getElementById('final-streak').textContent = State.maxStreak; }
+        function endSession() { showScreen('results'); document.getElementById('final-score').textContent = State.score; document.getElementById('final-acc').textContent = Math.round((State.score/(State.sessionAttempts||1))*100) + '%'; document.getElementById('final-streak').textContent = State.maxStreak; }
         function startSpeedMatch() { State.timer.count = 60; ui.timer.classList.remove('hidden'); State.timer.interval = setInterval(() => { State.timer.count--; ui.timer.textContent = State.timer.count + 's'; if (State.timer.count <= 0) { clearInterval(State.timer.interval); endSession(); } }, 1000); nextQuestion(); }
         function startDrawing(e) { State.writing.isDrawing = true; State.writing.hasDrawn = true; const r = ui.canvas.getBoundingClientRect(); State.writing.lastX = (e.clientX || e.touches[0].clientX) - r.left; State.writing.lastY = (e.clientY || e.touches[0].clientY) - r.top; }
         function draw(e) { if (!State.writing.isDrawing) return; const r = ui.canvas.getBoundingClientRect(); const x = (e.clientX || e.touches[0].clientX) - r.left; const y = (e.clientY || e.touches[0].clientY) - r.top; ui.ctx.beginPath(); ui.ctx.moveTo(State.writing.lastX, State.writing.lastY); ui.ctx.lineTo(x, y); ui.ctx.strokeStyle = "#d4af37"; ui.ctx.lineWidth = 10; ui.ctx.lineCap = 'round'; ui.ctx.stroke(); State.writing.lastX = x; State.writing.lastY = y; }
