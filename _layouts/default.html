@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400;1,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=3.7">
-  <link rel="stylesheet" href="{{ '/assets/css/monograph.css' | relative_url }}?v=3.7">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}?v=4.2">
+  <link rel="stylesheet" href="{{ '/assets/css/monograph.css' | relative_url }}?v=4.2">
   <style>
     /* Critical Broadsheet Core Styling */
     :root {
@@ -43,6 +43,81 @@
     }
     a { color: var(--text-color); }
     .nav-text-short { display: none; }
+
+    /* Guaranteed Critical Navigation Layout */
+    .site-nav {
+      border-top: 1px solid var(--border-dark);
+      border-bottom: 3px double var(--border-dark);
+      background-color: var(--bg-color);
+      padding: 0.45rem 0;
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      gap: 1.15rem;
+      margin: 0;
+      padding: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav-menu::-webkit-scrollbar { display: none; }
+    .nav-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--text-color);
+      text-decoration: none;
+      white-space: nowrap !important;
+      display: inline-block;
+      transition: color 0.15s ease;
+      text-transform: uppercase;
+    }
+    .nav-item:hover, .nav-item.active {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    .nav-item.active {
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 1px;
+    }
+    .nav-sep {
+      color: var(--border-color);
+      font-size: 0.65rem;
+      line-height: 1;
+      user-select: none;
+    }
+    .nav-rss-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--accent-color);
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      padding: 0.2rem 0.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      white-space: nowrap !important;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.15s ease;
+    }
+    .nav-rss-badge:hover {
+      background: var(--accent-color);
+      color: #ffffff;
+      border-color: var(--accent-color);
+      text-decoration: none;
+    }
   </style>
   {% feed_meta %}
   <script src="{{ '/assets/js/main.js' | relative_url }}?v=3.6" defer></script>

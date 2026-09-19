@@ -251,39 +251,54 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
   list-style: none;
-  gap: 0.85rem;
+  gap: 1.15rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
 }
 
 .nav-item {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   color: var(--text-color);
   text-decoration: none;
+  white-space: nowrap !important;
+  display: inline-block;
   transition: color 0.15s ease;
+  text-transform: uppercase;
 }
 
-.nav-item:hover {
+.nav-item:hover,
+.nav-item.active {
   color: var(--accent-color);
   text-decoration: none;
 }
 
+.nav-item.active {
+  border-bottom: 2px solid var(--accent-color);
+  padding-bottom: 1px;
+}
+
 .nav-sep {
   color: var(--border-color);
-  font-size: 0.7rem;
+  font-size: 0.65rem;
+  line-height: 1;
   user-select: none;
 }
 
 .nav-meta {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .nav-rss-badge {
@@ -297,6 +312,9 @@ a:hover {
   padding: 0.2rem 0.5rem;
   border-radius: 2px;
   text-decoration: none;
+  white-space: nowrap !important;
+  display: inline-flex;
+  align-items: center;
   transition: all 0.15s ease;
 }
 

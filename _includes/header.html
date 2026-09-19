@@ -30,16 +30,16 @@
   <nav class="site-nav" aria-label="Main Navigation">
     <div class="container nav-inner">
       <ul class="nav-menu">
-        <li><a href="{{ '/' | relative_url }}" class="nav-item">FRONT PAGE</a></li>
+        <li><a href="{{ '/' | relative_url }}" class="nav-item {% if page.url == '/' %}active{% endif %}">FRONT PAGE</a></li>
         <li class="nav-sep">&bull;</li>
-        <li><a href="{{ '/projects/' | relative_url }}" class="nav-item"><span class="nav-text-full">CODING PROJECTS</span><span class="nav-text-short">PROJECTS</span></a></li>
+        <li><a href="{{ '/projects/' | relative_url }}" class="nav-item {% if page.url contains '/projects' %}active{% endif %}">PROJECTS</a></li>
         <li class="nav-sep">&bull;</li>
-        <li><a href="{{ '/about/' | relative_url }}" class="nav-item"><span class="nav-text-full">ABOUT THE DESK</span><span class="nav-text-short">ABOUT</span></a></li>
+        <li><a href="{{ '/about/' | relative_url }}" class="nav-item {% if page.url contains '/about' %}active{% endif %}">ABOUT</a></li>
         <li class="nav-sep">&bull;</li>
-        <li><a href="{{ '/archive/' | relative_url }}" class="nav-item"><span class="nav-text-full">DISPATCH ARCHIVE</span><span class="nav-text-short">ARCHIVE</span></a></li>
+        <li><a href="{{ '/archive/' | relative_url }}" class="nav-item {% if page.url contains '/archive' %}active{% endif %}">ARCHIVE</a></li>
       </ul>
       <div class="nav-meta">
-        <a href="{{ '/feed.xml' | relative_url }}" class="nav-rss-badge" title="Subscribe via RSS/Atom Feed" target="_blank"><span class="nav-text-full">[RSS WIRE]</span><span class="nav-text-short">[RSS]</span></a>
+        <a href="{{ '/feed.xml' | relative_url }}" class="nav-rss-badge" title="Subscribe via RSS/Atom Feed" target="_blank">[RSS WIRE]</a>
       </div>
     </div>
   </nav>
