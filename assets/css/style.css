@@ -635,6 +635,251 @@ a:hover {
   line-height: 1.6;
 }
 
+/* --- 5B. Projects Page & Application Cards --- */
+.projects-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-intro {
+  margin-bottom: 2.25rem;
+}
+
+.projects-intro p {
+  font-family: var(--font-prose);
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+}
+
+.projects-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--border-dark);
+  padding-bottom: 0.45rem;
+  margin-bottom: 2rem;
+}
+
+.projects-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-color);
+}
+
+.projects-section-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+}
+
+.projects-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.project-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--border-dark);
+  padding: 1.75rem 2rem;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(20, 20, 19, 0.04);
+  transition: transform 0.15s ease, border-left-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-card:hover {
+  border-left-color: var(--accent-color);
+  box-shadow: 0 4px 14px rgba(20, 20, 19, 0.07);
+}
+
+.project-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.project-meta-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+}
+
+.project-category {
+  color: var(--accent-color);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #15803d;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.project-status-dot {
+  font-size: 0.65rem;
+}
+
+.project-access-tag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+}
+
+.project-title {
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  font-weight: 800;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+}
+
+.project-title a {
+  color: var(--text-color);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.project-title a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.project-ext-arrow {
+  font-size: 1.1rem;
+  color: var(--accent-color);
+  transition: transform 0.15s ease;
+}
+
+.project-card:hover .project-ext-arrow {
+  transform: translate(2px, -2px);
+}
+
+.project-desc {
+  font-family: var(--font-prose);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+  letter-spacing: 0.02em;
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  padding-top: 1.15rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.project-btn-primary {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background-color: var(--accent-color);
+  color: #ffffff !important;
+  padding: 0.45rem 1.1rem;
+  border-radius: 2px;
+  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.project-btn-primary:hover {
+  background-color: var(--accent-hover);
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+.project-url-badge {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.65rem;
+  border-radius: 2px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.project-url-badge:hover {
+  border-color: var(--border-dark);
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.project-url-badge .url-protocol {
+  color: var(--text-light);
+}
+
+.projects-terminal-note {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--border-dark);
+  padding: 1.25rem 1.5rem;
+  border-radius: 2px;
+  margin-top: 1rem;
+}
+
+.terminal-note-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+
+.terminal-note-text {
+  font-family: var(--font-prose);
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
 /* --- 6. Post Pages & Editorial Typography --- */
 .post {
   display: flex;
@@ -1328,18 +1573,35 @@ pre code {
   }
 }
 
-/* --- Mobile Phones (Small Viewports) --- */
-@media (max-width: 540px) {
-  .container {
-    padding: 0 1rem;
-  }
-
+/* --- Navigation Text Compression for Compact Viewports --- */
+@media (max-width: 680px) {
   .nav-text-full {
     display: none;
   }
 
   .nav-text-short {
     display: inline;
+  }
+}
+
+/* --- Mobile Phones (Small Viewports) --- */
+@media (max-width: 540px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .project-card {
+    padding: 1.25rem 1.15rem;
+  }
+
+  .project-title {
+    font-size: 1.45rem;
+  }
+
+  .project-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.65rem;
   }
 
   .header-topbar-inner {

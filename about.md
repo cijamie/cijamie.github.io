@@ -18,6 +18,7 @@ Welcome to **jme.log** — an independent broadsheet and analytical console log 
 
 ### Dispatches & Wire Transmission
 
+*   **Coding Projects:** [Browse Interactive Web Applications]({{ '/projects/' | relative_url }})
 *   **Code Ledger:** [github.com/cijamie](https://github.com/cijamie)
 *   **Syndication:** [Subscribe via RSS Wire]({{ '/feed.xml' | relative_url }})
 
