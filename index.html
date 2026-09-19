@@ -1,126 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="logo.png">
-    <title>Jamie Sessions | Portfolio</title>
-    <meta name="description" content="Portfolio of Jamie Sessions - Bridging Political Theory, Intelligence Analysis, and Cybersecurity.">
-    <meta property="og:title" content="Jamie Sessions | Portfolio">
-    <meta property="og:description" content="Exploring the intersection of international relations, sociology, and political ideologies.">
-    <meta property="og:type" content="website">
+---
+layout: default
+title: "jme.log // The Independent Broadsheet"
+---
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<div class="front-page">
+  <div class="front-section-header">
+    <h2 class="front-section-title">LATEST DISPATCHES</h2>
+    <span class="front-section-meta">CHRONOLOGICAL RECORD</span>
+  </div>
 
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <div class="articles-feed">
+    {% for post in site.posts %}
+      {% assign words = post.content | number_of_words %}
+      <article class="dispatch-article {% if forloop.first %}lead-dispatch{% endif %}">
+        <div class="dispatch-meta-top">
+          {% if post.categories.size > 0 %}
+            <span class="dispatch-category">
+              {% for cat in post.categories %}
+                {{ cat | upcase }}{% unless forloop.last %} / {% endunless %}
+              {% endfor %}
+            </span>
+            <span class="meta-separator">&bull;</span>
+          {% endif %}
+          <time datetime="{{ post.date | date_to_xmlschema }}" class="dispatch-date">
+            {{ post.date | date: "%B %d, %Y" }}
+          </time>
+          <span class="meta-separator">&bull;</span>
+          <span class="dispatch-readtime">
+            {% if words < 180 %}1 MIN READ{% else %}{{ words | divided_by: 180 | plus: 1 }} MIN READ{% endif %}
+          </span>
+        </div>
 
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
+        <h2 class="dispatch-title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
 
-    <header>
-        <nav></nav>
-    </header>
+        <p class="dispatch-excerpt">
+          {% if post.excerpt %}
+            {{ post.excerpt | strip_html | truncatewords: 45 }}
+          {% else %}
+            {{ post.content | strip_html | truncatewords: 45 }}
+          {% endif %}
+        </p>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <div class="fade-in" style="margin-bottom: 20px;">
-                    <span style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--accent); letter-spacing: 4px; text-transform: uppercase;">International Relations & Cybersecurity</span>
-                </div>
-                <h1>Bridging Political Theory &<br> <span class="highlight">Modern Inquiry</span></h1>
-                <p class="subtitle">
-                    Analyzing the intersection of global governance, institutional policy, and technical vulnerabilities in a digitized world.
-                </p>
-                <div class="hero-btns">
-                    <a href="works.html" class="cta-button">View Research</a>
-                    <a href="code.html" class="cta-button">View Projects</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="work-section" style="padding-top: 0;">
-            <div class="section-header">
-                <h2>Featured Work</h2>
-            </div>
-            <div class="grid">
-                <a href="works/algorithmicextremism.html" class="card">
-                    <div>
-                        <div class="card-category">Academic Paper</div>
-                        <h3>Algorithmic Extremism</h3>
-                        <p>An investigation of how transition from hierarchical structures to decentralized, platform-guided radicalization alters the landscape of domestic terrorism.</p>
-                    </div>
-                    <div class="card-link">Read Full Paper →</div>
-                </a>
-                
-                <a href="https://cijamie.github.io/azimuth/" class="card code-card">
-                    <div>
-                        <div class="card-category">OSINT Tool</div>
-                        <h3>Azimuth</h3>
-                        <p>A high-performance Intelligence Management System designed for rapid OSINT discovery and analysis.</p>
-                    </div>
-                    <div class="card-link">Visit Project →</div>
-                </a>
-        </section>
-
-        <section id="about" class="about-section">
-            <div class="about-container">
-                <div class="about-header-centered">
-                    <h2>About Me</h2>
-                </div>
-                
-                <div class="about-narrative">
-                    <p class="lead">I am a dual-major in International Studies and Political Science at the University of Idaho, focusing on the intersection of international relations, sociology, and political ideologies.</p>
-                    
-                    <p>My goal is to understand how the world works—both through human systems and digital ones. Beyond my academic studies, I am deeply interested in intelligence analysis, languages, and penetration testing, using my technical background in Python and hardware to explore the vulnerabilities in modern systems.</p>
-                    
-                    <p>This portfolio serves as a documentation of my work, bridging the gap between rigorous political analysis and cybersecurity innovation.</p>
-                </div>
-
-                <div class="about-info-grid">
-                    <div class="info-column">
-                        <h3>Current Roles</h3>
-                        <ul>
-                            <li>Cadet, Army ROTC Chrisman Battalion</li>
-                            <li>Soldier, Idaho Army National Guard</li>
-                            <li>Student, University of Idaho</li>
-                        </ul>
-                    </div>
-
-                    <div class="info-column">
-                        <h3>Expertise</h3>
-                        <ul class="tags">
-                            <li>Political Science</li>
-                            <li>International Relations</li>
-                            <li>Intelligence Analysis</li>
-                            <li>OSINT</li>
-                            <li>Policy Briefing</li>
-                        </ul>
-                    </div>
-
-                    <div class="info-column" style="grid-column: 1 / -1; margin-top: 40px;">
-                        <h3>Technical Proficiency</h3>
-                        <ul class="tags">
-                            <li>Python</li>
-                            <li>JavaScript (ES6+)</li>
-                            <li>HTML5 / CSS3</li>
-                            <li>Bash / Linux CLI</li>
-                            <li>Penetration Testing</li>
-                            <li>Hardware Configuration</li>
-                            <li>SQL / Data Analysis</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer></footer>
-
-    <script src="components.js"></script>
-    <script src="scripts.js"></script>
-</body>
-</html>
+        <div class="dispatch-footer">
+          <a href="{{ post.url | relative_url }}" class="dispatch-readlink">
+            Read Full Analysis <span class="readlink-arrow">&rarr;</span>
+          </a>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty-feed">
+        <h3>No dispatches logged yet</h3>
+        <p>Dispatches added to the <code>_posts/</code> directory will appear here.</p>
+      </div>
+    {% endfor %}
+  </div>
+</div>

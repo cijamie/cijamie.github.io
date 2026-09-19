@@ -1,0 +1,74 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-header">
+    <div class="post-kicker">
+      {% if page.categories.size > 0 %}
+        <span class="kicker-category">
+          {% for cat in page.categories %}
+            {{ cat | upcase }}{% unless forloop.last %} / {% endunless %}
+          {% endfor %}
+        </span>
+        <span class="kicker-dot">&bull;</span>
+      {% endif %}
+      <span class="kicker-ref">DISPATCH #{{ page.date | date: "%Y%m%d" }}</span>
+    </div>
+
+    <h1 class="post-title">{{ page.title }}</h1>
+
+    <div class="post-byline-bar">
+      <div class="byline-left">
+        <span class="byline-author">By {{ site.author | default: "Jamie" }}</span>
+        <span class="byline-dot">&bull;</span>
+        <time datetime="{{ page.date | date_to_xmlschema }}" class="byline-date">
+          {{ page.date | date: "%B %d, %Y" }}
+        </time>
+        <span class="byline-dot">&bull;</span>
+        <span class="byline-readtime">
+          {% assign words = content | number_of_words %}
+          {% if words < 180 %}1 min read{% else %}{{ words | divided_by: 180 | plus: 1 }} min read{% endif %}
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.tags.size > 0 %}
+    <footer class="post-footer">
+      <div class="post-tags-row">
+        <span class="tags-label">INDEX:</span>
+        {% for tag in page.tags %}
+          <span class="tag-badge">#{{ tag }}</span>
+        {% endfor %}
+      </div>
+    </footer>
+  {% endif %}
+
+  <nav class="post-navigation">
+    <div class="nav-prev">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" title="{{ page.previous.title }}">
+          <span class="nav-label">&larr; PREVIOUS</span>
+          <span class="nav-text">{{ page.previous.title }}</span>
+        </a>
+      {% endif %}
+    </div>
+    <div class="nav-next">
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" title="{{ page.next.title }}">
+          <span class="nav-label">NEXT &rarr;</span>
+          <span class="nav-text">{{ page.next.title }}</span>
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <div class="comments-section">
+    <div class="comments-title">READER DISCUSSIONS</div>
+    {% include giscus.html %}
+  </div>
+</article>

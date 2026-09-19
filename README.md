@@ -1,45 +1,26 @@
-# Jamie Sessions | Portfolio
+# jme.log
 
-[![Status](https://img.shields.io/badge/Status-Operational-10b981?style=flat-square&logo=statuspage)](https://cijamie.github.io)
-[![Version](https://img.shields.io/badge/Version-3.0.0-white?style=flat-square&logo=github)](https://github.com/cijamie)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE.txt)
+> A personal log of geopolitical issues, study abroad journey experiences, and other reflections.
 
-> **Bridging Political Theory, Intelligence Analysis, and Cybersecurity.**
+Welcome to **jme.log**, my personal blog hosted on GitHub Pages. This site serves as a digital journal where I publish thoughts, observations, and logs on various subjects.
 
-This repository hosts my personal portfolio, showcasing the intersection of global governance, institutional policy, and technical vulnerabilities in a digitized world.
+🌐 **Read it live at:** [https://cijamie.github.io/](https://cijamie.github.io/)
 
-## 🌐 [Visit Portfolio](https://cijamie.github.io/)
+## Features
 
----
+- **Broadsheet Editorial Design:** Inspired by classic newspaper broadsheets and terminal telemetry.
+- **Responsive Layout:** Optimized for mobile phones, tablets, and desktop browsers.
+- **Interactive Comments & Likes:** Powered by [Giscus](https://giscus.app), saving comments directly in GitHub Discussions.
+- **Static & Fast:** Built using Jekyll, serving static content quickly without server-side tracking.
 
-### 📚 Academic & Professional Focus
-I am a dual-major in International Studies and Political Science, focusing on the intersection of international relations, sociology, and political ideologies.
+## Technical Details
 
-**Key Areas of Expertise:**
-- **Political Science & International Relations:** Analyzing global systems and state capacity.
-- **Intelligence Analysis (OSINT):** Leveraging digital tools for rapid discovery.
-- **Cybersecurity:** Pentesting, hardware configuration, and technical inquiry.
-
-### 🛠️ Technical Proficiency
-- **Languages:** Python, JavaScript (ES6+), SQL, Bash.
-- **Web:** HTML5, CSS3, GitHub Pages.
-- **Tools:** Linux CLI, Penetration Testing frameworks.
+This blog is built using:
+- **Jekyll** (Static site generator)
+- **HTML5 & Vanilla CSS/JS** (Custom minimalist styling)
+- **GitHub Pages** (Hosting & Automated Builds)
+- **Giscus** (Comments mechanism)
 
 ---
 
-### 📖 Research & Projects
-My portfolio features a collection of academic research and technical projects focused on:
-- **Global Governance:** Institutional policy and international systems.
-- **Intelligence Management:** OSINT tools and discovery analysis.
-- **Cybersecurity Innovation:** Exploring technical vulnerabilities in modern systems.
-
-[Explore all research and projects on my website →](https://cijamie.github.io/)
-
----
-
-### 📜 License
-This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
-
----
-
-*“Understanding how the world works—both through human systems and digital ones.”*
+*For setup, deployment, and contribution instructions, please refer to [SETUP.md](SETUP.md).*

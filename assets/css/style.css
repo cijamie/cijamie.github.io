@@ -1,0 +1,1402 @@
+/* ==========================================================================
+   jme.log — The Broadsheet Terminal
+   A Credible International Newspaper infused with a Terminal Console Aesthetic
+   Strictly Light Theme Only (Authentic Newsprint & Letterpress Carbon Ink)
+   ========================================================================== */
+
+/* --- 1. Design Variables & Font Definitions --- */
+:root {
+  --font-serif: 'Playfair Display', Georgia, Cambria, 'Times New Roman', serif;
+  --font-prose: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Authentic Newsprint & Letterpress Carbon Ink Palette */
+  --bg-color: #fbf9f4;         /* Rich warm broadsheet newsprint */
+  --bg-secondary: #f3eee3;     /* Aged paper tone for headers, quotes, insets */
+  --bg-card: #ffffff;          /* Clean white paper panel */
+  --text-color: #141413;       /* Deep printer's carbon black */
+  --text-muted: #54504a;       /* Editorial graphite / sub-headline ink */
+  --text-light: #7c776e;       /* Subtle dateline metadata */
+  --border-color: #ded8cb;     /* Hairline column divider rule */
+  --border-dark: #141413;      /* Broadsheet heavy black divider / double rules */
+  --accent-color: #991b1b;     /* Newsroom wire red / editorial crimson */
+  --accent-hover: #7f1d1d;
+  --accent-navy: #1e3a5f;      /* Classic broadside press navy */
+  --code-bg: #ece6d9;          /* Teletype console background */
+  --code-text: #991b1b;        /* Terminal prompt red */
+
+  --max-width: 760px;
+}
+
+/* --- 2. CSS Reset & Typography Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 17.5px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-prose);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--text-color);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  color: var(--accent-color);
+  text-decoration-color: var(--accent-hover);
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+.site-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Reading Progress Bar (Teletype Wire Cable) */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background-color: var(--accent-color);
+  z-index: 1000;
+  transition: width 0.1s ease-out;
+}
+
+/* --- 3. Broadsheet Masthead & Header --- */
+.site-header {
+  background-color: var(--bg-color);
+  border-bottom: none;
+}
+
+/* Top Dateline & Telemetry Strip */
+.header-topbar {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.35rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  letter-spacing: 0.04em;
+}
+
+.header-topbar-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.topbar-left, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.topbar-date {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.topbar-divider {
+  color: var(--border-color);
+  user-select: none;
+}
+
+.topbar-edition {
+  color: var(--text-muted);
+}
+
+.topbar-status {
+  font-weight: 700;
+  color: var(--text-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.status-dot {
+  color: #16a34a; /* Teletype Carrier Green */
+  font-size: 0.65rem;
+  animation: pulse-dot 2.5s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Center Broadsheet Masthead */
+.masthead {
+  padding: 2.25rem 0 1.5rem 0;
+  text-align: center;
+}
+
+.masthead-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.masthead-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-color);
+  margin-bottom: 0.4rem;
+}
+
+.masthead-title {
+  font-family: var(--font-serif);
+  font-size: 3.6rem;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  color: var(--text-color);
+  line-height: 1;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.masthead-title:hover {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.masthead-logo {
+  height: 3.2rem;
+  width: 3.2rem;
+  object-fit: contain;
+  margin-right: 0.65rem;
+  display: inline-block;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.masthead-title:hover .masthead-logo {
+  transform: scale(1.05);
+}
+
+.masthead-prompt {
+  font-family: var(--font-mono);
+  color: var(--accent-color);
+  font-weight: 400;
+  margin-right: 0.1rem;
+}
+
+.masthead-cursor {
+  font-family: var(--font-mono);
+  animation: blink 1.2s step-end infinite;
+  color: var(--accent-color);
+  font-weight: 400;
+}
+
+@keyframes blink {
+  from, to { color: transparent; }
+  50% { color: var(--accent-color); }
+}
+
+.masthead-subtitle {
+  font-family: var(--font-prose);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  max-width: 620px;
+}
+
+/* Broadsheet Double-Ruled Navigation Bar */
+.site-nav {
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 3px double var(--border-dark); /* Classic Broadsheet Rule */
+  background-color: var(--bg-color);
+  padding: 0.45rem 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 0.85rem;
+}
+
+.nav-item {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-color);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.nav-item:hover {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.nav-sep {
+  color: var(--border-color);
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+.nav-meta {
+  display: flex;
+  align-items: center;
+}
+
+.nav-rss-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent-color);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 2px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.nav-rss-badge:hover {
+  background: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+  text-decoration: none;
+}
+
+.nav-text-short {
+  display: none;
+}
+
+.nav-text-full {
+  display: inline;
+}
+
+/* --- 4. Main Content Area --- */
+.site-main {
+  flex-grow: 1;
+  padding: 3rem 0 4.5rem 0;
+}
+
+/* --- 5. Front Page Articles Feed --- */
+.front-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.front-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--border-dark);
+  padding-bottom: 0.45rem;
+  margin-bottom: 2.5rem;
+}
+
+.front-section-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-color);
+}
+
+.front-section-meta {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-light);
+  letter-spacing: 0.05em;
+}
+
+.articles-feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.dispatch-article {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 2.75rem;
+  margin-bottom: 2.75rem;
+}
+
+.dispatch-article:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.dispatch-meta-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  margin-bottom: 0.75rem;
+}
+
+.dispatch-category {
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.06em;
+}
+
+.meta-separator {
+  color: var(--border-color);
+  font-size: 0.65rem;
+}
+
+.dispatch-date {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.dispatch-readtime {
+  color: var(--text-light);
+}
+
+.dispatch-title {
+  font-family: var(--font-serif);
+  font-size: 2.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.85rem;
+}
+
+.lead-dispatch .dispatch-title {
+  font-size: 2.5rem;
+}
+
+.dispatch-title a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.dispatch-title a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+}
+
+.dispatch-excerpt {
+  font-family: var(--font-prose);
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+}
+
+.dispatch-footer {
+  display: flex;
+  align-items: center;
+}
+
+.dispatch-readlink {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--accent-color);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  transition: all 0.15s ease;
+}
+
+.dispatch-readlink:hover {
+  background-color: var(--accent-color);
+  color: #ffffff;
+  border-color: var(--accent-color);
+  text-decoration: none;
+}
+
+.readlink-arrow {
+  transition: transform 0.15s ease;
+}
+
+.dispatch-readlink:hover .readlink-arrow {
+  transform: translateX(3px);
+}
+
+.empty-feed {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  font-family: var(--font-mono);
+  border: 1px dashed var(--border-color);
+  background: var(--bg-secondary);
+}
+
+.empty-feed h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty-feed p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* --- Archive Page & Syndication Box --- */
+.syndication-box {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-left: 4px solid var(--accent-color);
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0 3rem 0;
+  border-radius: 2px;
+}
+
+.syndication-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-color);
+  margin-bottom: 0.4rem;
+}
+
+.syndication-desc {
+  font-family: var(--font-prose);
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  margin-bottom: 0.85rem;
+}
+
+.syndication-action {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.syndication-url {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  background: var(--bg-card);
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  color: var(--text-color);
+}
+
+.syndication-link {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+.syndication-link:hover {
+  text-decoration: underline;
+}
+
+.archive-year-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid var(--border-dark);
+  padding-bottom: 0.45rem;
+  margin-bottom: 2rem;
+}
+
+.archive-year-title {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.archive-count {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.archive-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.archive-item {
+  border-bottom: 1px solid var(--border-color);
+  padding: 1.5rem 0;
+}
+
+.archive-item:last-child {
+  border-bottom: none;
+}
+
+.archive-item-meta {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.archive-item-date {
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+.archive-sep {
+  color: var(--border-color);
+  font-size: 0.65rem;
+}
+
+.archive-item-time {
+  color: var(--text-light);
+}
+
+.archive-item-cat {
+  color: var(--accent-color);
+  font-weight: 700;
+}
+
+.archive-item-title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 0.4rem;
+}
+
+.archive-item-title a {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.archive-item-title a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+.archive-item-excerpt {
+  font-family: var(--font-prose);
+  font-size: 0.98rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* --- 6. Post Pages & Editorial Typography --- */
+.post {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-header {
+  margin-bottom: 2.75rem;
+}
+
+.post-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  margin-bottom: 0.85rem;
+}
+
+.kicker-category {
+  font-weight: 700;
+  color: var(--accent-color);
+  letter-spacing: 0.06em;
+}
+
+.kicker-dot {
+  color: var(--border-color);
+}
+
+.kicker-ref {
+  color: var(--text-light);
+  white-space: nowrap;
+}
+
+.post-title {
+  font-family: var(--font-serif);
+  font-size: 3.1rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.post-byline-bar {
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.byline-left {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.byline-author {
+  color: var(--text-color);
+  font-weight: 700;
+}
+
+.byline-dot {
+  color: var(--border-color);
+}
+
+.byline-readtime {
+  color: var(--text-light);
+}
+
+/* Static Page Header */
+.page-header {
+  margin-bottom: 2.5rem;
+}
+
+.page-wire-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.page-title {
+  font-family: var(--font-serif);
+  font-size: 2.75rem;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.page-dateline-rule {
+  margin-top: 1.25rem;
+  border-bottom: 3px double var(--border-dark);
+}
+
+/* Article Prose Typography */
+.post-content, .page-content {
+  font-family: var(--font-prose);
+  font-size: 1.18rem;
+  line-height: 1.85;
+  color: var(--text-color);
+}
+
+/* Authentic Broadsheet Drop Cap */
+.post-content > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  float: left;
+  font-size: 4.8rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 12px;
+  padding-bottom: 2px;
+  font-weight: 900;
+  color: var(--border-dark);
+}
+
+.post-content h2, .page-content h2 {
+  font-family: var(--font-serif);
+  font-size: 2.05rem;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-top: 3.25rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.post-content h3, .page-content h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.post-content h4, .page-content h4 {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--accent-color);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-content p, .page-content p {
+  margin-bottom: 1.65rem;
+}
+
+.post-content ul, .post-content ol,
+.page-content ul, .page-content ol {
+  margin-bottom: 1.8rem;
+  padding-left: 1.75rem;
+}
+
+.post-content li, .page-content li {
+  margin-bottom: 0.6rem;
+}
+
+/* Broadsheet Double Rules */
+hr {
+  border: 0;
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 2px solid var(--border-dark);
+  height: 5px;
+  margin: 3.5rem 0;
+}
+
+/* Broadsheet Pullquotes */
+.post-content blockquote, .page-content blockquote {
+  font-family: var(--font-prose);
+  font-size: 1.25rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-color);
+  border-left: 4px solid var(--border-dark);
+  padding: 1.15rem 1.5rem;
+  margin: 2.5rem 0;
+  background-color: var(--bg-secondary);
+  border-radius: 2px;
+}
+
+.post-content blockquote cite, .page-content blockquote cite {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-style: normal;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Terminal Preformatted & Code Blocks */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  padding: 0.15rem 0.4rem;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+}
+
+pre {
+  background-color: var(--code-bg);
+  padding: 1.25rem;
+  border-radius: 2px;
+  overflow-x: auto;
+  margin-bottom: 1.8rem;
+  border: 1px solid var(--border-color);
+  border-left: 3px solid var(--accent-color);
+}
+
+pre code {
+  background-color: transparent;
+  color: var(--text-color);
+  padding: 0;
+  font-size: 0.88rem;
+  border: none;
+}
+
+/* Images & Media */
+.post-content img, .page-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 2px;
+  border: 1px solid var(--border-color);
+  margin: 2.5rem auto;
+  display: block;
+  box-shadow: 0 1px 3px rgba(20, 20, 19, 0.05);
+}
+
+/* Article Tags / Index */
+.post-footer {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.post-tags-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tags-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.tag-badge {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-color);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+}
+
+/* Post Pagination */
+.post-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3.5rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border-dark);
+  border-bottom: 3px double var(--border-dark);
+  gap: 1.5rem;
+}
+
+.nav-prev, .nav-next {
+  width: 48%;
+}
+
+.nav-next {
+  text-align: right;
+}
+
+.post-navigation a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-decoration: none;
+}
+
+.nav-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--accent-color);
+}
+
+.nav-text {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-color);
+  line-height: 1.35;
+}
+
+.post-navigation a:hover .nav-text {
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-color);
+}
+
+/* Reader Comments Section */
+.comments-section {
+  margin-top: 4.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+.comments-title {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
+.giscus-placeholder {
+  background-color: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: 2px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.giscus-placeholder h3 {
+  font-family: var(--font-serif);
+  margin-bottom: 0.75rem;
+  font-size: 1.4rem;
+}
+
+.giscus-placeholder p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.giscus-placeholder ol {
+  display: inline-block;
+  text-align: left;
+  font-size: 0.9rem;
+  padding-left: 1.5rem;
+  line-height: 1.6;
+}
+
+.giscus-placeholder li {
+  margin-bottom: 0.5rem;
+}
+
+/* --- 7. Broadsheet Colophon & Footer --- */
+.site-footer {
+  border-top: 3px double var(--border-dark);
+  padding: 3rem 0 2.5rem 0;
+  background-color: var(--bg-secondary);
+  font-size: 0.85rem;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.footer-masthead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+}
+
+.footer-logo {
+  font-weight: 700;
+  color: var(--text-color);
+}
+
+.footer-divider {
+  color: var(--border-color);
+}
+
+.footer-motto {
+  font-family: var(--font-prose);
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.footer-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.footer-copy {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.footer-links {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.footer-links a {
+  color: var(--accent-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-dot {
+  color: var(--border-color);
+}
+
+.footer-eof {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--text-light);
+  padding-top: 1rem;
+  border-top: 1px dashed var(--border-color);
+}
+
+/* --- 8. Responsive Rules --- */
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  .container {
+    padding: 0 1.2rem;
+  }
+
+  .site-main {
+    padding: 2rem 0 3.5rem 0;
+  }
+
+  /* Header Topbar */
+  .header-topbar {
+    padding: 0.35rem 0;
+    font-size: 0.68rem;
+  }
+
+  .header-topbar-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.6rem;
+  }
+
+  .topbar-left, .topbar-right {
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+
+  /* Broadsheet Masthead */
+  .masthead {
+    padding: 1.5rem 0 1.15rem 0;
+  }
+
+  .masthead-kicker {
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.35rem;
+  }
+
+  .masthead-title {
+    font-size: 2.35rem;
+    line-height: 1.05;
+  }
+
+  .masthead-subtitle {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin-top: 0.45rem;
+    padding: 0 0.5rem;
+  }
+
+  /* Broadsheet Navigation */
+  .site-nav {
+    padding: 0.35rem 0;
+  }
+
+  .nav-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    white-space: nowrap;
+  }
+
+  .nav-menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-item {
+    font-size: 0.76rem;
+    white-space: nowrap;
+  }
+
+  .nav-sep {
+    font-size: 0.6rem;
+  }
+
+  .nav-rss-badge {
+    font-size: 0.7rem;
+    padding: 0.18rem 0.45rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  /* Post Header & Headings */
+  .post-header {
+    margin-bottom: 1.75rem;
+  }
+
+  .post-kicker {
+    font-size: 0.7rem;
+    gap: 0.35rem 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-title {
+    font-size: 1.95rem;
+    line-height: 1.22;
+    margin-bottom: 1.25rem;
+  }
+
+  .post-byline-bar {
+    padding: 0.6rem 0;
+    font-size: 0.72rem;
+    gap: 0.4rem;
+  }
+
+  .byline-left {
+    gap: 0.35rem;
+  }
+
+  /* Typography & Content */
+  .post-content {
+    font-size: 1.02rem;
+    line-height: 1.75;
+  }
+
+  .post-content > p:first-of-type::first-letter {
+    font-size: 3.2rem;
+    line-height: 0.88;
+    margin-right: 0.45rem;
+  }
+
+  /* Feed & Articles */
+  .lead-dispatch .dispatch-title {
+    font-size: 1.75rem;
+    line-height: 1.25;
+  }
+
+  .dispatch-title {
+    font-size: 1.55rem;
+    line-height: 1.25;
+  }
+
+  .dispatch-meta-top {
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+
+  .page-title {
+    font-size: 1.85rem;
+    line-height: 1.25;
+  }
+
+  /* Archive & Syndication */
+  .syndication-box {
+    padding: 1rem 1.15rem;
+    margin: 1.25rem 0 2.25rem 0;
+  }
+
+  .syndication-url {
+    font-size: 0.74rem;
+    word-break: break-all;
+    max-width: 100%;
+  }
+
+  .archive-item {
+    padding: 1.2rem 0;
+  }
+
+  .archive-item-title {
+    font-size: 1.28rem;
+    line-height: 1.3;
+  }
+
+  .archive-item-meta {
+    font-size: 0.72rem;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  /* Post Footer & Navigation */
+  .post-navigation {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .nav-prev, .nav-next {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 2.25rem 0 2rem 0;
+  }
+
+  .footer-inner {
+    gap: 1.15rem;
+  }
+
+  .footer-masthead {
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+  }
+
+  .footer-divider {
+    display: none;
+  }
+
+  .footer-motto {
+    font-size: 0.82rem;
+  }
+
+  .footer-details {
+    gap: 0.4rem;
+    font-size: 0.76rem;
+  }
+
+  .footer-eof {
+    font-size: 0.68rem;
+    padding-top: 0.75rem;
+  }
+}
+
+/* --- Mobile Phones (Small Viewports) --- */
+@media (max-width: 540px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .nav-text-full {
+    display: none;
+  }
+
+  .nav-text-short {
+    display: inline;
+  }
+
+  .header-topbar-inner {
+    justify-content: center;
+    text-align: center;
+    gap: 0.2rem 0.4rem;
+  }
+
+  .topbar-left, .topbar-right {
+    justify-content: center;
+  }
+
+  .masthead {
+    padding: 1.25rem 0 0.85rem 0;
+  }
+
+  .masthead-title {
+    font-size: 1.95rem;
+  }
+
+  .masthead-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.4;
+  }
+
+  .nav-inner {
+    gap: 0.35rem;
+  }
+
+  .nav-menu {
+    gap: 0.4rem;
+  }
+
+  .nav-item {
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-rss-badge {
+    font-size: 0.68rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  .post-title {
+    font-size: 1.7rem;
+    line-height: 1.22;
+  }
+
+  .page-title {
+    font-size: 1.65rem;
+  }
+
+  .lead-dispatch .dispatch-title {
+    font-size: 1.5rem;
+  }
+
+  .dispatch-title {
+    font-size: 1.35rem;
+  }
+}

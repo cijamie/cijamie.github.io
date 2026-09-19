@@ -1,0 +1,24 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-masthead">
+      <a href="{{ '/' | relative_url }}" class="footer-brand-link" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
+        <span class="footer-logo">jme.log_</span>
+      </a>
+      <span class="footer-divider">&bull;</span>
+      <span class="footer-motto">The Independent Broadsheet &amp; Terminal Log</span>
+    </div>
+    <div class="footer-details">
+      <p class="footer-copy">&copy; {{ "now" | date: "%Y" }} {{ site.author }}. All analytical dispatches recorded for public archive.</p>
+      <div class="footer-links">
+        <a href="{{ '/feed.xml' | relative_url }}">RSS Wire</a>
+        <span class="footer-dot">&bull;</span>
+        <a href="{{ '/about/' | relative_url }}">About the Desk</a>
+        <span class="footer-dot">&bull;</span>
+        <span>Built with Jekyll</span>
+      </div>
+    </div>
+    <div class="footer-eof">
+      <span>--- END OF TRANSMISSION // JME.LOG ---</span>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,44 @@
+<header class="site-header">
+  <!-- Top Broadsheet Dateline & Telemetry Bar -->
+  <div class="header-topbar">
+    <div class="container header-topbar-inner">
+      <div class="topbar-left">
+        <time class="topbar-date">{{ "now" | date: "%A, %B %d, %Y" }}</time>
+        <span class="topbar-divider">&bull;</span>
+        <span class="topbar-edition">INTERNATIONAL EDITION</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-status"><span class="status-dot">●</span> LOG: ACTIVE</span>
+        <span class="topbar-divider">&bull;</span>
+        <span class="topbar-meta">TTY: 01</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Broadsheet Masthead -->
+  <div class="masthead">
+    <div class="container masthead-inner">
+      <div class="masthead-kicker">INDEPENDENT GEOPOLITICAL &amp; ACADEMIC LOG</div>
+      <a class="masthead-title" href="{{ '/' | relative_url }}" title="jme.log — Front Page">
+        <span class="masthead-title-text">jme.log</span><span class="masthead-cursor">_</span>
+      </a>
+      <p class="masthead-subtitle">The Broadsheet of International Affairs, Strategic Studies &amp; Global Dispatches</p>
+    </div>
+  </div>
+
+  <!-- Broadsheet Double-Ruled Navigation -->
+  <nav class="site-nav" aria-label="Main Navigation">
+    <div class="container nav-inner">
+      <ul class="nav-menu">
+        <li><a href="{{ '/' | relative_url }}" class="nav-item">FRONT PAGE</a></li>
+        <li class="nav-sep">&bull;</li>
+        <li><a href="{{ '/about/' | relative_url }}" class="nav-item"><span class="nav-text-full">ABOUT THE DESK</span><span class="nav-text-short">ABOUT</span></a></li>
+        <li class="nav-sep">&bull;</li>
+        <li><a href="{{ '/archive/' | relative_url }}" class="nav-item"><span class="nav-text-full">DISPATCH ARCHIVE</span><span class="nav-text-short">ARCHIVE</span></a></li>
+      </ul>
+      <div class="nav-meta">
+        <a href="{{ '/feed.xml' | relative_url }}" class="nav-rss-badge" title="Subscribe via RSS/Atom Feed" target="_blank"><span class="nav-text-full">[RSS WIRE]</span><span class="nav-text-short">[RSS]</span></a>
+      </div>
+    </div>
+  </nav>
+</header>
