@@ -10,6 +10,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Copy citation button ---
+  document.querySelectorAll('[data-copy-target]').forEach((btn) => {
+    const label = btn.textContent;
+    btn.addEventListener('click', async () => {
+      const target = document.getElementById(btn.dataset.copyTarget);
+      if (!target) return;
+      const text = target.innerText.trim();
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Copied';
+        btn.classList.add('is-done');
+      } catch (err) {
+        // Fallback: select the text so it can be copied manually
+        const range = document.createRange();
+        range.selectNodeContents(target);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        btn.textContent = 'Press Ctrl+C to copy';
+      }
+      setTimeout(() => {
+        btn.textContent = label;
+        btn.classList.remove('is-done');
+      }, 2200);
+    });
+  });
+
   // --- Giscus Light Theme Verification ---
   window.addEventListener('message', (event) => {
     if (event.origin !== 'https://giscus.app') return;

@@ -4,11 +4,11 @@
 
 Welcome to **jme.log**, my personal blog hosted on GitHub Pages. This site serves as a digital journal where I publish thoughts, observations, and logs on various subjects.
 
-🌐 **Read it live at:** [https://cijamie.github.io/](https://cijamie.github.io/)
+🌐 **Read it live at:** [https://ijme.tk/](https://ijme.tk/)
 
 ## Features
 
-- **Broadsheet Editorial Design:** Inspired by classic newspaper broadsheets and terminal telemetry.
+- **Editorial Journal Design:** Newsprint palette, Newsreader serif typography, and a research-paper index with citation boxes on every paper.
 - **Responsive Layout:** Optimized for mobile phones, tablets, and desktop browsers.
 - **Interactive Comments & Likes:** Powered by [Giscus](https://giscus.app), saving comments directly in GitHub Discussions.
 - **Static & Fast:** Built using Jekyll, serving static content quickly without server-side tracking.

@@ -1,8 +1,11 @@
 # Site Settings
 title: "jme.log"
 author: "Jamie"
+author_name: "Jamie Sessions"     # Full name shown in the header and used for citations
+author_citation: "Sessions, J."   # APA-style author used in the "Cite this paper" box
+affiliation: "University of Idaho"
 description: "A log of geopolitical issues, study abroad experiences, and other reflections."
-url: "https://cijamie.github.io"
+url: "https://ijme.tk" # Matches CNAME so canonical links and citations use your domain
 baseurl: "" # Root domain on GitHub Pages for <username>.github.io
 logo: "/assets/images/logo.png"
 

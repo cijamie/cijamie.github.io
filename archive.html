@@ -1,75 +1,45 @@
 ---
 layout: default
-title: "The Dispatch Archive // jme.log"
+title: "Archive"
 permalink: /archive/
 ---
 
-<div class="archive-page">
+<div class="archive container">
   <header class="page-header">
-    <div class="page-wire-kicker">
-      <span class="kicker-tag">[DISPATCH ARCHIVE // COMPLETE PUBLIC RECORD]</span>
-    </div>
-    <h1 class="page-title">The Dispatch Archive</h1>
-    <div class="page-dateline-rule"></div>
+    <h1 class="page-title">Archive</h1>
+    <p class="page-lede">Every paper and essay, newest first.</p>
   </header>
 
-  <!-- RSS Syndication Callout Box -->
-  <div class="syndication-box">
-    <div class="syndication-header">
-      <span class="syndication-icon" aria-hidden="true">📡</span>
-      <span class="syndication-title">WIRE SYNDICATION &bull; RSS / ATOM FEED</span>
-    </div>
-    <p class="syndication-desc">
-      All analytical dispatches are broadcast via an open RSS feed for feed readers (such as Feedly, NetNewsWire, or Inoreader).
-    </p>
-    <div class="syndication-action">
-      <code class="syndication-url">{{ site.url }}{{ site.baseurl }}/feed.xml</code>
-      <a href="{{ '/feed.xml' | relative_url }}" class="syndication-link" target="_blank" rel="noopener">
-        Open Raw Feed &rarr;
-      </a>
-    </div>
-  </div>
+  {%- assign prev_year = "" -%}
+  {% for post in site.posts %}
+    {%- assign year = post.date | date: "%Y" -%}
+    {% if year != prev_year %}
+      {% unless forloop.first %}</ol></section>{% endunless %}
+      <section class="archive-year" aria-labelledby="year-{{ year }}">
+        <h2 id="year-{{ year }}" class="archive-year-title">{{ year }}</h2>
+        <ol class="archive-list">
+      {%- assign prev_year = year -%}
+    {% endif %}
+          <li class="archive-item">
+            <time class="archive-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%b %-d" }}</time>
+            <div class="archive-main">
+              <a class="archive-title" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              {% if post.categories.size > 0 %}
+                <span class="archive-fields">{% for cat in post.categories %}{{ cat | replace: '-', ' ' | capitalize }}{% unless forloop.last %}, {% endunless %}{% endfor %}</span>
+              {% endif %}
+            </div>
+          </li>
+    {% if forloop.last %}</ol></section>{% endif %}
+  {% else %}
+    <p class="empty-state">No papers yet.</p>
+  {% endfor %}
 
-  <!-- Chronological Dispatches List -->
-  <div class="archive-feed">
-    <div class="archive-year-header">
-      <h2 class="archive-year-title">2026 DISPATCHES</h2>
-      <span class="archive-count">{{ site.posts.size }} Published</span>
+  <aside class="feed-note" aria-labelledby="feed-heading">
+    <h2 id="feed-heading" class="feed-note-title">Follow new papers</h2>
+    <p>Add this address to any RSS reader, such as Feedly, NetNewsWire, or Inoreader.</p>
+    <div class="feed-note-row">
+      <code class="feed-url">{{ '/feed.xml' | absolute_url }}</code>
+      <a href="{{ '/feed.xml' | relative_url }}" class="text-link">Open the feed</a>
     </div>
-
-    <ul class="archive-list">
-      {% for post in site.posts %}
-        {% assign words = post.content | number_of_words %}
-        <li class="archive-item">
-          <div class="archive-item-meta">
-            <time datetime="{{ post.date | date_to_xmlschema }}" class="archive-item-date">
-              {{ post.date | date: "%B %d, %Y" }}
-            </time>
-            <span class="archive-sep">&bull;</span>
-            <span class="archive-item-time">
-              {% if words < 180 %}1 min read{% else %}{{ words | divided_by: 180 | plus: 1 }} min read{% endif %}
-            </span>
-            {% if post.categories.size > 0 %}
-              <span class="archive-sep">&bull;</span>
-              <span class="archive-item-cat">
-                {% for cat in post.categories %}
-                  {{ cat | upcase }}{% unless forloop.last %} / {% endunless %}
-                {% endfor %}
-              </span>
-            {% endif %}
-          </div>
-          <h3 class="archive-item-title">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h3>
-          <p class="archive-item-excerpt">
-            {% if post.excerpt %}
-              {{ post.excerpt | strip_html | truncatewords: 32 }}
-            {% else %}
-              {{ post.content | strip_html | truncatewords: 32 }}
-            {% endif %}
-          </p>
-        </li>
-      {% endfor %}
-    </ul>
-  </div>
+  </aside>
 </div>

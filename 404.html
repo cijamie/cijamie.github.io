@@ -1,26 +1,15 @@
 ---
 layout: default
-title: "404 // Dispatch Not Found"
+title: "Page not found"
 permalink: /404.html
 ---
 
-<article class="page" style="text-align: center; padding: 4rem 1rem 6rem;">
-  <header class="page-header" style="text-align: center;">
-    <div class="page-wire-kicker">
-      <span class="kicker-tag">[WIRE INTERRUPTED // 404 STATUS CODE]</span>
-    </div>
-    <h1 class="page-title" style="font-size: 3rem; margin: 1rem 0;">404 &mdash; Record Not Found</h1>
-    <div class="page-dateline-rule"></div>
-  </header>
-
-  <div class="page-content" style="max-width: 580px; margin: 2rem auto;">
-    <p style="font-size: 1.2rem; color: var(--text-muted); line-height: 1.7;">
-      The requested dispatch or file does not exist in the <strong>jme.log</strong> archive, or has been relocated.
-    </p>
-    <div style="margin-top: 2.5rem;">
-      <a href="{{ '/' | relative_url }}" class="dispatch-readlink" style="display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 0.6rem 1.5rem; border: 1px solid var(--border-dark); text-decoration: none; color: var(--text-color);">
-        &larr; Return to Front Page
-      </a>
-    </div>
-  </div>
-</article>
+<div class="not-found container">
+  <p class="not-found-code">404</p>
+  <h1 class="page-title">This page isn’t here</h1>
+  <p class="page-lede">The link may be out of date, or the page may have moved. Every paper is listed in the archive.</p>
+  <p class="not-found-actions">
+    <a class="button" href="{{ '/' | relative_url }}">Go to papers</a>
+    <a class="text-link" href="{{ '/archive/' | relative_url }}">Browse the archive</a>
+  </p>
+</div>

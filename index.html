@@ -1,59 +1,60 @@
 ---
 layout: default
-title: "jme.log // The Independent Broadsheet"
+title: "Papers"
 ---
 
-<div class="front-page">
-  <div class="front-section-header">
-    <h2 class="front-section-title">LATEST DISPATCHES</h2>
-    <span class="front-section-meta">CHRONOLOGICAL RECORD</span>
-  </div>
+<div class="home container container-wide">
+  <section class="intro" aria-labelledby="intro-heading">
+    <h1 id="intro-heading" class="intro-title">Long-form research on geopolitics, security, political economy, and film.</h1>
+    <p class="intro-text">
+      Papers by {{ site.author_name | default: site.author }}{% if site.affiliation %}, {{ site.affiliation }}{% endif %}.
+      Each one is written as an interactive monograph with plain-language primers, key figures, and full references.
+    </p>
+  </section>
 
-  <div class="articles-feed">
-    {% for post in site.posts %}
-      {% assign words = post.content | number_of_words %}
-      <article class="dispatch-article {% if forloop.first %}lead-dispatch{% endif %}">
-        <div class="dispatch-meta-top">
-          {% if post.categories.size > 0 %}
-            <span class="dispatch-category">
-              {% for cat in post.categories %}
-                {{ cat | upcase }}{% unless forloop.last %} / {% endunless %}
-              {% endfor %}
-            </span>
-            <span class="meta-separator">&bull;</span>
-          {% endif %}
-          <time datetime="{{ post.date | date_to_xmlschema }}" class="dispatch-date">
-            {{ post.date | date: "%B %d, %Y" }}
-          </time>
-          <span class="meta-separator">&bull;</span>
-          <span class="dispatch-readtime">
-            {% if words < 180 %}1 MIN READ{% else %}{{ words | divided_by: 180 | plus: 1 }} MIN READ{% endif %}
-          </span>
-        </div>
+  <section class="paper-index" aria-labelledby="papers-heading">
+    <div class="index-head">
+      <h2 id="papers-heading" class="index-title">Papers</h2>
+      <p class="index-count">{{ site.posts.size }} published</p>
+    </div>
 
-        <h2 class="dispatch-title">
-          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-        </h2>
+    <ol class="paper-list" reversed>
+      {% for post in site.posts %}
+        {%- assign words = post.content | strip_html | number_of_words -%}
+        {%- assign title_main = post.title | split: ': ' | first -%}
+        {%- assign title_sub = post.title | remove_first: title_main | remove_first: ': ' -%}
+        <li class="paper">
+          <div class="paper-margin">
+            <time class="paper-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+            {% if post.categories.size > 0 %}
+              <ul class="paper-fields" aria-label="Fields">
+                {% for cat in post.categories %}<li>{{ cat | replace: '-', ' ' | capitalize }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          </div>
 
-        <p class="dispatch-excerpt">
-          {% if post.excerpt %}
-            {{ post.excerpt | strip_html | truncatewords: 45 }}
-          {% else %}
-            {{ post.content | strip_html | truncatewords: 45 }}
-          {% endif %}
-        </p>
-
-        <div class="dispatch-footer">
-          <a href="{{ post.url | relative_url }}" class="dispatch-readlink">
-            Read Full Analysis <span class="readlink-arrow">&rarr;</span>
-          </a>
-        </div>
-      </article>
-    {% else %}
-      <div class="empty-feed">
-        <h3>No dispatches logged yet</h3>
-        <p>Dispatches added to the <code>_posts/</code> directory will appear here.</p>
-      </div>
-    {% endfor %}
-  </div>
+          <div class="paper-body">
+            <h3 class="paper-title">
+              <a href="{{ post.url | relative_url }}">
+                <span class="paper-title-main">{{ title_main }}</span>
+                {% if title_sub != "" %}<span class="paper-title-sub">{{ title_sub }}</span>{% endif %}
+              </a>
+            </h3>
+            <p class="paper-abstract">
+              {% if post.excerpt %}{{ post.excerpt | strip_html | truncatewords: 48 }}{% else %}{{ post.content | strip_html | truncatewords: 48 }}{% endif %}
+            </p>
+            <p class="paper-foot">
+              <span class="paper-length">{% if words < 200 %}1 min read{% else %}{{ words | divided_by: 200 | plus: 1 }} min read{% endif %}</span>
+              <a class="paper-link" href="{{ post.url | relative_url }}" aria-label="Read {{ title_main }}">Read the paper</a>
+            </p>
+          </div>
+        </li>
+      {% else %}
+        <li class="empty-state">
+          <h3>No papers yet</h3>
+          <p>Add a Markdown file to <code>_posts/</code> and it will be listed here.</p>
+        </li>
+      {% endfor %}
+    </ol>
+  </section>
 </div>

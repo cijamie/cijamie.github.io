@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "The Editorial Desk // About Jamie"
+title: "About"
 permalink: /about/
 ---
 

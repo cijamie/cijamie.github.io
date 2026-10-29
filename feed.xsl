@@ -7,106 +7,55 @@
       <head>
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <title><xsl:value-of select="/atom:feed/atom:title"/> // RSS Syndication Wire</title>
+        <title><xsl:value-of select="/atom:feed/atom:title"/> RSS feed</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&amp;display=swap" rel="stylesheet"/>
         <style>
           *, *::before, *::after { box-sizing: border-box; }
           body {
-            background-color: #fbf9f4;
-            color: #141413;
-            font-family: Georgia, 'Times New Roman', serif;
-            padding: 3rem 1.5rem;
-            max-width: 760px;
             margin: 0 auto;
-            line-height: 1.7;
-          }
-          a {
-            color: #141413;
-            text-decoration: underline;
-            text-decoration-color: #991b1b;
-          }
-          a:hover { color: #991b1b; }
-          .back-link {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.82rem;
-            display: inline-block;
-            margin-bottom: 2rem;
-            color: #991b1b;
-            font-weight: 700;
-            text-decoration: none;
-          }
-          .back-link:hover { text-decoration: underline; }
-          .feed-notice {
-            background: #f3eee3;
-            border: 1px solid #ded8cb;
-            border-left: 4px solid #991b1b;
-            padding: 1.5rem;
-            margin-bottom: 3rem;
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.88rem;
-          }
-          .feed-notice h2 {
-            font-size: 1.15rem;
-            margin: 0 0 0.5rem 0;
-            color: #141413;
-            font-weight: 700;
-          }
-          .feed-notice p {
-            margin: 0 0 0.75rem 0;
-            color: #54504a;
+            padding: 3rem 1.25rem 4rem;
+            max-width: 44rem;
+            background: #fbf9f4;
+            color: #1b1a17;
+            font-family: 'Newsreader', 'Iowan Old Style', Palatino, Georgia, serif;
             line-height: 1.6;
           }
-          .feed-notice p:last-child { margin-bottom: 0; }
-          .feed-entry {
-            border-bottom: 1px solid #ded8cb;
-            padding-bottom: 2.25rem;
-            margin-bottom: 2.25rem;
+          .sans { font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif; }
+          a { color: inherit; text-decoration-color: #8b1c1c; text-underline-offset: 0.18em; }
+          a:hover { color: #8b1c1c; }
+          .back-link { display: inline-block; margin-bottom: 2.5rem; font-size: 0.875rem; font-weight: 500; color: #8b1c1c; }
+          h1 { font-size: 2.6rem; font-weight: 500; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 0.75rem; }
+          .feed-notice {
+            margin: 0 0 3rem;
+            padding: 1.25rem 1.4rem;
+            background: #f3efe6;
+            border-top: 2px solid #8b1c1c;
+            font-size: 0.9375rem;
+            color: #4f4a43;
           }
-          .feed-date {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-            font-size: 0.75rem;
-            color: #7c776e;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-          }
-          .feed-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin: 0.4rem 0 0.75rem 0;
-            line-height: 1.25;
-          }
-          .feed-title a {
-            color: #141413;
-            text-decoration: none;
-          }
-          .feed-title a:hover {
-            color: #991b1b;
-            text-decoration: underline;
-          }
-          .feed-summary {
-            color: #54504a;
-            font-size: 1.05rem;
-            line-height: 1.7;
-          }
+          .feed-notice p { margin: 0 0 0.6rem; }
+          .feed-notice p:last-child { margin: 0; }
+          .feed-entry { padding: 1.4rem 0; border-top: 1px solid #ddd6c8; }
+          .feed-date { font-size: 0.8125rem; color: #716b62; }
+          .feed-title { margin: 0.3rem 0 0; font-size: 1.4rem; font-weight: 500; line-height: 1.3; }
+          .feed-title a { text-decoration: none; }
+          .feed-title a:hover { text-decoration: underline; }
         </style>
       </head>
       <body>
-        <a href="/" class="back-link">&larr; Return to jme.log Front Page</a>
-        
-        <header class="feed-notice">
-          <h2>📡 jme.log // RSS &amp; Atom Syndication Wire</h2>
-          <p>
-            This is the raw RSS/Atom syndication feed for <strong>jme.log</strong>.
-          </p>
-          <p>
-            To receive dispatches automatically, copy this URL into your preferred feed reader application (such as <em>Feedly</em>, <em>NetNewsWire</em>, or <em>Inoreader</em>).
-          </p>
-        </header>
+        <a href="/" class="back-link sans">Back to <xsl:value-of select="/atom:feed/atom:title"/></a>
+        <h1>RSS feed</h1>
+        <div class="feed-notice sans">
+          <p>This is the RSS feed for <strong><xsl:value-of select="/atom:feed/atom:title"/></strong>.</p>
+          <p>To get new papers automatically, copy this page’s address into a feed reader such as Feedly, NetNewsWire, or Inoreader.</p>
+        </div>
 
         <main>
           <xsl:for-each select="/atom:feed/atom:entry">
             <article class="feed-entry">
-              <div class="feed-date">
-                FILED: <xsl:value-of select="substring(atom:published, 1, 10)"/>
+              <div class="feed-date sans">
+                <xsl:value-of select="substring(atom:published, 1, 10)"/>
               </div>
               <h2 class="feed-title">
                 <a href="{atom:link/@href}">

@@ -1,16 +1,13 @@
 ---
 layout: default
 ---
-<article class="page">
+<article class="page container">
   <header class="page-header">
-    <div class="page-wire-kicker">
-      <span class="kicker-tag">[SPECIAL DESK MEMO // PUBLIC RECORD]</span>
-    </div>
     <h1 class="page-title">{{ page.title }}</h1>
-    <div class="page-dateline-rule"></div>
+    {% if page.description %}<p class="page-lede">{{ page.description }}</p>{% endif %}
   </header>
 
-  <div class="page-content">
+  <div class="page-content prose">
     {{ content }}
   </div>
 </article>

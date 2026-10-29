@@ -1,26 +1,23 @@
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-masthead">
-      <a href="{{ '/' | relative_url }}" class="footer-brand-link" style="display: inline-flex; align-items: center; text-decoration: none; color: inherit;">
-        <span class="footer-logo">jme.log_</span>
-      </a>
-      <span class="footer-divider">&bull;</span>
-      <span class="footer-motto">The Independent Broadsheet &amp; Terminal Log</span>
+  <div class="container container-wide footer-inner">
+    <div class="footer-about">
+      <a href="{{ '/' | relative_url }}" class="footer-wordmark">{{ site.title }}</a>
+      <p class="footer-desc">{{ site.description }}</p>
     </div>
-    <div class="footer-details">
-      <p class="footer-copy">&copy; {{ "now" | date: "%Y" }} {{ site.author }}. All analytical dispatches recorded for public archive.</p>
-      <div class="footer-links">
-        <a href="{{ '/feed.xml' | relative_url }}">RSS Wire</a>
-        <span class="footer-dot">&bull;</span>
-        <a href="{{ '/projects/' | relative_url }}">Coding Projects</a>
-        <span class="footer-dot">&bull;</span>
-        <a href="{{ '/about/' | relative_url }}">About the Desk</a>
-        <span class="footer-dot">&bull;</span>
-        <span>Built with Jekyll</span>
-      </div>
-    </div>
-    <div class="footer-eof">
-      <span>--- END OF TRANSMISSION // JME.LOG ---</span>
-    </div>
+
+    <nav class="footer-nav" aria-label="Footer">
+      <ul>
+        <li><a href="{{ '/' | relative_url }}">Papers</a></li>
+        <li><a href="{{ '/archive/' | relative_url }}">Archive</a></li>
+        <li><a href="{{ '/projects/' | relative_url }}">Projects</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About</a></li>
+      </ul>
+      <ul>
+        <li><a href="{{ '/feed.xml' | relative_url }}">RSS feed</a></li>
+        <li><a href="https://github.com/cijamie" rel="noopener">GitHub</a></li>
+      </ul>
+    </nav>
+
+    <p class="footer-copy">&copy; {{ "now" | date: "%Y" }} {{ site.author_name | default: site.author }}. Published with Jekyll on GitHub Pages.</p>
   </div>
 </footer>
