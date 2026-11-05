@@ -240,6 +240,28 @@ var metricDetails = window.metricDetails = {
     title: "2019 Berlin Withdrawal: 'Technical Reasons' Euphemism",
     content: "Zhang Yimou's 'One Second' was abruptly withdrawn from the 69th Berlin International Film Festival competition just days before its world premiere under the official pretext of 'technical difficulties'—a recognized diplomatic euphemism for censorship intervention when a narrative touches upon sensitive historical trauma like the Cultural Revolution.",
     source: "Alan Stone, Boston Review (2012); Christopher Hale (2021), Journal of Media Studies."
+  },
+
+  // Post 5 Metrics: He Was on the Ballot (2026 Midterms)
+  house_wave: {
+    title: "~261 House Seats: A Net Gain of About 47",
+    content: "Republicans entered Election Day holding the House 218 to 214. At the time of writing Democrats had won 237 seats and led in 24 more. If every leader holds on, the party finishes with about 261 seats, inside CBS News' projected range of 251 to 268. That would beat Democratic gains in 2006 (31) and 2018 (40), though it falls short of the 63 seats Republicans won in 2010.",
+    source: "Al Jazeera / AP results (2026a); Northeastern Global News (2026); CBS News (2026b)."
+  },
+  senate_wave: {
+    title: "+7 Senate Seats: Four Needed, Seven Taken",
+    content: "Democrats needed four pickups for a Senate majority and flipped seven: Texas, North Carolina, South Carolina, Ohio, Kansas, Iowa and Maine. They hold 54 seats and lead in 2 more, against 44 for Republicans. South Carolina was not even on Nate Silver's list of Democratic-leaning races, and it flipped anyway. A seven-seat swing puts 2026 alongside 1986, 1994 and 2014.",
+    source: "Al Jazeera / AP results (2026a); Newsweek (2026); PBS NewsHour (2026)."
+  },
+  trump_factor: {
+    title: "59% Said Trump Influenced Their Vote (43% Against, 16% For)",
+    content: "Trump told supporters to 'vote like I'm on the ballot,' and preliminary NBC exit polling suggests they did. Fifty-nine percent of voters said he was a factor in their vote. Of those, 43 percent of all voters cast a ballot to oppose him and only 16 percent to support him. His approval among midterm voters was 38 percent, below the 45 percent he held in 2018, when his party also lost the House.",
+    source: "CiberCuba (2026), reporting preliminary NBC News exit poll data."
+  },
+  gas_price: {
+    title: "$4.15 per Gallon: The First Election Day Above $4",
+    content: "The national average was $2.98 on February 28, around the start of the Iran war, and peaked at $4.56 in May. On Election Day it stood at $4.15, compared with $3.80 in 2022 and $2.75 in 2018. Iran blockaded the Strait of Hormuz, the ceasefire collapsed over the summer, and diesel topped $6. All of this followed Trump's pledge of 'gasoline below $2 a gallon.'",
+    source: "Folk, Forbes (2026); Philbrick, Slate (2026)."
   }
 };
 
@@ -599,6 +621,106 @@ var glossary = window.glossary = {
     def: "The strict state regulation and monopolization of historical narratives concerning sensitive political traumas, notably the Cultural Revolution (1966–1976), the Great Leap Forward, and the 1989 Tiananmen Square protests.",
     why: "Marks the absolute outer boundary of aesthetic negotiation; historical trauma that threatens Party legitimacy cannot be salvaged even through the most sophisticated genre coding.",
     analogy: "Analogy: A locked national archive where only the state librarian is permitted to decide which pages of history the public is allowed to read."
+  },
+
+  // Post 5 Glossary: He Was on the Ballot (2026 Midterms)
+  midterm_election: {
+    category: "U.S. Electoral System",
+    title: "Midterm Election",
+    def: "A general election held halfway through a president's four-year term. All 435 House seats, about a third of the Senate, and most governorships are on the ballot, but the presidency is not.",
+    why: "The president's party has lost House seats in almost every midterm since the Civil War, so midterms work as the country's regular check on whoever holds the White House.",
+    analogy: "Analogy: A mid-season performance review. The manager keeps the job either way, but the review decides how much support they get for the rest of the season."
+  },
+  persuasion_election: {
+    category: "Electoral Behavior",
+    title: "Persuasion Election (vs. Turnout Election)",
+    def: "An election decided mainly by voters who switch from one party to the other, rather than by changes in which groups show up to vote.",
+    why: "For most of the last decade, campaigns assumed few voters were persuadable and poured resources into mobilizing their base. A persuasion election means a large bloc of voters is still willing to change sides.",
+    analogy: "Analogy: A team can win by getting more of its own fans into the stadium, or by convincing the other team's fans to change jerseys. The 2026 result looks much more like the second."
+  },
+  surge_decline: {
+    category: "Political Science Theory",
+    title: "Surge and Decline (Campbell, 1960)",
+    def: "Angus Campbell's theory that presidential elections draw a 'surge' of less engaged voters who lean toward the winner. Two years later those voters stay home, and the president's party loses seats.",
+    why: "If this were the main story in 2026, Democrats would have won by holding their base while Trump's occasional voters sat out. The evidence instead shows many of those voters turning out and voting Democratic.",
+    analogy: "Analogy: A concert crowd that thins out at the second show. The band hasn't changed; the casual fans just didn't come back."
+  },
+  referendum_theory: {
+    category: "Political Science Theory",
+    title: "Referendum Theory (Tufte, 1975)",
+    def: "Edward Tufte's model treating the midterm as a referendum on the sitting president, with the results driven by presidential approval and the state of the economy.",
+    why: "It predicts that voters actively punish the president's party when they are unhappy, which fits a year of $4 gas, unpopular tariffs and 38 percent approval.",
+    analogy: "Analogy: A midterm as a customer review of the store manager. Unhappy shoppers don't just stop coming; they leave a one-star rating."
+  },
+  generic_ballot: {
+    category: "Polling",
+    title: "Generic Congressional Ballot",
+    def: "A poll question asking which party a voter would support for Congress without naming specific candidates. Averages such as RealClearPolitics combine many of these polls.",
+    why: "It is the best single pre-election measure of the national mood. Democrats led by 8.9 points going in, which pointed to a win but not to one this large.",
+    analogy: "Analogy: Asking someone whether they want pizza or tacos tonight before they've seen either menu."
+  },
+  gerrymander: {
+    category: "Electoral Institutions",
+    title: "Gerrymandering & the 'Dummymander'",
+    def: "Drawing district lines to give one party an advantage, usually by spreading its voters thinly across many districts so it wins each by a modest margin. A 'dummymander' is a gerrymander that backfires when voters shift.",
+    why: "Republicans redrew maps mid-decade expecting about 15 extra seats and lost all nine redrawn districts Cook rated competitive or leaning Democratic. The maps assumed 2024 Trump voters would stay Republican.",
+    analogy: "Analogy: Spreading your savings across many small bets that each pay off only if the odds stay exactly where they were last year."
+  },
+  swinging_giant: {
+    category: "Electoral Coalitions",
+    title: "The 'Swinging Giant'",
+    def: "Stephanie Valencia's phrase for Latino voters, updating the old 'sleeping giant' label, which described a large group with low turnout. The new term describes a group that moves sharply between parties.",
+    why: "Latino voters swung hard toward Trump in 2024 and hard back toward Democrats in 2026. Neither party can treat them as a safe constituency.",
+    analogy: "Analogy: A swing state that happens to be a community of 36 million eligible voters spread across every state."
+  },
+  negative_partisanship: {
+    category: "Political Psychology",
+    title: "Negative Partisanship (Abramowitz & Webster, 2016)",
+    def: "The tendency for voters to be driven more by dislike of the opposing party than by enthusiasm for their own.",
+    why: "Democrats won while just over half of voters viewed them unfavorably. In 2026 the dislike that powered the result reached people who had recently voted for Trump.",
+    analogy: "Analogy: Choosing a restaurant because you refuse to eat at the other one again, not because you love this one."
+  },
+  calcification: {
+    category: "Political Science Theory",
+    title: "Partisan Calcification (Sides, Tesler & Vavreck, 2022)",
+    def: "The argument that American partisans have become so fixed in their loyalties that even major events, such as scandals, recessions and pandemics, produce only small shifts in vote choice.",
+    why: "Swings of 20 points or more in places like South Carolina and Hidalgo County challenge that account. The likely answer is that calcification describes committed partisans better than the conditional voters who made Trump's 2024 win possible.",
+    analogy: "Analogy: Concrete that has set in the middle of the sidewalk, while the edges are still wet."
+  },
+  conditional_supporters: {
+    category: "Electoral Coalitions",
+    title: "Conditional Supporters",
+    def: "Voters whose support depends on a specific set of promises being kept, as opposed to a lasting party identity.",
+    why: "Trump's 2024 gains among young voters, Latinos and men rested on promises of lower prices, no new wars and America First. When those terms looked broken, the deal was off.",
+    analogy: "Analogy: A subscriber who signed up for a promotional rate and cancels the moment the price goes up."
+  },
+  thermostatic_model: {
+    category: "Political Science Theory",
+    title: "Thermostatic Public Opinion (Wlezien, 1995)",
+    def: "Christopher Wlezien's model in which public preferences move against the direction of current policy. When government moves one way, opinion pushes back the other way, like a thermostat correcting temperature.",
+    why: "It helps explain why the White House changed parties in 2016, 2020 and 2024, and why the House has flipped against the sitting president in 2018, 2022 and 2026. It also warns Democrats that the same correction will eventually reach them.",
+    analogy: "Analogy: A thermostat that turns on the air conditioning as soon as the room gets warm, no matter who turned up the heat."
+  },
+  filibuster: {
+    category: "Congressional Procedure",
+    title: "Filibuster & Veto Override",
+    def: "In the Senate, most legislation needs 60 votes to end debate (cloture). Overriding a presidential veto requires two-thirds of both chambers: 67 senators and 290 House members.",
+    why: "With 56 senators at best, Democrats cannot pass most bills over Republican objections or Trump's veto. Their real power lies in budgets, investigations and confirmations.",
+    analogy: "Analogy: Winning a majority on the board while the CEO still holds a veto and the bylaws require a supermajority for most changes."
+  },
+  war_powers: {
+    category: "Constitutional Law",
+    title: "War Powers Resolution (1973)",
+    def: "A law passed after Vietnam requiring the president to notify Congress when sending forces into hostilities and allowing Congress to direct their withdrawal. Such resolutions can still be vetoed.",
+    why: "With both chambers in Democratic hands, a resolution to end the Iran war can reach Trump's desk. He vetoed similar measures on Yemen (2019) and Iran (2020), so the real leverage is likely to come through defense appropriations.",
+    analogy: "Analogy: Parents who can't take the car keys back but can stop paying for gas."
+  },
+  oversight: {
+    category: "Congressional Power",
+    title: "Congressional Oversight",
+    def: "Congress's power to investigate the executive branch through hearings, subpoenas, document requests and control of committee agendas.",
+    why: "About 7 in 10 voters said Congress was doing too little on checks and balances. Oversight needs only a majority, unlike impeachment conviction (67 senators), so investigations are the likeliest form of Democratic power in 2027.",
+    analogy: "Analogy: An auditor who can't fire the CEO but can open every filing cabinet in the building."
   }
 };
 
@@ -807,6 +929,28 @@ var scenarios = {
     title: "Strategy 3: Historical Memory Drama (Zhang Yimou - One Second)",
     outcome_a: "<strong>Generic Shield:</strong> Sentimental cinephilic melodrama. A touching story about the communal magic of celluloid film projection and a father's love for his daughter in a remote desert village.",
     outcome_b: "<strong>Smuggled Critique:</strong> Exposes the collective psychological trauma, forced labor camps, and spiritual famine of the Cultural Revolution. Crossed sensitivity red lines, triggering a sudden withdrawal from the Berlin Film Festival."
+  },
+
+  // Post 5 Scenarios: Testing theories of the 2026 midterms
+  theory_surge: {
+    title: "Theory 1: Surge and Decline (Campbell, 1960)",
+    outcome_a: "<strong>What it predicts:</strong> Trump's less engaged 2024 voters stay home. Democrats win by holding their own base in a smaller, more partisan electorate. Swings should be modest and concentrated where turnout fell.",
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Partly fits.</em> The electorate was slightly more Democratic, and early-vote registration favored Democrats 43.1 to 31.4 percent. But a turnout gap cannot easily produce 21-point swings in Trump-won South Carolina counties, and Vance himself wrote that 'the main problem is not turnout.'"
+  },
+  theory_referendum: {
+    title: "Theory 2: The Midterm as Referendum (Tufte, 1975)",
+    outcome_a: "<strong>What it predicts:</strong> Voters judge the president on approval and the economy, then punish his party. Losses should track presidential unpopularity and economic pain, and should reach voters who had supported him.",
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Strong fit.</em> Trump's approval among voters was 38 percent, 79 percent reported inflation hardship, and 62 percent blamed him for high prices. Voters under 30 went from an even split in 2024 to about 7 in 10 Democratic."
+  },
+  theory_calcification: {
+    title: "Theory 3: Partisan Calcification (Sides, Tesler & Vavreck, 2022)",
+    outcome_a: "<strong>What it predicts:</strong> Loyalties are fixed. Even big events move few votes, so the result should be close and decided at the margins by turnout.",
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Holds for the core, fails at the edges.</em> Trump's hard core held, and his approval did not collapse. But Hidalgo County moved from Trump to a 70.5 to 28.5 Democratic win for governor, and Miami-Dade's Carlos Gimenez went from +29 to +7. The conditional voters were never calcified."
+  },
+  theory_thermostat: {
+    title: "Theory 4: Thermostatic Opinion (Wlezien, 1995)",
+    outcome_a: "<strong>What it predicts:</strong> Opinion moves against whoever holds power. Whichever party governs gets pushed back, regardless of what the opposition offers.",
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Consistent, and a warning.</em> Democrats won while just over half of voters viewed them unfavorably. The House has now flipped against the sitting president in 2018, 2022 and 2026. The same correction will be aimed at Democrats if they take the White House in 2028."
   }
 };
 
