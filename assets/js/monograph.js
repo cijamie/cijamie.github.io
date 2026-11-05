@@ -1,6 +1,6 @@
 /**
  * monograph.js
- * Interactive scripts for jme.log analytical monographs
+ * Interactive scripts for jamies.dev analytical monographs
  * High School through Adult accessibility features
  */
 

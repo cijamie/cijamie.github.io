@@ -1,8 +1,8 @@
-# jme.log
+# jamies.dev
 
 > A personal log of geopolitical issues, study abroad journey experiences, and other reflections.
 
-Welcome to **jme.log**, my personal blog hosted on GitHub Pages. This site serves as a digital journal where I publish thoughts, observations, and logs on various subjects.
+Welcome to **jamies.dev**, my personal blog hosted on GitHub Pages. This site serves as a digital journal where I publish thoughts, observations, and logs on various subjects.
 
 🌐 **Read it live at:** [https://jamies.dev/](https://jamies.dev/)
 

@@ -1,10 +1,10 @@
-# PowerShell script to create a new blog post for jme.log
+# PowerShell script to create a new blog post for jamies.dev
 # Run this in PowerShell from the repository root: .\new_post.ps1
 
 $ErrorActionPreference = "Stop"
 
 Write-Host "==========================================" -ForegroundColor Cyan
-Write-Host "         jme.log Post Creator             " -ForegroundColor Cyan
+Write-Host "        jamies.dev Post Creator           " -ForegroundColor Cyan
 Write-Host "==========================================" -ForegroundColor Cyan
 
 # 1. Get Title

@@ -4,7 +4,7 @@ title: "About"
 permalink: /about/
 ---
 
-Welcome to **jme.log** — an independent broadsheet and analytical console log documenting international affairs, geopolitical grand strategy, and overseas perspectives.
+Welcome to **jamies.dev** — an independent broadsheet and analytical console log documenting international affairs, geopolitical grand strategy, and overseas perspectives.
 
 ### Desk Coverage & Beats
 
@@ -14,7 +14,7 @@ Welcome to **jme.log** — an independent broadsheet and analytical console log 
 
 ### Editorial Colophon & Philosophy
 
-**jme.log** was founded to maintain an uncompromised, lightning-fast, and archival-grade publication for long-form analytical writing. Operating as a union between a traditional broadsheet wire service and an open terminal console log, this site is generated statically with **Jekyll**, hosted on **GitHub Pages**, and uses **Giscus** for public discussions.
+**jamies.dev** was founded to maintain an uncompromised, lightning-fast, and archival-grade publication for long-form analytical writing. Operating as a union between a traditional broadsheet wire service and an open terminal console log, this site is generated statically with **Jekyll**, hosted on **GitHub Pages**, and uses **Giscus** for public discussions.
 
 ### Dispatches & Wire Transmission
 
