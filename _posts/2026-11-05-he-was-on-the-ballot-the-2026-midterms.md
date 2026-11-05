@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "He Was on the Ballot: The 2026 Midterms"
+title: "He Was on the Ballot: What the 2026 Midterms Suggest About Trump's Electoral Appeal"
 date: 2026-11-05
 categories: [american-politics, elections]
 tags: [2026-midterms, congress, trump, persuasion, latino-voters, gas-prices, iran-war, redistricting, calcification, 2028]
-excerpt: "Trump told his supporters to vote like he was on the ballot, and the country did. The 2026 midterms were a persuasion election, decided by voters who changed sides, and they handed Democrats a majority that looks more like a loan than a realignment."
+excerpt: "Trump was not formally on the ballot in 2026, but his leadership and agenda were part of the choice. Preliminary results suggest they were a liability in important contests, and that voter switching, not just turnout, contributed to Republican losses."
 ---
 
 <!-- Monograph Overview Header & Meta -->
@@ -21,7 +21,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
 </div>
 
 <p class="monograph-subtitle">
-  Why the 2026 Midterms Were a Persuasion Election &bull; And Why the Democratic Majority Is Closer to a Loan Than a Realignment
+  Voter Switching, Turnout, and the Limits of a Preliminary Verdict &bull; Why the Democratic Majority May Be Closer to a Loan Than a Realignment
 </p>
 
 <!-- Brief Summary -->
@@ -34,9 +34,10 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
   <div class="primer-card-body">
     <ul style="margin: 0.25rem 0 0 1.25rem; line-height: 1.7;">
       <li><strong>A historic wave.</strong> Democrats are on track for about 261 House seats (a net gain of roughly 47), took seven Senate seats when they needed four, and flipped six governorships while losing none.</li>
-      <li><strong>Voters switched sides.</strong> The best evidence points to persuasion, not just turnout: double-digit swings in Trump country, young and Latino voters moving back, and the vice president admitting that "the main problem is not turnout."</li>
-      <li><strong>Prices drove it.</strong> Gas at $4.15 on Election Day, tariffs, health premiums and an unpopular war made the president who promised lower costs the person responsible for them.</li>
-      <li><strong>It's a loan, not a mandate.</strong> Voters gave Democrats power without much affection. What the party does with it, and what Republicans become without Trump, will shape 2028.</li>
+      <li><strong>Switching likely mattered.</strong> Double-digit swings in Trump country and shifts among young and Latino voters suggest that some 2024 Trump voters changed sides. How much of the result came from switching rather than turnout is not yet established.</li>
+      <li><strong>Prices appear to lead.</strong> Exit polls tie the result most closely to the cost of living: gas at $4.15 on Election Day, tariffs, health premiums and an unpopular war.</li>
+      <li><strong>Trump was part of the choice.</strong> Most voters said he influenced their vote, and far more voted against him than for him. His leadership looks like a liability in important contests, though not the only cause of Republican losses.</li>
+      <li><strong>A loan, not a mandate.</strong> Voters gave Democrats power without much affection. What the party does with it, and what Republicans become without Trump, will shape 2028.</li>
     </ul>
   </div>
 </div>
@@ -112,7 +113,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      Before the 2026 midterms, Donald Trump urged his supporters to "vote like I'm on the ballot." After Republicans lost both chambers of Congress, he complained that he had not been on it: "If I was, we would have won IN A LANDSLIDE!" (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>). He had it backwards. Preliminary NBC exit polling found that 59 percent of voters said Trump influenced their vote, with 43 percent voting to reject him and only 16 percent voting to support him (<a href="#ref-cibercuba" class="citation-link">CiberCuba 2026</a>). He was on the ballot, and he lost.
+      Before the 2026 midterms, Donald Trump urged his supporters to "vote like I'm on the ballot." After Republicans lost both chambers of Congress, he complained that he had not been on it: "If I was, we would have won IN A LANDSLIDE!" (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>). Preliminary NBC exit polling points the other way: 59 percent of voters said Trump influenced their vote, with 43 percent voting to reject him and only 16 percent voting to support him (<a href="#ref-cibercuba" class="citation-link">CiberCuba 2026</a>). Trump was not formally on the ballot, but his leadership and agenda were part of the electoral choice, and for many voters they appear to have been a reason to vote against his party.
     </p>
 
     <div class="case-card-quote" style="margin: 1.75rem 0; border-left-color: var(--accent-color); font-size: 1.05rem;">
@@ -151,7 +152,15 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The 2026 midterms were a <span class="term-chip" data-term="persuasion_election">persuasion election</span>, decided largely by people who changed sides. That is a stranger result than it sounds, because the last decade of American politics has mostly been explained through turnout and the mobilization of partisan bases. It also means that the Democratic majority is closer to a loan than a realignment. Voters handed Democrats power to stop something and showed little affection for the party receiving it. What Democrats do with a loan they did not really earn will shape the road to 2028.
+      The 2026 midterms offer grounds for criticizing Trump's leadership, but not for reducing every Republican loss to a single cause. Preliminary results suggest that dissatisfaction with his administration contributed to Democratic gains, alongside turnout differences, candidate quality and local conditions. They also suggest that voter switching played a real part, which would make this closer to a <span class="term-chip" data-term="persuasion_election">persuasion election</span> than most of the last decade's contests. That would mean Republicans lost support rather than merely failed to mobilize it. The available evidence does not yet establish how much of the shift came from persuasion rather than differences in turnout. The central question is therefore not whether Trump alone caused the outcome, but how far his leadership and agenda weakened Republican candidates.
+    </p>
+
+    <p>
+      The strongest alternative explanation deserves attention first. A president's party almost always loses seats in a midterm, and Republican losses alone do not establish that voters specifically rejected Trump. A stronger case requires evidence that dissatisfaction with his administration contributed to the result beyond the effects of turnout, candidate quality and local conditions. Three kinds of evidence point in that direction: swings in places Trump won comfortably in 2024 that are too large to be easily explained by turnout, shifts among groups he had recently gained, and exit-poll measures linking vote choice to his record on prices, tariffs and the war. Each is preliminary. The sections below separate what the evidence reports, what can reasonably be inferred from it, and where the argument rests on judgment.
+    </p>
+
+    <p>
+      If that reading holds, the Democratic majority looks closer to a loan than a realignment. Voters appear to have handed Democrats power to check the administration while showing little affection for the party receiving it. What Democrats do with a loan they may not have fully earned will shape the road to 2028.
     </p>
 
   </section>
@@ -224,7 +233,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </figure>
 
     <p>
-      The same current ran through the state level. Before the election there were 24 Democratic governors and 26 Republican governors. In 2027 there will be at least 29 Democrats and 20 Republicans, with Kansas still uncalled. Democrats flipped Alaska, Georgia, Iowa, Nevada, Ohio and Texas, where Gina Hinojosa defeated Greg Abbott, and Republicans flipped nothing (<a href="#ref-multistate" class="citation-link">MultiState 2026</a>). Governors' races usually give voters more room to split their tickets and judge candidates on local grounds, so these flips are significant. They suggest that the anger was national enough to reach offices with no direct role in the war, the tariffs or immigration enforcement. They also hand Democrats a new group of executives from red and purple states just as the party begins looking toward 2028.
+      The same current ran through the state level. Before the election there were 24 Democratic governors and 26 Republican governors. In 2027 there will be at least 29 Democrats and 20 Republicans, with Kansas still uncalled. Democrats flipped Alaska, Georgia, Iowa, Nevada, Ohio and Texas, where Gina Hinojosa defeated Greg Abbott, and Republicans flipped nothing (<a href="#ref-multistate" class="citation-link">MultiState 2026</a>). Governors' races usually give voters more room to split their tickets and judge candidates on local grounds, so these flips are significant, although each also turned on its own candidates and conditions. Taken together, they suggest that the anger was national enough to reach offices with no direct role in the war, the tariffs or immigration enforcement. They also hand Democrats a new group of executives from red and purple states just as the party begins looking toward 2028.
     </p>
 
     <div class="academic-table-wrapper">
@@ -282,11 +291,11 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The best evidence for persuasion comes from the places Republicans thought were safe. Democrats flipped Senate seats in Texas, North Carolina, South Carolina, Ohio, Kansas, Iowa and Maine, and they won House districts that Trump carried by as much as 18 points in 2024 (<a href="#ref-pbs" class="citation-link">PBS NewsHour 2026</a>). James Talarico became the first Democrat to win statewide in Texas in 32 years, and South Carolina counties that Trump won swung left by an average of about 21 points (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>). Republicans spent hundreds of millions of dollars defending states Trump had won by double digits only two years earlier (<a href="#ref-cbs-a" class="citation-link">CBS News 2026a</a>). Swings that large are difficult to explain through turnout alone.
+      Some of the strongest preliminary evidence for persuasion comes from the places Republicans thought were safe. Democrats flipped Senate seats in Texas, North Carolina, South Carolina, Ohio, Kansas, Iowa and Maine, and they won House districts that Trump carried by as much as 18 points in 2024 (<a href="#ref-pbs" class="citation-link">PBS NewsHour 2026</a>). James Talarico became the first Democrat to win statewide in Texas in 32 years, and South Carolina counties that Trump won swung left by an average of about 21 points (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>). Republicans spent hundreds of millions of dollars defending states Trump had won by double digits only two years earlier (<a href="#ref-cbs-a" class="citation-link">CBS News 2026a</a>). Swings that large are difficult to explain through turnout alone. County and district results cannot by themselves separate voters who switched from voters who stayed home, however, so they support the persuasion argument without proving it.
     </p>
 
     <p>
-      Political science offers two classic explanations for why a president's party loses seats in a midterm. Angus Campbell's (<a href="#ref-campbell" class="citation-link">1960</a>) <span class="term-chip" data-term="surge_decline">surge and decline</span> theory holds that the less engaged voters who turn out in presidential years simply stay home two years later. Edward Tufte (<a href="#ref-tufte" class="citation-link">1975</a>) instead treats the midterm as a <span class="term-chip" data-term="referendum_theory">referendum on the president</span> and the economy. The 2026 results look much more like Tufte. Vice President JD Vance reached the same conclusion in public, writing that "the main problem is not turnout" and that many people who voted for Trump and Vance in 2024 voted for Democrats this year (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>).
+      Political science offers two classic explanations for why a president's party loses seats in a midterm. Angus Campbell's (<a href="#ref-campbell" class="citation-link">1960</a>) <span class="term-chip" data-term="surge_decline">surge and decline</span> theory holds that the less engaged voters who turn out in presidential years simply stay home two years later. Edward Tufte (<a href="#ref-tufte" class="citation-link">1975</a>) instead treats the midterm as a <span class="term-chip" data-term="referendum_theory">referendum on the president</span> and the economy. On the evidence available so far, the 2026 results fit Tufte's account better, though not to the exclusion of Campbell's. Vice President JD Vance reached a similar conclusion in public, writing that "the main problem is not turnout" and that many people who voted for Trump and Vance in 2024 voted for Democrats this year (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). His statement is an interpretation, not evidence, and it should be tested against the voter data rather than accepted on his authority.
     </p>
 
     <!-- Editorial Figure: I Voted stickers -->
@@ -299,7 +308,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </figure>
 
     <p>
-      The exit data supports him. Voters under 30 were roughly split between Trump and Kamala Harris in 2024, but about 7 in 10 backed Democrats for the House this year (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). Men, whom Trump won by double digits, largely split their votes, and majorities of Latinos and young voters returned to Democrats (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). Among Latino registered voters who supported Trump in 2024, his approval fell from 93 percent in February 2025 to 57 percent this fall (<a href="#ref-pew" class="citation-link">Pew Research Center 2026</a>). Turnout still played a role: the electorate was slightly more Democratic than in the last two elections, and early voting surged in several competitive states (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>; <a href="#ref-yahoo" class="citation-link">Yahoo News 2026</a>). Enthusiasm added to the margin, but switching is what put Kansas and Texas in play.
+      The preliminary exit data is consistent with that reading. Voters under 30 were roughly split between Trump and Kamala Harris in 2024, but about 7 in 10 backed Democrats for the House this year (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). Men, whom Trump won by double digits, largely split their votes, and majorities of Latinos and young voters returned to Democrats (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). Among Latino registered voters who supported Trump in 2024, his approval fell from 93 percent in February 2025 to 57 percent this fall (<a href="#ref-pew" class="citation-link">Pew Research Center 2026</a>). Turnout still played a role: the electorate was slightly more Democratic than in the last two elections, and early voting surged in several competitive states (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>; <a href="#ref-yahoo" class="citation-link">Yahoo News 2026</a>). Enthusiasm likely added to the margin. Exit polls suggest that switching did more than turnout to put Kansas and Texas in play, but they cannot settle the question; that will require voter files and panel data.
     </p>
 
     <div class="case-card" style="margin: 1.75rem 0; border-left: 4px solid var(--accent-navy);">
@@ -316,7 +325,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The clearest test of this came from redistricting. Republicans redrew maps in the middle of the decade hoping for a net gain of about 15 seats, and Newsweek found that they had lost all nine of the redrawn districts Cook rated as competitive or leaning Democratic (<a href="#ref-cameron" class="citation-link">Cameron 2026</a>). Florida is the sharpest example. Its new map targeted four Democratic seats, three of which Trump would have carried by double digits, yet Kathy Castor held her district after it swung nearly 16 points toward Democrats from its 2024 presidential result (<a href="#ref-aljazeera-b" class="citation-link">Al Jazeera 2026b</a>). A <span class="term-chip" data-term="gerrymander">gerrymander</span> is a bet that a Trump voter in 2024 is a Republican voter in 2026. Mapmakers used last election's numbers to spread their supporters across more districts, which left those districts exposed once the numbers moved. California's own redraw and the small shift in the median seat limited what the maps could have done anyway (<a href="#ref-cameron" class="citation-link">Cameron 2026</a>), but the lesson holds: a map cannot protect a party from voters who change their minds.
+      Redistricting offers a useful, if indirect, test. Republicans redrew maps in the middle of the decade hoping for a net gain of about 15 seats, and Newsweek found that they had lost all nine of the redrawn districts Cook rated as competitive or leaning Democratic (<a href="#ref-cameron" class="citation-link">Cameron 2026</a>). Florida is the sharpest example. Its new map targeted four Democratic seats, three of which Trump would have carried by double digits, yet Kathy Castor held her district after it swung nearly 16 points toward Democrats from its 2024 presidential result (<a href="#ref-aljazeera-b" class="citation-link">Al Jazeera 2026b</a>). A <span class="term-chip" data-term="gerrymander">gerrymander</span> is a bet that a Trump voter in 2024 is a Republican voter in 2026. Mapmakers used last election's numbers to spread their supporters across more districts, which left those districts exposed once the numbers moved. California's own redraw and the small shift in the median seat limited what the maps could have done anyway (<a href="#ref-cameron" class="citation-link">Cameron 2026</a>), but the results are consistent with a simple lesson: a map built on one election's numbers offers little protection if voters change their minds.
     </p>
 
   </section>
@@ -406,7 +415,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      Immigration enforcement is the most visible reason for the shift. Early this year, federal immigration officers killed two U.S. citizens, Renee Good and Alex Pretti, during the crackdown in Minneapolis. AP reporting from Colorado's 8th District, where about 4 in 10 voters are Hispanic, found every Hispanic voter interviewed offended by the crackdown, nine months before the election (<a href="#ref-riccardi" class="citation-link">Riccardi 2026</a>). ICE made more than 63,000 arrests in Texas and about 29,000 in Florida between January and August, and an ICE officer shot and killed Lorenzo Salgado Araujo in Houston (<a href="#ref-paul" class="citation-link">Paúl and Morin 2026</a>). Many of these voters had supported stricter border policy in 2024. What they saw in 2026 was enforcement reaching their own neighborhoods, workplaces and relatives.
+      Immigration enforcement appears to be the most visible reason for the shift. Early this year, federal immigration officers killed two U.S. citizens, Renee Good and Alex Pretti, during the crackdown in Minneapolis. AP reporting from Colorado's 8th District, where about 4 in 10 voters are Hispanic, found every Hispanic voter interviewed offended by the crackdown, nine months before the election (<a href="#ref-riccardi" class="citation-link">Riccardi 2026</a>). ICE made more than 63,000 arrests in Texas and about 29,000 in Florida between January and August, and an ICE officer shot and killed Lorenzo Salgado Araujo in Houston (<a href="#ref-paul" class="citation-link">Paúl and Morin 2026</a>). Many of these voters had supported stricter border policy in 2024. The reporting suggests that what many of them saw in 2026 was enforcement reaching their own neighborhoods, workplaces and relatives.
     </p>
 
     <p>
@@ -443,7 +452,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The voters who moved were responding to prices first. CBS pollsters put it simply: the economic issues that helped elect Trump in 2024 dragged down his party in 2026 (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). In the NBC exit poll, 79 percent said inflation was causing hardship for their family, 62 percent held Trump responsible for high prices, and 65 percent said his tariffs harmed the country (<a href="#ref-cibercuba" class="citation-link">CiberCuba 2026</a>). His 38 percent approval among voters compares with 45 percent in the 2018 midterms, when his party lost the House. Trump won in 2024 largely by promising to fix the cost of living, so he had made himself the person responsible for it.
+      The available evidence suggests that prices were the leading reason voters moved. CBS pollsters put it simply: the economic issues that helped elect Trump in 2024 dragged down his party in 2026 (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). In the NBC exit poll, 79 percent said inflation was causing hardship for their family, 62 percent held Trump responsible for high prices, and 65 percent said his tariffs harmed the country (<a href="#ref-cibercuba" class="citation-link">CiberCuba 2026</a>). His 38 percent approval among voters compares with 45 percent in the 2018 midterms, when his party lost the House. Trump campaigned in 2024 on fixing the cost of living, which gave voters a clear standard for judging him. By the exit polls' measure, most of them concluded he had not met it.
     </p>
 
     <!-- Exit poll bars -->
@@ -474,7 +483,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The Iran war deserves a more careful reading than it has received. Vance declared that "the reason we lost is the war," and Trump agreed it was "largely true" because the war drove up gasoline prices (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). Most voters did call the military action the wrong decision (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). In the AP Voter Poll, however, few voters named foreign policy as their top issue, and the war ranked behind cost of living and corruption as a crucial factor (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). The war mattered mostly as a price that people paid at the pump, and it also broke an America First promise that many of Trump's newer voters took seriously. It is also a convenient explanation for Vance. A war can be blamed on one decision, while tariffs, immigration enforcement and corruption would be an indictment of the whole administration he may need to run on.
+      The Iran war deserves a more careful reading than it has received. Vance declared that "the reason we lost is the war," and Trump agreed it was "largely true" because the war drove up gasoline prices (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). Most voters did call the military action the wrong decision (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). In the AP Voter Poll, however, few voters named foreign policy as their top issue, and the war ranked behind cost of living and corruption as a crucial factor (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). The polling suggests the war mattered mostly as a price that people paid at the pump. It may also have broken an America First promise that many of Trump's newer voters took seriously. Vance's explanation emphasizes a single policy decision rather than broader dissatisfaction with the administration. That interpretation should be evaluated against the survey evidence on tariffs, immigration enforcement and corruption, rather than accepted on the basis of the election results alone. As a matter of interpretation, it could also help distance the administration's wider agenda from the result, although that political advantage does not establish whether the explanation is accurate.
     </p>
 
     <p>
@@ -527,7 +536,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </figure>
 
     <p>
-      The data suggests that indictment was already underway. Most voters said immigration efforts went too far (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). About 3 in 10 named the state of democracy as their top issue, roughly half called government corruption crucial to their vote, and about 6 in 10 said Trump puts his own interests above the country's (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). Candidates made the problem worse in some races. Ken Paxton brought corruption allegations and a 2023 impeachment by his own party into the Texas race, and political scientist Martha Johnson points to Republican candidate quality as a real factor (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>).
+      The survey data suggests that dissatisfaction extended well beyond the war. Most voters said immigration efforts went too far (<a href="#ref-depinto" class="citation-link">De Pinto and Backus 2026</a>). About 3 in 10 named the state of democracy as their top issue, roughly half called government corruption crucial to their vote, and about 6 in 10 said Trump puts his own interests above the country's (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>). Candidates made the problem worse in some races. Ken Paxton brought corruption allegations and a 2023 impeachment by his own party into the Texas race, and political scientist Martha Johnson points to Republican candidate quality as a real factor (<a href="#ref-northeastern" class="citation-link">Northeastern Global News 2026</a>).
     </p>
 
     <p>
@@ -564,11 +573,11 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The size of these swings poses a problem for one of the most influential accounts of modern American politics. John Sides, Michael Tesler and Lynn Vavreck (<a href="#ref-sides" class="citation-link">2022</a>) describe a <span class="term-chip" data-term="calcification">calcified electorate</span>, in which partisans have become so fixed in their loyalties that even major events produce only small changes in vote choice. For much of the last decade that description fit well. Presidential elections were decided by narrow margins, scandals seemed to move few voters, and campaigns increasingly focused on turning out their own side. An election in which South Carolina counties move about 21 points and Hidalgo County reverses itself does not look calcified.
+      The size of these swings poses a problem for one of the most influential accounts of modern American politics. John Sides, Michael Tesler and Lynn Vavreck (<a href="#ref-sides" class="citation-link">2022</a>) describe a <span class="term-chip" data-term="calcification">calcified electorate</span>, in which partisans have become so fixed in their loyalties that even major events produce only small changes in vote choice. For much of the last decade that description fit well. Presidential elections were decided by narrow margins, scandals seemed to move few voters, and campaigns increasingly focused on turning out their own side. An election in which South Carolina counties move about 21 points and Hidalgo County reverses itself is difficult to reconcile with a fully calcified electorate.
     </p>
 
     <p>
-      The likely answer is that calcification was always uneven. It describes committed partisans better than it describes the voters who made Trump's 2024 win possible. Trump expanded his coalition among young voters, Latinos and men with a specific offer: lower prices, no new wars and an America First approach to the world. Those were <span class="term-chip" data-term="conditional_supporters">conditional supporters</span> who had agreed to a deal, and a deal can be cancelled. Vance's own list of why 2024 Trump voters defected reads almost like a list of broken terms. He named ending the Iran war, the cost of living, America First and the relationship with Israel (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). Trump's 38 percent approval shows the other half of the picture. A hard core of support remains, and it did not collapse the way it might in a less polarized era. What Republicans lost was the margin outside that core, and in a closely divided country the margin is the majority.
+      One plausible answer is that calcification was always uneven. It describes committed partisans better than it describes the voters who made Trump's 2024 win possible. Trump expanded his coalition among young voters, Latinos and men with a specific offer: lower prices, no new wars and an America First approach to the world. If this account is right, those were <span class="term-chip" data-term="conditional_supporters">conditional supporters</span> who had agreed to a deal, and a deal can be cancelled. Vance's own list of why 2024 Trump voters defected reads almost like a list of broken terms. He named ending the Iran war, the cost of living, America First and the relationship with Israel (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). Trump's 38 percent approval shows the other half of the picture. A hard core of support remains, and it did not collapse the way it might in a less polarized era. What Republicans lost was the margin outside that core, and in a closely divided country the margin is the majority.
     </p>
 
     <!-- Interactive Theory Tester -->
@@ -601,7 +610,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      This also explains why the usual Republican tools failed. Money did not stop it: the party spent hundreds of millions defending red states (<a href="#ref-cbs-a" class="citation-link">CBS News 2026a</a>). Maps did not stop it either, as the redistricting results showed. Trump's own presence did not stop it, and his explanation may be the most revealing line of the entire election. His rallies had "such love," he said, but "we weren't able to transfer the love to candidates" (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). He meant it as a complaint about his candidates. It works better as a description of a party built around one person. Personal loyalty is hard to pass on to a Senate candidate in Ohio, and it may be just as hard to pass on to a successor in 2028.
+      This would also help explain why the usual Republican tools failed. Money did not stop it: the party spent hundreds of millions defending red states (<a href="#ref-cbs-a" class="citation-link">CBS News 2026a</a>). Maps did not stop it either, as the redistricting results showed. Nor did Trump's own campaigning. He had asked supporters to treat the election as a vote on him, and afterward he said his rallies had "such love" but "we weren't able to transfer the love to candidates" (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). He meant it as a complaint about his candidates. Read alongside the exit polls, in which most voters said he influenced their vote and far more voted to oppose him than to support him, it points to a different problem. To the extent that Republican candidates tied their campaigns to Trump's leadership and agenda, their losses raise questions about the electoral strength of that strategy. Establishing that for particular races would require evidence of how closely each candidate aligned with him, through endorsements, messaging and policy positions, and the claim should not be stretched to cover every Republican loss. It does suggest that personal loyalty to Trump may be hard to pass on to other candidates, and possibly to a successor in 2028.
     </p>
 
     <div class="case-card-quote" style="margin: 1.75rem 0; border-left-color: var(--accent-color); font-size: 1.05rem;">
@@ -609,7 +618,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      The transfer problem has been visible for some time, since Trump-era Republicans have repeatedly performed worse without him at the top of the ticket. The 2026 result adds something new. In earlier midterms the explanation was that his voters stayed home. This time, by the vice president's own account, many of them came out and voted the other way. A party can try to fix a turnout problem with better organization and more rallies. Winning back people who have already crossed over is a much harder job, because it requires changing what they think the party has done to them.
+      The transfer problem has been visible for some time, since Trump-era Republicans have repeatedly performed worse without him at the top of the ticket. The 2026 result adds something new. In earlier midterms the explanation was that his voters stayed home. This time, by the vice president's own account, many of them came out and voted the other way. If the voter data confirms that account, Republicans face a harder problem. A party can try to fix a turnout problem with better organization and more rallies. Winning back people who have already crossed over would be a much harder job, because it requires changing what they think the party has done to them.
     </p>
 
     <h3 style="font-family: var(--font-serif); font-size: 1.35rem; margin-top: 2.25rem;">The Limits of the Persuasion Argument</h3>
@@ -619,7 +628,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </p>
 
     <p>
-      The most quoted witnesses are not neutral either. Vance has obvious reasons to say Republicans lost persuadable voters over one war, since the alternative is admitting that the coalition itself is shrinking. Democrats have equally obvious reasons to call the result a mandate. About 4 in 10 voters in the AP poll said Trump was not a factor in their vote at all (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>), which is a reminder that a referendum reading does not describe every voter.
+      The most quoted interpretations also need testing. Vance attributes the loss mainly to one war, while some Democrats will describe the result as a mandate. Each side may gain politically from its preferred reading, but that does not settle which reading is accurate, and both should be judged against voter-level evidence when it arrives. About 4 in 10 voters in the AP poll said Trump was not a factor in their vote at all (<a href="#ref-ap" class="citation-link">AP Voter Poll 2026</a>), which is a reminder that a referendum reading does not describe every voter.
     </p>
 
     <p>
@@ -749,7 +758,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
     </div>
 
     <p>
-      Republicans now face the harder identity problem. Mike Johnson is leaving the leadership, Steve Scalise says the party must "be honest" with itself, and Trump answered a question about Vance's 2028 chances with "maybe he won't run" (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). A president who cannot run again and has just lost swing voters holds less over members who must face those voters in 2028. Republicans in competitive seats will likely break with him first on tariffs and war powers, since those are the issues where the exit polls give them cover. Vance's post shows the shape of the coming primary: was 2026 a referendum on one war or on Trumpism itself? He is betting on the first answer. His problem is that the president he serves still controls the war.
+      Republicans now face the harder identity problem. Mike Johnson is leaving the leadership, Steve Scalise says the party must "be honest" with itself, and Trump answered a question about Vance's 2028 chances with "maybe he won't run" (<a href="#ref-cbs-b" class="citation-link">CBS News 2026b</a>). A president who cannot run again and has just lost swing voters holds less over members who must face those voters in 2028. Republicans in competitive seats will likely break with him first on tariffs and war powers, since those are the issues where the exit polls give them cover. Vance's post may preview a central question of the coming primary: was 2026 a referendum on one war or on Trumpism itself? His post favors the first answer. His problem is that the president he serves still controls the war.
     </p>
 
     <p>
@@ -767,7 +776,7 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
         <span class="case-card-tag">The Road to 2028</span>
       </div>
       <p>
-        The 2026 midterms were a verdict delivered by the people Trump had counted as his own. Prices, a war felt at the gas pump, and a sense that the administration served itself pushed voters across party lines in numbers that overwhelmed the maps drawn to contain them. Those voters gave Democrats real power without giving them much trust, and that gap is the most important fact of the next two years. Trump told his supporters to vote as if he were on the ballot, and in effect the whole country did. In 2028 he will not be on it, for the first time in a presidential race since 2012. Both parties will then have to find out what they are without him.
+        The 2026 midterms suggest that a meaningful share of the voters Trump had counted as his own turned against his party. Prices, a war felt at the gas pump, and a sense that the administration served itself appear to have pushed voters across party lines in numbers large enough to overwhelm the maps drawn to contain them, though turnout, candidate quality and local conditions also shaped the result. Those voters gave Democrats real power without giving them much trust, and that gap is likely to be the most important fact of the next two years. Trump was not formally on the ballot, but his leadership and agenda were part of the electoral choice. The results suggest that they were a liability in important contests, even if they were not the only cause of Republican losses. In 2028 he cannot be on the ballot at all, for the first time in a presidential race since 2012. Both parties will then have to find out what they are without him.
       </p>
     </div>
 
@@ -792,14 +801,14 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
       <!-- Question 1 -->
       <div class="quiz-question-card">
         <div class="quiz-question-text">
-          1. What does it mean to call 2026 a "persuasion election"?
+          1. How does the article describe the role of voter switching in 2026?
         </div>
         <div class="quiz-options">
-          <button type="button" class="quiz-option-btn" data-correct="false" data-feedback="Turnout helped Democrats a little, but the article argues that switching, not mobilization, did most of the work.">
-            A) Democrats won mainly by getting more of their own base to the polls.
+          <button type="button" class="quiz-option-btn" data-correct="false" data-feedback="Turnout mattered, but the article argues the evidence also points to voters changing sides, especially in places Trump won comfortably.">
+            A) Democrats won only by getting more of their own base to the polls.
           </button>
-          <button type="button" class="quiz-option-btn" data-correct="true" data-feedback="The large swings in Trump-won places, the shifts among young and Latino voters, and Vance's own admission all point to voters changing sides.">
-            B) The result was decided largely by voters who switched from one party to the other.
+          <button type="button" class="quiz-option-btn" data-correct="true" data-feedback="Large swings in Trump-won places and shifts among young and Latino voters suggest switching mattered. The article stresses that voter files and panel data are needed to measure it against turnout.">
+            B) Preliminary evidence suggests switching contributed to Republican losses, but how much relative to turnout is not yet established.
           </button>
           <button type="button" class="quiz-option-btn" data-correct="false" data-feedback="Campaign spending didn't decide it: Republicans spent hundreds of millions defending red states and still lost them.">
             C) The side that spent the most on advertising persuaded the most voters.
@@ -811,13 +820,13 @@ excerpt: "Trump told his supporters to vote like he was on the ballot, and the c
       <!-- Question 2 -->
       <div class="quiz-question-card">
         <div class="quiz-question-text">
-          2. Which political science theory do the 2026 results fit best, according to the article?
+          2. On the evidence available so far, which political science theory do the 2026 results fit best?
         </div>
         <div class="quiz-options">
           <button type="button" class="quiz-option-btn" data-correct="false" data-feedback="Surge and decline may explain part of the result, but it predicts that the president's casual voters stay home, not that they vote for the other party.">
             A) Campbell's surge and decline: the president's less engaged voters simply stay home.
           </button>
-          <button type="button" class="quiz-option-btn" data-correct="true" data-feedback="Tufte treats the midterm as a referendum on the president and the economy, which fits a year of 38% approval, $4 gas and widespread inflation hardship.">
+          <button type="button" class="quiz-option-btn" data-correct="true" data-feedback="Tufte treats the midterm as a referendum on the president and the economy, which appears to fit a year of 38% approval, $4 gas and widespread inflation hardship. Surge and decline may still explain part of the result.">
             B) Tufte's referendum model: voters judge the president and the economy.
           </button>
           <button type="button" class="quiz-option-btn" data-correct="false" data-feedback="Swings of 20 points or more are exactly what calcification says shouldn't happen. The article argues calcification applies to the partisan core, not to conditional voters.">

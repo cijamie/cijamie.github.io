@@ -255,7 +255,7 @@ var metricDetails = window.metricDetails = {
   },
   trump_factor: {
     title: "59% Said Trump Influenced Their Vote (43% Against, 16% For)",
-    content: "Trump told supporters to 'vote like I'm on the ballot,' and preliminary NBC exit polling suggests they did. Fifty-nine percent of voters said he was a factor in their vote. Of those, 43 percent of all voters cast a ballot to oppose him and only 16 percent to support him. His approval among midterm voters was 38 percent, below the 45 percent he held in 2018, when his party also lost the House.",
+    content: "Trump told supporters to 'vote like I'm on the ballot,' and preliminary NBC exit polling suggests many voters treated the election that way. Fifty-nine percent of voters said he was a factor in their vote. Of those, 43 percent of all voters cast a ballot to oppose him and only 16 percent to support him. His approval among midterm voters was 38 percent, below the 45 percent he held in 2018, when his party also lost the House.",
     source: "CiberCuba (2026), reporting preliminary NBC News exit poll data."
   },
   gas_price: {
@@ -636,13 +636,13 @@ var glossary = window.glossary = {
     title: "Persuasion Election (vs. Turnout Election)",
     def: "An election decided mainly by voters who switch from one party to the other, rather than by changes in which groups show up to vote.",
     why: "For most of the last decade, campaigns assumed few voters were persuadable and poured resources into mobilizing their base. A persuasion election means a large bloc of voters is still willing to change sides.",
-    analogy: "Analogy: A team can win by getting more of its own fans into the stadium, or by convincing the other team's fans to change jerseys. The 2026 result looks much more like the second."
+    analogy: "Analogy: A team can win by getting more of its own fans into the stadium, or by convincing the other team's fans to change jerseys. Preliminary 2026 evidence points toward the second, though turnout mattered too."
   },
   surge_decline: {
     category: "Political Science Theory",
     title: "Surge and Decline (Campbell, 1960)",
     def: "Angus Campbell's theory that presidential elections draw a 'surge' of less engaged voters who lean toward the winner. Two years later those voters stay home, and the president's party loses seats.",
-    why: "If this were the main story in 2026, Democrats would have won by holding their base while Trump's occasional voters sat out. The evidence instead shows many of those voters turning out and voting Democratic.",
+    why: "If this were the main story in 2026, Democrats would have won by holding their base while Trump's occasional voters sat out. The preliminary evidence instead suggests many of those voters turned out and voted Democratic, though that remains to be confirmed with voter files.",
     analogy: "Analogy: A concert crowd that thins out at the second show. The band hasn't changed; the casual fans just didn't come back."
   },
   referendum_theory: {
@@ -940,12 +940,12 @@ var scenarios = {
   theory_referendum: {
     title: "Theory 2: The Midterm as Referendum (Tufte, 1975)",
     outcome_a: "<strong>What it predicts:</strong> Voters judge the president on approval and the economy, then punish his party. Losses should track presidential unpopularity and economic pain, and should reach voters who had supported him.",
-    outcome_b: "<strong>What 2026 showed:</strong> <em>Strong fit.</em> Trump's approval among voters was 38 percent, 79 percent reported inflation hardship, and 62 percent blamed him for high prices. Voters under 30 went from an even split in 2024 to about 7 in 10 Democratic."
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Best fit on current evidence.</em> Trump's approval among voters was 38 percent, 79 percent reported inflation hardship, and 62 percent blamed him for high prices. Voters under 30 went from an even split in 2024 to about 7 in 10 Democratic."
   },
   theory_calcification: {
     title: "Theory 3: Partisan Calcification (Sides, Tesler & Vavreck, 2022)",
     outcome_a: "<strong>What it predicts:</strong> Loyalties are fixed. Even big events move few votes, so the result should be close and decided at the margins by turnout.",
-    outcome_b: "<strong>What 2026 showed:</strong> <em>Holds for the core, fails at the edges.</em> Trump's hard core held, and his approval did not collapse. But Hidalgo County moved from Trump to a 70.5 to 28.5 Democratic win for governor, and Miami-Dade's Carlos Gimenez went from +29 to +7. The conditional voters were never calcified."
+    outcome_b: "<strong>What 2026 showed:</strong> <em>Holds for the core, fails at the edges.</em> Trump's hard core held, and his approval did not collapse. But Hidalgo County moved from Trump to a 70.5 to 28.5 Democratic win for governor, and Miami-Dade's Carlos Gimenez went from +29 to +7. The conditional voters appear never to have been calcified."
   },
   theory_thermostat: {
     title: "Theory 4: Thermostatic Opinion (Wlezien, 1995)",
