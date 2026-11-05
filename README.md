@@ -4,7 +4,7 @@
 
 Welcome to **jme.log**, my personal blog hosted on GitHub Pages. This site serves as a digital journal where I publish thoughts, observations, and logs on various subjects.
 
-🌐 **Read it live at:** [https://ijme.tk/](https://ijme.tk/)
+🌐 **Read it live at:** [https://jamies.dev/](https://jamies.dev/)
 
 ## Features
 
